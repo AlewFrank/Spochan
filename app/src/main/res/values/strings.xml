@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Spochan</string>
+
+
+    <string name="set_email">Введите ваш E-mail</string>
+    <string name="set_first_name">Введите ваше имя</string>
+    <string name="set_second_name">Введите вашу фамилию</string>
+    <string name="set_password">Введите пароль</string>
+    <string name="set_director_password">Введите пароль администратора</string>
+    <string name="wrong_director_password">Неправильный пароль администратора</string>
+    <string name="normal_password_length">Пароль должен содержать минимум 6 символов</string>
+    <string name="password_match">Пароли должны совпадать</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="load_your_image">Загрузить фото</string>
+    <string name="first_name">Имя пользователя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="sex">Пол</string>
+    <string name="born_date">Дата рождения</string>
+    <string name="not_indicated">Не указано</string>
+    <string name="continue_as_director">Продолжить как администратор</string>
+    <string name="continue_as_sportsman">Продолжить как спортсмен</string>
+    <string name="you_are_director">Вы в режиме администратора</string>
+    <string name="you_are_sportsman">Вы в режиме спортсмена</string>
+
+
+    <string name="title_activity_news_and_competitions">News and Competitions</string>
+    <string name="tab_text_1">Новости</string>
+    <string name="tab_text_2">Соревнования</string>
+</resources>
