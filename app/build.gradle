@@ -31,6 +31,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.google.android.material:material:1.2.0-alpha01'//для того чтобы могли использовать TextInputLayout в разметке для полей, где при регистрации вводятся разные данные
+    implementation 'com.google.android.material:material:1.3.0-alpha01'//для того чтобы могли использовать TextInputLayout в разметке для полей, где при регистрации вводятся разные данные
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-database:19.3.1'
 
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'
