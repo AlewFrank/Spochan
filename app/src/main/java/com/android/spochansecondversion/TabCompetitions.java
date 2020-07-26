@@ -11,7 +11,7 @@ public class TabCompetitions extends Fragment {
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.tab_competitions, container, false);
+        View root = inflater.inflate(R.layout.activity_tab_competitions, container, false);
         return root;//ОБЯЗАТЕЛЬНО ИМЕННО ТАК, ЭТО СВЯЗАНО С ФАЙЛОМ SectionPagerAdapter строка там с 38 и далее
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,9 +14,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LogInActivity extends AppCompatActivity {
+
+    private static final String TAG = "LogInActivity";
 
     private Button logInButton;
     TextView helloTextView, toggleLoginSingUpTextView;
@@ -27,8 +35,9 @@ public class LogInActivity extends AppCompatActivity {
     TextInputLayout textInputPasswordForDirector;
 
     public boolean isDirectorModeActivated = false;
+    private boolean isLoginModeActive = true;//по умолчанию все boolean переменные false
 
-    private boolean loginModeActive = false;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +59,10 @@ public class LogInActivity extends AppCompatActivity {
         textInputConfirmPassword.setVisibility(View.GONE);
         textInputPasswordForDirector.setVisibility(View.GONE);
 
-        /*auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(DriverSignInActivity.this, DriverMapsActivity.class));
+       /* if (auth.getCurrentUser() != null) {//если пользователь уже авторизован
+            startActivity(new Intent(LogInActivity.this, MyProfile.class));
         }*/
     }
 
@@ -139,7 +148,7 @@ public class LogInActivity extends AppCompatActivity {
         if (directorPasswordInput.isEmpty()) {
             textInputPasswordForDirector.setError(getResources().getString(R.string.set_director_password));
             return false;
-        } else  if (directorPasswordInput.equals(991842)) {
+        } else  if (Integer.parseInt(directorPasswordInput) == 991842) {
             textInputPasswordForDirector.setError("");
             isDirectorModeActivated = true;
             return true;
@@ -152,19 +161,19 @@ public class LogInActivity extends AppCompatActivity {
 
 
 
-    public void toggleLoginMode(View view) {
+    public void toggleLoginMode(View view) {//онклик метод синей надписи под кнопкой
 
-        if (loginModeActive){//пользователь пытается войти
-            loginModeActive = false;
-            //logInButton.setText("Войти");
+        if (!isLoginModeActive){
+            isLoginModeActive = true;
+            logInButton.setText("Войти");
             toggleLoginSingUpTextView.setText("Еще нет аккаунта?");
             helloTextView.setText("Рады снова вас видеть");
             textInputFirstName.setVisibility(View.GONE);
             textInputSecondName.setVisibility(View.GONE);
             textInputConfirmPassword.setVisibility(View.GONE);
-        } else {//пользователь пытается зарегистрироваться
-            loginModeActive = true;
-            //logInButton.setText("  Зарегистрироваться  ");
+        } else {
+            isLoginModeActive = false;
+            logInButton.setText("  Зарегистрироваться  ");
             toggleLoginSingUpTextView.setText("Уже есть аккаунт?");
             helloTextView.setText("Добро Пожаловать");
             textInputFirstName.setVisibility(View.VISIBLE);
@@ -176,30 +185,99 @@ public class LogInActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {//добавляем меню, которое троеточие
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.sign_in_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {//задаем поведение при нажатии на пунктах меню
 
         switch (item.getItemId()) {
             case R.id.sign_in_as_director:
                 Toast.makeText(LogInActivity.this, getResources().getString(R.string.you_are_director), Toast.LENGTH_LONG).show();
                 textInputPasswordForDirector.setVisibility(View.VISIBLE);
+                isDirectorModeActivated = true;
                 return true;
             case R.id.sign_in_as_sportsman:
                 Toast.makeText(LogInActivity.this, getResources().getString(R.string.you_are_sportsman), Toast.LENGTH_LONG).show();
                 textInputPasswordForDirector.setVisibility(View.GONE);
+                isDirectorModeActivated = false;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void dalee(View view) {//использую для проверок
-        startActivity(new Intent(LogInActivity.this, NewsAndCompetitions.class));
+
+    public void loginSignUpUser(View view) {//онклик метод из нашей разметки
+
+        if (isDirectorModeActivated) {
+            if (!validateEmail() | !validateDirectorPassword() | !validatePassword()) {// такая штука | обозначает почти как "или" (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+                return;
+            }
+        } else {
+            if (!validateEmail() | !validatePassword()) {// такая штука | обозначает почти как "или" (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+                return;
+            }
+        }
+
+        if (isLoginModeActive) {
+            auth.signInWithEmailAndPassword(textInputEmail.getEditText().getText().toString().trim(), textInputPassword.getEditText().getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = auth.getCurrentUser();
+                                startActivity(new Intent(LogInActivity.this, NewsAndCompetitions.class));
+                                //updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LogInActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                                // ...
+                            }
+
+                            // ...
+                        }
+                    });
+
+        } else {
+            if (isDirectorModeActivated) {
+                if (!validateEmail() | !validateFirstName() | !validateDirectorPassword() | !validateSecondName() | !validatePassword() | !validateConfirmPassword()) {// такая штука | обозначает почти как или (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+                    return;
+                }
+            } else {
+                if (!validateEmail() | !validateFirstName() | !validateSecondName() | !validatePassword() | !validateConfirmPassword()) {// такая штука | обозначает почти как или (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+                    return;
+                }
+            }
+
+            auth.createUserWithEmailAndPassword(textInputEmail.getEditText().getText().toString().trim(), textInputPassword.getEditText().getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = auth.getCurrentUser();
+                                startActivity(new Intent(LogInActivity.this, NewsAndCompetitions.class));
+                                //updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(LogInActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                            }
+                        }
+                    });
+        }
+
     }
 }
