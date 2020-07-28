@@ -20,6 +20,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -38,6 +40,9 @@ public class LogInActivity extends AppCompatActivity {
     private boolean isLoginModeActive = true;//по умолчанию все boolean переменные false
 
     private FirebaseAuth auth;
+
+    private DatabaseReference usersDataBaseReference;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +65,12 @@ public class LogInActivity extends AppCompatActivity {
         textInputPasswordForDirector.setVisibility(View.GONE);
 
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
+        usersDataBaseReference = database.getReference().child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
 
-       /* if (auth.getCurrentUser() != null) {//если пользователь уже авторизован
-            startActivity(new Intent(LogInActivity.this, MyProfile.class));
-        }*/
+       if (auth.getCurrentUser() != null) {//если пользователь уже авторизован
+            startActivity(new Intent(LogInActivity.this, NewsActivity.class));
+        }
     }
 
     private boolean validateEmail() {
@@ -265,6 +272,7 @@ public class LogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
+                                createUser(user);
                                 startActivity(new Intent(LogInActivity.this, NewsActivity.class));
                                 //updateUI(user);
                             } else {
@@ -278,5 +286,15 @@ public class LogInActivity extends AppCompatActivity {
                     });
         }
 
+    }
+
+    private void createUser(FirebaseUser firebaseUser) {
+        User user = new User();
+        user.setId(firebaseUser.getUid());//это поле и ниже получаем из облачной базы данных(вводим эти значения при аутентификации)
+        user.setEmail(firebaseUser.getEmail());
+        user.setFirstName(textInputFirstName.getEditText().getText().toString().trim());//это поле берем из edit text, в которое записывали имя при регистрации и после отправляем в баз данных
+        user.setSecondName(textInputSecondName.getEditText().getText().toString().trim());
+
+        usersDataBaseReference.push().setValue(user);
     }
 }
