@@ -26,4 +26,10 @@
     <string name="title_activity_news_and_competitions">News and Competitions</string>
     <string name="tab_text_1">Новости</string>
     <string name="tab_text_2">Соревнования</string>
+
+
+    <string name="title_activity_bottom_navigation">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

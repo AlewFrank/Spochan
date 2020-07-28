@@ -232,7 +232,7 @@ public class LogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
-                                startActivity(new Intent(LogInActivity.this, NewsAndCompetitions.class));
+                                startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
                                 //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -242,7 +242,6 @@ public class LogInActivity extends AppCompatActivity {
                                 //updateUI(null);
                                 // ...
                             }
-
                             // ...
                         }
                     });
@@ -266,7 +265,7 @@ public class LogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
-                                startActivity(new Intent(LogInActivity.this, NewsAndCompetitions.class));
+                                startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
                                 //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
