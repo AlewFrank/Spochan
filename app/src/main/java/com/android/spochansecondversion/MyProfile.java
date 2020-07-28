@@ -5,13 +5,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MyProfile extends AppCompatActivity {
+public class MyProfile extends AppCompatActivity {//этот файл содержит всю функциональность, а MyProfileFragment нужен для того, чтоб открывалась разметка, при нажатии на пункт меню
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
-    }
 
     public void loadImage(View view) {
     }

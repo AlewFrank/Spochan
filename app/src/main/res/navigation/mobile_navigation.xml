@@ -2,24 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    android:id="@+id/mobile_navigation">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.android.spochansecondversion.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_news"
+        android:name="com.android.spochansecondversion.BottonNavigation.NewsFragment"
+        android:label="@string/title_news"
+        tools:layout="@layout/fragment_news" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.android.spochansecondversion.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_rating"
+        android:name="com.android.spochansecondversion.BottonNavigation.RatingFragment"
+        android:label="@string/title_rating"
+        tools:layout="@layout/fragment_rating" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.android.spochansecondversion.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_competitions"
+        android:name="com.android.spochansecondversion.BottonNavigation.CompetitionsFragment"
+        android:label="@string/title_competitions"
+        tools:layout="@layout/fragment_competitions" />
+
+    <fragment
+        android:id="@+id/navigation_myProfile"
+        android:name="com.android.spochansecondversion.BottonNavigation.MyProfileFragment"
+        android:label="@string/title_myProfile"
+        tools:layout="@layout/fragment_my_profile" />
 </navigation>

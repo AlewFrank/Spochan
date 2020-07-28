@@ -9,15 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Rating"></activity>
+        <activity android:name=".Competitions" />
+        <activity android:name=".News" />
         <activity
             android:name=".BottomNavigationActivity"
-            android:label="@string/title_activity_bottom_navigation"></activity>
+            android:label="@string/title_activity_bottom_navigation" />
         <activity android:name=".TabCompetitions" />
         <activity android:name=".TabNews" />
-        <activity
-            android:name=".NewsAndCompetitions"
-            android:label="@string/title_activity_news_and_competitions"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MyProfile" />
         <activity android:name=".LogInActivity">
             <intent-filter>

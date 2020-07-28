@@ -22,14 +22,9 @@
     <string name="you_are_director">Вы в режиме администратора</string>
     <string name="you_are_sportsman">Вы в режиме спортсмена</string>
 
-
-    <string name="title_activity_news_and_competitions">News and Competitions</string>
-    <string name="tab_text_1">Новости</string>
-    <string name="tab_text_2">Соревнования</string>
-
-
-    <string name="title_activity_bottom_navigation">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_bottom_navigation">Spochan</string>
+    <string name="title_rating">Рейтинг</string>
+    <string name="title_news">Главная</string>
+    <string name="title_competitions">Календарь мероприятий</string>
+    <string name="title_myProfile">Мой аккаунт</string>
 </resources>
