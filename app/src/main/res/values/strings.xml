@@ -21,6 +21,13 @@
     <string name="continue_as_sportsman">Продолжить как спортсмен</string>
     <string name="you_are_director">Вы в режиме администратора</string>
     <string name="you_are_sportsman">Вы в режиме спортсмена</string>
+    <string name="edit_activity">Редактирование</string>
+    <string name="edit_notification">Сначала завершите редактирование</string>
+
+    <string name="gender_not_stated">Не указано</string>
+    <string name="gender_male">Мужской</string>
+    <string name="gender_female">Женский</string>
+
 
     <string name="title_activity_bottom_navigation">Spochan</string>
     <string name="title_rating">Рейтинг</string>

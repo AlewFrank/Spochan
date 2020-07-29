@@ -7,19 +7,23 @@ public class User {
     private String firstName;
     private String secondName;
     private String sex;
-    private String bornDate;
+    private String daysBornDate;
+    private String monthBornDate;
+    private String yearBornDate;
 
     //правой кнопкой мыши, потом generate и дальше Constructor
     public User() {
     }
 
-    public User(String email, String id, String firstName, String secondName, String sex, String bornDate) {
+    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate) {
         this.email = email;
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
         this.sex = sex;
-        this.bornDate = bornDate;
+        this.daysBornDate = daysBornDate;
+        this.monthBornDate = monthBornDate;
+        this.yearBornDate = yearBornDate;
     }
 
     public String getEmail() {
@@ -62,11 +66,27 @@ public class User {
         this.sex = sex;
     }
 
-    public String getBornDate() {
-        return bornDate;
+    public String getDaysBornDate() {
+        return daysBornDate;
     }
 
-    public void setBornDate(String bornDate) {
-        this.bornDate = bornDate;
+    public void setDaysBornDate(String daysBornDate) {
+        this.daysBornDate = daysBornDate;
+    }
+
+    public String getMonthBornDate() {
+        return monthBornDate;
+    }
+
+    public void setMonthBornDate(String monthBornDate) {
+        this.monthBornDate = monthBornDate;
+    }
+
+    public String getYearBornDate() {
+        return yearBornDate;
+    }
+
+    public void setYearBornDate(String yearBornDate) {
+        this.yearBornDate = yearBornDate;
     }
 }

@@ -41,7 +41,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
-    private DatabaseReference usersDataBaseReference;
+    private DatabaseReference mDatabase;
     private FirebaseDatabase database;
 
     @Override
@@ -65,8 +65,8 @@ public class LogInActivity extends AppCompatActivity {
         textInputPasswordForDirector.setVisibility(View.GONE);
 
         auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
-        usersDataBaseReference = database.getReference().child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
 
        if (auth.getCurrentUser() != null) {//если пользователь уже авторизован
             startActivity(new Intent(LogInActivity.this, NewsActivity.class));
@@ -271,8 +271,8 @@ public class LogInActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = auth.getCurrentUser();
-                                createUser(user);
+                                FirebaseUser currentUser = auth.getCurrentUser();
+                                createUser(currentUser);
                                 startActivity(new Intent(LogInActivity.this, NewsActivity.class));
                                 //updateUI(user);
                             } else {
@@ -294,7 +294,12 @@ public class LogInActivity extends AppCompatActivity {
         user.setEmail(firebaseUser.getEmail());
         user.setFirstName(textInputFirstName.getEditText().getText().toString().trim());//это поле берем из edit text, в которое записывали имя при регистрации и после отправляем в баз данных
         user.setSecondName(textInputSecondName.getEditText().getText().toString().trim());
+        user.setDaysBornDate("");//если не укажем нулевые значения, то в MyProfile будет вылетать приложение, так как будет пытаться получить переменную DaysBornDate, а ее впринципе не существует
+        user.setMonthBornDate("");
+        user.setYearBornDate("");
+        user.setSex(getResources().getString(R.string.gender_not_stated));
 
-        usersDataBaseReference.push().setValue(user);
+        String currentUserUid = firebaseUser.getUid();
+        mDatabase.child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
     }
 }

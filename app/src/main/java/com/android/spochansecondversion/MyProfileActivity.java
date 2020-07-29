@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +24,11 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseDatabase database;
-    private DatabaseReference usersDataBaseReference;//эти две строки нужны для того, чтобы считывать информацию(имя) из базы данных и чтобы под сообщением писалось кто отправил то вообще
+    private DatabaseReference usersDataBaseReference;//эти две строки нужны для того, чтобы считывать информацию(имя) из базы данных
     private ChildEventListener usersChildEventListener;
 
-    private TextView userFirstNameTextView, userSecondNameTextView;
+    private TextView userFirstNameTextView, userSecondNameTextView, userBornDateTextView, userSexTextView;
+    private String bornDate;
 
 
     @Override
@@ -63,6 +66,17 @@ public class MyProfileActivity extends AppCompatActivity {
 
         userFirstNameTextView = findViewById(R.id.userFirstNameTextView);
         userSecondNameTextView = findViewById(R.id.userSecondNameTextView);
+        userBornDateTextView = findViewById(R.id.userBornDateTextView);
+        userSexTextView = findViewById(R.id.userSexTextView);
+
+        FloatingActionButton editFloatingActionButton = findViewById(R.id.editFloatingActionButton);
+        editFloatingActionButton.setOnClickListener(new View.OnClickListener() {//можно прописывать в разметке метод onClick или же можно в коде устанавливать setOnClickListener, исход будет одинаковый
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyProfileActivity.this, EditMyProfileActivity.class);//первое это откуда переход, второе это куда
+                startActivity(intent);
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
@@ -75,6 +89,12 @@ public class MyProfileActivity extends AppCompatActivity {
                 if (user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){//если у какого-то поля в фаербас совпадет id с тем значением, которое у текущего авторизанного пользователя, то значит это именно тот пользователь и из раздела с его id берем его имя
                     userFirstNameTextView.setText(user.getFirstName());
                     userSecondNameTextView.setText(user.getSecondName());
+                    userSexTextView.setText(user.getSex());
+
+                    if (!user.getDaysBornDate().equals("") & !user.getMonthBornDate().equals("") & !user.getYearBornDate().equals("")) {
+                        bornDate = user.getDaysBornDate() + "." + user.getMonthBornDate() + "." + user.getYearBornDate();
+                        userBornDateTextView.setText(bornDate);
+                    }
                 }
             }
 
@@ -100,4 +120,6 @@ public class MyProfileActivity extends AppCompatActivity {
         };
         usersDataBaseReference.addChildEventListener(usersChildEventListener);//указываем, что лисенер будет считывать данные именно из папки users, которая прикреплена к переменной usersDataBaseReference
     }
+
+
 }
