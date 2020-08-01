@@ -43,6 +43,11 @@ dependencies {
 
     implementation 'androidx.preference:preference:1.1.1'//для того, чтоб работало ListPreference(в разметке такая штука там где мы меняем пол)
 
+    implementation 'com.google.firebase:firebase-storage:19.1.1'//для работы с изображениями(мы используем для загрузки изображения в базу данных)
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.0'//для работы с изображениями(мы используем для получения изображения и установку его в кружочек аватара например)
+
+    implementation 'de.hdodenhof:circleimageview:2.1.0'//для того, чтоб сделать круглый Image View
+
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -297,6 +297,7 @@ public class LogInActivity extends AppCompatActivity {
         user.setDaysBornDate("");//если не укажем нулевые значения, то в MyProfile будет вылетать приложение, так как будет пытаться получить переменную DaysBornDate, а ее впринципе не существует
         user.setMonthBornDate("");
         user.setYearBornDate("");
+        user.setAvatarUrl("");
         user.setSex(getResources().getString(R.string.gender_not_stated));
 
         String currentUserUid = firebaseUser.getUid();

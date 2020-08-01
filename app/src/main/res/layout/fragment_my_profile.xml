@@ -8,7 +8,7 @@
     tools:context=".MyProfileActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -18,15 +18,16 @@
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatarImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/user_image" />
+                android:background="@drawable/user_image"/>
 
             <TextView
                 android:id="@+id/loadNewImage"
+                android:onClick="loadNewImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -146,6 +147,8 @@
                 android:text="@string/born_date" />
         </LinearLayout>
 
+
+
     </LinearLayout>
 
 
@@ -173,5 +176,12 @@
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_edit" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

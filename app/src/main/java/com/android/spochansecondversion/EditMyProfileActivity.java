@@ -143,9 +143,15 @@ public class EditMyProfileActivity extends AppCompatActivity {
     public void editButton(View view) {//онклик метод для кнопки "Сохранить"
         String currentUserUid = currentUser.getUid();
 
-        mDatabase.child("Users").child(currentUserUid).child("firstName").setValue(firstNameEditText.getText().toString().trim());
-        mDatabase.child("Users").child(currentUserUid).child("secondName").setValue(secondNameEditText.getText().toString().trim());
-        mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);
+        if (!firstNameEditText.getText().toString().trim().equals("")) {
+            mDatabase.child("Users").child(currentUserUid).child("firstName").setValue(firstNameEditText.getText().toString().trim());
+        }
+
+        if (!secondNameEditText.getText().toString().trim().equals("")) {
+            mDatabase.child("Users").child(currentUserUid).child("secondName").setValue(secondNameEditText.getText().toString().trim());
+        }
+
+        mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);//если ничего не выбрано, то мы поставили в методе public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {, что по умолчанию будет пол не указано
 
         try {//для того, чтобы люди не вводили буквенные выражения для даты
 
