@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:2.1.0'//для того, чтоб сделать круглый Image View
 
+    implementation 'com.squareup.picasso:picasso:2.71828' //для работы с Picasso-штуковина, которая позволяет работать с изображениями(в блакноте про это написано в разделе про программирование на андройд), НЕ ФАКТ ЧТО ГДЕ-ТО В ПРИЛОЖЕНИИ ИСПОЛЬЗУЕМ
 }
 
 apply plugin: 'com.google.gms.google-services'

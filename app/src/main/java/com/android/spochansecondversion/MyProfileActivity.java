@@ -37,7 +37,7 @@ import com.google.firebase.storage.UploadTask;
 public class MyProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    FirebaseUser currentUser;
+    private FirebaseUser currentUser;
     private FirebaseDatabase database;
     private DatabaseReference usersDataBaseReference, mDatabase;//эти  строки нужны для того, чтобы считывать информацию из базы данных
     private ChildEventListener usersChildEventListener;
@@ -175,18 +175,21 @@ public class MyProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {//этот метод нужен для работы с изображениями, создали его после написания метода public void loadNewImage
         super.onActivityResult(requestCode, resultCode, data);
 
+        //НЕ ЗАБУДЬ ПРОПИСАТЬ В МАНИФЕСТЕ <uses-permission android:name="android.permission.INTERNET"/>
+
         progressBar.setVisibility(ProgressBar.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
+
+        String currentUserUid = currentUser.getUid();
 
         if (requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
-            final StorageReference imageReference  = imagesStorageReference.child(selectedImageUri.getLastPathSegment());//вот такая у нас будет ссылка на наши изображения
+            //final StorageReference imageReference  = imagesStorageReference.child(selectedImageUri.getLastPathSegment());//вот такая у нас будет ссылка на наши изображения
             //допустим uri нашего изображения //content://images/some_folder/3 и с помощью строки выше мы считываем как раз последнюю тройку благодаря getLastPathSegment() в строке выше
+            final StorageReference imageReference = imagesStorageReference.child(currentUserUid);//используем такой вариант, так как здесь название изображения в Storage будет как id пользователя, соответственно после обновления изображения оно будет перезаписываться на тот же id, а старая фотка будет удаляться как бы, соответственно теперь мы не будем хранить лишние фотки в Firebase Storage
 
             Toast.makeText(MyProfileActivity.this, "Изображение загружается...", Toast.LENGTH_LONG).show();
 
             UploadTask uploadTask = imageReference.putFile(selectedImageUri);
-
-            uploadTask = imageReference.putFile(selectedImageUri);
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
@@ -210,7 +213,8 @@ public class MyProfileActivity extends AppCompatActivity {
                             mDatabase.child("Users").child(currentUserUid).child("avatarUrl").setValue(downloadUri.toString());
                             startActivity(new Intent(MyProfileActivity.this, MyProfileActivity.class));//нужно, чтоб страница обновилась и благодаря методу onCreate у нас обновилось изображение
                             //progressBar.setVisibility(ProgressBar.INVISIBLE);   нам не нужно так как кружочек загрузки нужен вплоть до загрузки заново страницы, а потом в onCreate кружочек опять включается, так что нет никакого смысла его выключать, а потом сразу же включать
-                            Toast.makeText(MyProfileActivity.this, "Изображение успешно загружено", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyProfileActivity.this, "Изображение успешно загружено", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyProfileActivity.this, "Обновление может занять до 60 секунд", Toast.LENGTH_LONG).show();
                         } catch (NumberFormatException nef) {
                             Toast.makeText(MyProfileActivity.this, "Ошибка с загрузкой изображения", Toast.LENGTH_LONG).show();
                         }
