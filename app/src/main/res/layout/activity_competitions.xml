@@ -4,16 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CompetitionsActivity">
+    tools:context=".CompetitionsActivity"
+    android:background="#f0f0f0">
 
-    <TextView
-        android:id="@+id/tv_home"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/competitionsListRecycleView"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="@string/title_competitions"
-        android:layout_centerInParent="true"
-        android:textSize="30sp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="80dp"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_add" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

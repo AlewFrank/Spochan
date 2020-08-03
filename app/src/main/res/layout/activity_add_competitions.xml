@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".AddCompetitionsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_above="@id/bottom_navigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/loadNewImage"
+                android:onClick="loadNewImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/load_your_image"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/competitionTitleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp" />
+
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_title" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/competitionDataEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp" />
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_data" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/competitionLocationEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp" />
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_location" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/competitionAddressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp" />
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_address" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/competitionDescriptionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp" />
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_description" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"/>
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:onClick="cancelButton"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="Отмена"
+                    android:textStyle="italic"
+                    android:textSize="15sp"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+                <Button
+                    android:id="@+id/editButton"
+                    android:onClick="addButton"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="Сохранить"
+                    android:textStyle="italic"
+                    android:textSize="15sp"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

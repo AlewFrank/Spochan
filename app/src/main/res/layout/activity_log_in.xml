@@ -123,6 +123,15 @@
             android:layout_gravity="center_horizontal"/>
 
         <TextView
+            android:id="@+id/countryTextView"
+            android:text="Пусть люди выбирают не язык, а именно страну, чтоб можно было нормально их по папкам распределять + указать, что изменить невозможно потом"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
             android:id="@+id/toggleLoginSingUpTextView"
             android:textColor="@android:color/holo_blue_light"
             android:text="Еще нет аккаунта?"

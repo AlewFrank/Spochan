@@ -77,9 +77,9 @@ public class EditMyProfileActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
         database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
-        usersDataBaseReference = database.getReference().child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
+        usersDataBaseReference = database.getReference().child(getResources().getString(R.string.app_country)).child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
 
         usersChildEventListener = new ChildEventListener() {//это штука реагирует на изменение в базу данных, то есть считывает имя нашего пользователя из базы данных
             @Override

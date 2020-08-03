@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Spochan</string>
+    <string name="app_country">Russia</string>
 
 
     <string name="set_email">Введите ваш E-mail</string>
@@ -34,4 +35,17 @@
     <string name="title_news">Главная</string>
     <string name="title_competitions">Календарь мероприятий</string>
     <string name="title_myProfile">Мой аккаунт</string>
+
+
+    <string name="menu_clubs">Клубы</string>
+    <string name="menu_help">Помощь</string>
+    <string name="menu_communication">Обратная связь</string>
+    <string name="menu_about_developer">О разработчике</string>
+    <string name="menu_exit">Выйти</string>
+
+    <string name="competition_title">Заголовок</string>
+    <string name="competition_data">Дата проведения</string>
+    <string name="competition_location">Город проведения</string>
+    <string name="competition_address">Точный адрес</string>
+    <string name="competition_description">Описание</string>
 </resources>

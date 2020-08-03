@@ -48,7 +48,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
-    private static final int RC_IMAGE_PICKER = 123;//константа, которую используем в методе loadNewImage
+    private static final int RC_IMAGE_PICKER = 123;//константа, которую используем в методе loadNewImage, рандомное число, которое ни на что не влияет
 
     private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage
     private StorageReference imagesStorageReference;
@@ -106,11 +106,11 @@ public class MyProfileActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
         database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
         storage = FirebaseStorage.getInstance();//верхнее для работы с сообщениями, это для изображений
-        usersDataBaseReference = database.getReference().child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
-        imagesStorageReference = storage.getReference().child("Users_avatars");//в скобках это название папки в Firebase в Storage, которую мы создали вручную на сайте ранее,в которую будут помещаться изображения
+        usersDataBaseReference = database.getReference().child(getResources().getString(R.string.app_country)).child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
+        imagesStorageReference = storage.getReference().child(getResources().getString(R.string.app_country)).child("Users_avatars");//в скобках это название папки в Firebase в Storage, которую мы создали вручную на сайте ранее,в которую будут помещаться изображения
 
         usersChildEventListener = new ChildEventListener() {//это штука реагирует на изменение в базу данных, то есть считывает имя нашего пользователя из базы данных
             @Override

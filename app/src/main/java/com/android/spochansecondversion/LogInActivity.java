@@ -301,6 +301,6 @@ public class LogInActivity extends AppCompatActivity {
         user.setSex(getResources().getString(R.string.gender_not_stated));
 
         String currentUserUid = firebaseUser.getUid();
-        mDatabase.child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
+        mDatabase.child(getResources().getString(R.string.app_country)).child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
     }
 }

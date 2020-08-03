@@ -44,4 +44,6 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
