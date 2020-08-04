@@ -2,6 +2,7 @@ package com.android.spochansecondversion;
 
 public class Competition {
 
+    private String competitionId;
     private String competitionTitle;
     private String competitionData;
     private String competitionLocation;
@@ -14,7 +15,8 @@ public class Competition {
     public Competition() {
     }
 
-    public Competition(String competitionTitle, String competitionData, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl) {
+    public Competition(String competitionId, String competitionTitle, String competitionData, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl) {
+        this.competitionId = competitionId;
         this.competitionTitle = competitionTitle;
         this.competitionData = competitionData;
         this.competitionLocation = competitionLocation;
@@ -69,5 +71,13 @@ public class Competition {
 
     public void setCompetitionAddress(String competitionAddress) {
         this.competitionAddress = competitionAddress;
+    }
+
+    public String getCompetitionId() {
+        return competitionId;
+    }
+
+    public void setCompetitionId(String competitionId) {
+        this.competitionId = competitionId;
     }
 }

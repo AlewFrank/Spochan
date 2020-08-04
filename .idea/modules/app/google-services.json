@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "977591653356",
+    "firebase_url": "https://spochan-87772.firebaseio.com",
+    "project_id": "spochan-87772",
+    "storage_bucket": "spochan-87772.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977591653356:android:e14dc2de537d3c4ac8a6c9",
+        "android_client_info": {
+          "package_name": "com.android.spochansecondversion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977591653356-h20usb1a6gu19ss0qbl41aochl2subpj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.spochansecondversion",
+            "certificate_hash": "a468c45575e196a7c119732e2f56de0fe3a2747b"
+          }
+        },
+        {
+          "client_id": "977591653356-7322j5d2g6ht7s09d52q82tmr9unh076.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCrXqkrekXPgXwMLax1C4ukZRyAdlG0U0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977591653356-7322j5d2g6ht7s09d52q82tmr9unh076.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

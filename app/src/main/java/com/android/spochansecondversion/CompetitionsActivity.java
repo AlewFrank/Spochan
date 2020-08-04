@@ -3,19 +3,31 @@ package com.android.spochansecondversion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.TaskStackBuilder;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.SnapshotParser;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,14 +36,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CompetitionsActivity extends AppCompatActivity {
+public class CompetitionsActivity extends AppCompatActivity implements CompetitionAdapter.OnListItemClick{
 
     private DatabaseReference competitionsDataBaseReference;
     private RecyclerView competitionRecycleView;
+
+    private FirebaseFirestore firebaseFirestore;
+
+    private CompetitionAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +88,35 @@ public class CompetitionsActivity extends AppCompatActivity {
 
         //Все что выше это настройки для меню, которое снизу находится, а ниже этой записи остальные настройки
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
-        competitionsDataBaseReference = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country)).child("Competitions");
-        competitionsDataBaseReference.keepSynced(true);//автоматическая синхронизация с базой данных, то есть даже не придется обновлять активити
+        //Query
+        Query query = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country));  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+
+        PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
+
+        //RecyclerOptions
+        //раньше вместо FirestorePagingOptions тут было FirestoreRecyclerAdapter, но тогда мы бы не смогли работать с paging(содержится в слове FirestorePagingOptions) и соответственно не могли бы использовать snaphot и следовательно узнавать айди текущего элемента
+        //FirestorePagingOptions<Competition> options = new FirestorePagingOptions.Builder<Competition>().setLifecycleOwner(this).setQuery(query, config, Competition.class).build(); ниже то же самое, только теперь мы еще и айди получаем
+        FirestorePagingOptions<Competition> options = new FirestorePagingOptions.Builder<Competition>().setLifecycleOwner(this).setQuery(query, config, new SnapshotParser<Competition>() {
+            @NonNull
+            @Override
+            public Competition parseSnapshot(@NonNull DocumentSnapshot snapshot) {//snapshot это как мгновенный снимок, то есть можем использовать его для получения айди и всякой другой фигни о конкретной карточке
+                Competition competition = snapshot.toObject(Competition.class);
+                String itemId = snapshot.getId();
+                competition.setCompetitionId(itemId);
+                return competition;
+            }
+        }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
+
+        adapter = new CompetitionAdapter(options, this);//по сути мы просто взяли и перенесли все методы, которые относятся к адаптеру в класс CompetitionAdapter, чтоб здесь не мешались, так что когда будешь там код смотреть, то представляй, что это все в этой активити находится
 
         competitionRecycleView = findViewById(R.id.competitionsListRecycleView);
+
         competitionRecycleView.setHasFixedSize(true);
         competitionRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        competitionRecycleView.setAdapter(adapter);
+
 
 
         FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
@@ -85,11 +126,18 @@ public class CompetitionsActivity extends AppCompatActivity {
                 startActivity(new Intent(CompetitionsActivity.this, AddCompetitionsActivity.class));
             }
         });
-
-
     }
 
     @Override
+    public void onItemClick(DocumentSnapshot snapshot, int position) {//этот метод мы создали в классе адаптера + position это не какая-то переменная программы, это мы ее такой создали, а получаем мы этот position в методе public void onClick(View v) в классе CompetitionAdapter
+        Toast.makeText(CompetitionsActivity.this, "Все работает с карточкой " + position + " and ID is " + snapshot.getId(), Toast.LENGTH_LONG).show();
+        //влатватмвативат //чтоб привлечь внимание, здесь надо другую активити создавать с подробной информацией о соревновании, то есть тут просто старт активити и в адаптере в холдер запихнуть все переменные, а потом здесь через intent перенести все данные в новую активити или же сделать отсюда через интент перенос айди того, на что нажали, а там уже полноценно из базы данных изымать
+    }
+
+
+
+
+    /* @Override
     protected void onStart() {
         super.onStart();
 
@@ -105,6 +153,8 @@ public class CompetitionsActivity extends AppCompatActivity {
         };
         competitionRecycleView.setAdapter(firebaseRecyclerAdapter);
     }
+
+
 
     public static class CompetitionViewHolder extends RecyclerView.ViewHolder {
         View mView;
@@ -131,75 +181,5 @@ public class CompetitionsActivity extends AppCompatActivity {
             ImageView competition_image = mView.findViewById(R.id.competitionImageView);
             Glide.with(context).load(image).into(competition_image);
         }
-    }
-
-    /*private void attachCompetitionDatabaseReferenceListener() {
-        competitionsDataBaseReference = FirebaseDatabase.getInstance().getReference().child("Competitions");
-
-        if (competitionsChildEventListener == null) {//чтоб не создавать миллиард event listener, а создаем только тогда, когда он не существует
-            competitionsChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                    Competition competition = new Competition();
-                    //Competition competition = snapshot.getValue(Competition.class);
-                    competition.setCompetitionName("Название соревнований");
-                    competition.setCompetitionData("Дата соревнований");
-                    competition.setCompetitionLocation("Место проведения соревнований");
-                    competition.setCompetitionDescription("Описание соревнований");
-                    competitionArrayList.add(competition);
-                    competitionAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            };
-
-            competitionsDataBaseReference.addChildEventListener(competitionsChildEventListener);
-        }
-    }
-
-    private void buildRecycleView() {
-
-        competitionRecycleView = findViewById(R.id.competitionsListRecycleView);
-        competitionRecycleView.setHasFixedSize(true);
-        competitionLayoutManager = new LinearLayoutManager(this);
-        competitionAdapter = new CompetitionAdapter(competitionArrayList);
-
-        competitionRecycleView.setLayoutManager(competitionLayoutManager);
-        competitionRecycleView.setAdapter(competitionAdapter);
-
-        competitionAdapter.setOnCompetitionClick(new CompetitionAdapter.OnCompetitionClickListener() {//устанавливаем адаптер, а в адаптере прописан метод onClick(setOnCompetitionClick) для каждого объекта наших соревнований, все это делается для того, чтоб если нажимаешь на соревнование, то открывалось активити, где будет более развернутая информация по чемпионату
-            @Override
-            public void onCompetitionClick(int position) {
-                goToCompetitionItem(position);//создали метод ниже
-            }
-        });
-    }
-
-    private void goToCompetitionItem(int position) {//нужен для того, чтоб при нажатии на конкретные соревы открывалась отдельная активити с этим соревнованием
-        /*Intent intent = new Intent(UserListActivity.this, ChatActivity.class);
-        intent.putExtra("recipientUserId", userArrayList.get(position).getId());//получаем айди юзера, на которого кликнули
-        intent.putExtra("userName", userName);
-        intent.putExtra("recipientUserName", userArrayList.get(position).getName());//это имя будет отображаться на верхней полосе, чтоб мы знали с кем ведется переписка, остальная работа с этой переменнойв в чат активити
-        startActivity(intent);*/
-    //}*/
+    }*/ //в этом случае не нужен класс адаптер, но здесь также нет функциональности, что при нажатии открывается соответствующая активити
 }

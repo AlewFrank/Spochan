@@ -26,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/competitionNameTextView"
+                android:id="@+id/competitionTitleTextView"
                 android:text = "Competition Title"
                 android:textSize="20sp"
                 android:textStyle="italic"
