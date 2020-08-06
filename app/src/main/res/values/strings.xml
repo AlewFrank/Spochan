@@ -12,7 +12,8 @@
     <string name="normal_password_length">Пароль должен содержать минимум 6 символов</string>
     <string name="password_match">Пароли должны совпадать</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="load_your_image">Загрузить фото</string>
+    <string name="load_your_image">Загрузить изображение</string>
+    <string name="load_complete">Успешно</string>
     <string name="first_name">Имя пользователя</string>
     <string name="second_name">Фамилия</string>
     <string name="sex">Пол</string>
@@ -24,6 +25,11 @@
     <string name="you_are_sportsman">Вы в режиме спортсмена</string>
     <string name="edit_activity">Редактирование</string>
     <string name="edit_notification">Сначала завершите редактирование</string>
+    <string name="delete_successful">Элемент удален</string>
+    <string name="delete_fail">Ошибка, попробуйте еще раз</string>
+    <string name="confirm_delete">Подтвердите удаление</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
 
     <string name="gender_not_stated">Не указано</string>
     <string name="gender_male">Мужской</string>

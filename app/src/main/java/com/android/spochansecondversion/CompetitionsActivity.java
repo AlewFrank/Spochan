@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +46,13 @@ import java.util.ArrayList;
 
 public class CompetitionsActivity extends AppCompatActivity implements CompetitionAdapter.OnListItemClick{
 
-    private DatabaseReference competitionsDataBaseReference;
     private RecyclerView competitionRecycleView;
 
     private FirebaseFirestore firebaseFirestore;
 
     private CompetitionAdapter adapter;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +87,12 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
             }
         });
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
-        //Все что выше это настройки для меню, которое снизу находится, а ниже этой записи остальные настройки
+
+
+        //Все что выше это настройки для меню, которое снизу(снизу экрана) находится, а ниже этой записи остальные настройки
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -126,12 +132,20 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
                 startActivity(new Intent(CompetitionsActivity.this, AddCompetitionsActivity.class));
             }
         });
+
+        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
+
     }
 
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {//этот метод мы создали в классе адаптера + position это не какая-то переменная программы, это мы ее такой создали, а получаем мы этот position в методе public void onClick(View v) в классе CompetitionAdapter
-        Toast.makeText(CompetitionsActivity.this, "Все работает с карточкой " + position + " and ID is " + snapshot.getId(), Toast.LENGTH_LONG).show();
-        //влатватмвативат //чтоб привлечь внимание, здесь надо другую активити создавать с подробной информацией о соревновании, то есть тут просто старт активити и в адаптере в холдер запихнуть все переменные, а потом здесь через intent перенести все данные в новую активити или же сделать отсюда через интент перенос айди того, на что нажали, а там уже полноценно из базы данных изымать
+        //int position = getAdapterPosition(); можно еще такой способ использовать, как в PizzaRecipes делали
+        String onItemClickId = snapshot.getId();
+
+        Intent competitionIntent = new Intent(CompetitionsActivity.this, FullCompetitionItem.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
+        competitionIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
+
+        startActivity(competitionIntent);
     }
 
 

@@ -29,9 +29,12 @@ public class CompetitionAdapter extends FirestorePagingAdapter<Competition, Comp
     @Override
     protected void onBindViewHolder(@NonNull CompetitionViewHolder holder, int position, @NonNull Competition model) {//смотри сначала в CompetitionViewHolder
         holder.competitionTitle.setText(model.getCompetitionTitle());
-        holder.competitionData.setText(model.getCompetitionData());
+        holder.competitionData.setText(model.getDaysCompetitionDate() + "." + model.getMonthCompetitionDate() + "." + model.getYearCompetitionDate());
         holder.competitionLocation.setText(model.getCompetitionLocation());
-        //holder.competitionImage.setImageURI(model.getCompetitionImageUrl());
+
+        Glide.with(holder.competitionImage.getContext())//таким образом мы загружаем изображения в наш image View
+                .load(model.getCompetitionImageUrl())
+                .into(holder.competitionImage);
 
     }
 
@@ -86,18 +89,12 @@ public class CompetitionAdapter extends FirestorePagingAdapter<Competition, Comp
             competitionImage = itemView.findViewById(R.id.competitionImageView);
 
 
-
             itemView.setOnClickListener(this);
         }
 
-        public void setImage(Context context, String image) {
-            ImageView competition_image = itemView.findViewById(R.id.competitionImageView);
-            Glide.with(context).load(image).into(competition_image);
-        }
 
 
         //все что выше это мы перенесли сюда из CompetitionActivity, чтоб не захломлять там место, все что ниже это имплементации того, чтоб при нажатии на карточку открывалась соответствующая активити
-
 
 
         @Override

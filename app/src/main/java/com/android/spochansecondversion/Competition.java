@@ -4,25 +4,29 @@ public class Competition {
 
     private String competitionId;
     private String competitionTitle;
-    private String competitionData;
     private String competitionLocation;
     private String competitionAddress;
     private String competitionDescription;
     private String competitionImageUrl;
+    private String daysCompetitionDate;
+    private String monthCompetitionDate;
+    private String yearCompetitionDate;
 
 
     //правой кнопкой мыши, потом generate и дальше Constructor, а ниже это создавалось с помощью Getter and Setter
     public Competition() {
     }
 
-    public Competition(String competitionId, String competitionTitle, String competitionData, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl) {
+    public Competition(String competitionId, String competitionTitle, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl, String daysCompetitionDate, String monthCompetitionDate, String yearCompetitionDate) {
         this.competitionId = competitionId;
         this.competitionTitle = competitionTitle;
-        this.competitionData = competitionData;
         this.competitionLocation = competitionLocation;
         this.competitionAddress = competitionAddress;
         this.competitionDescription = competitionDescription;
         this.competitionImageUrl = competitionImageUrl;
+        this.daysCompetitionDate = daysCompetitionDate;
+        this.monthCompetitionDate = monthCompetitionDate;
+        this.yearCompetitionDate = yearCompetitionDate;
     }
 
     public String getCompetitionTitle() {
@@ -31,14 +35,6 @@ public class Competition {
 
     public void setCompetitionTitle(String competitionTitle) {
         this.competitionTitle = competitionTitle;
-    }
-
-    public String getCompetitionData() {
-        return competitionData;
-    }
-
-    public void setCompetitionData(String competitionData) {
-        this.competitionData = competitionData;
     }
 
     public String getCompetitionLocation() {
@@ -79,5 +75,29 @@ public class Competition {
 
     public void setCompetitionId(String competitionId) {
         this.competitionId = competitionId;
+    }
+
+    public String getDaysCompetitionDate() {
+        return daysCompetitionDate;
+    }
+
+    public void setDaysCompetitionDate(String daysCompetitionDate) {
+        this.daysCompetitionDate = daysCompetitionDate;
+    }
+
+    public String getMonthCompetitionDate() {
+        return monthCompetitionDate;
+    }
+
+    public void setMonthCompetitionDate(String monthCompetitionDate) {
+        this.monthCompetitionDate = monthCompetitionDate;
+    }
+
+    public String getYearCompetitionDate() {
+        return yearCompetitionDate;
+    }
+
+    public void setYearCompetitionDate(String yearCompetitionDate) {
+        this.yearCompetitionDate = yearCompetitionDate;
     }
 }
