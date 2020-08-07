@@ -44,7 +44,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     private EditText competitionTitleEditText, competitionLocationEditText, competitionAddressEditText, competitionDescriptionEditText;
     private EditText daysCompetitionDateEditText, monthCompetitionDateEditText, yearCompetitionDateEditText;
 
-    private TextView loadComplete, mediumMark;
+    private TextView loadComplete, mediumMark, loadNewImage;
 
     private Button editButton;
 
@@ -106,6 +106,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
         loadComplete = findViewById(R.id.loadComplete);
         mediumMark = findViewById(R.id.mediumMark);
+        loadNewImage = findViewById(R.id.loadNewImage);
 
         editButton = findViewById(R.id.editButton);
 
@@ -119,6 +120,9 @@ public class AddCompetitionsActivity extends AppCompatActivity {
         String onItemClickId = competitionItemIntent.getStringExtra("onItemClickId");
 
         if (onItemClickId != null) {
+
+            loadNewImage.setText(getResources().getString(R.string.change_image));
+
             firebaseFirestore = FirebaseFirestore.getInstance();
 
             DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
@@ -217,7 +221,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                 //устанавливаем для изображения такое же id, как и у соревнования, чтобы потом было легче усоздать ссылку и удалить, когда будем удалять соревновательный элемент в FullCompetitionActivity
                 final StorageReference imageReference  = competitionImagesStorageReference.child(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim());
 
-                Toast.makeText(AddCompetitionsActivity.this, "Ожидайте...", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.wait), Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
                 editButton.setEnabled(false);//чтоб человек не мог нажать, пока у нас загружается фотография
                 UploadTask uploadTask = imageReference.putFile(selectedImageUri);

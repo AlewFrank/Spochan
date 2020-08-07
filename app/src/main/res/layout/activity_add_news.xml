@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".AddCompetitionsActivity">
+    tools:context=".AddNewsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,97 +23,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <EditText
-                    android:layout_marginLeft="15dp"
-                    android:id="@+id/competitionTitleEditText"
+                    android:id="@+id/newsDescriptionEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/competition_title" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="10">
-
-                    <EditText
-                        android:id="@+id/daysCompetitionDateEditText"
-                        android:layout_weight="2"
-                        android:hint="24"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:text="."/>
-
-                    <EditText
-                        android:id="@+id/monthCompetitionDateEditText"
-                        android:layout_weight="2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:textSize="20sp"
-                        android:hint="04"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:text="."/>
-
-                    <EditText
-                        android:id="@+id/yearCompetitionDateEditText"
-                        android:layout_weight="4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:textSize="20sp"
-                        android:hint="2003"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/competition_data" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/competitionLocationEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="200dp"
                     android:layout_marginLeft="15dp"
                     android:textSize="20sp"
                     android:layout_marginStart="15dp" />
@@ -123,7 +39,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/competition_location" />
+                    android:text="@string/competition_description" />
             </LinearLayout>
 
 
@@ -131,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginStart="20dp"
                 android:orientation="horizontal">
 
@@ -170,49 +86,6 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/competitionAddressEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/competition_address" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/competitionDescriptionEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/competition_description" />
-            </LinearLayout>
 
 
 
@@ -220,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="4">
 
