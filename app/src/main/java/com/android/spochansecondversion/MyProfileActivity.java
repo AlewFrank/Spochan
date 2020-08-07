@@ -30,6 +30,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,9 +41,9 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private FirebaseDatabase database;
-    private DatabaseReference usersDataBaseReference, mDatabase;//эти  строки нужны для того, чтобы считывать информацию из базы данных
-    private ChildEventListener usersChildEventListener;
+    //private FirebaseDatabase database;
+    //private DatabaseReference usersDataBaseReference, mDatabase;//эти  строки нужны для того, чтобы считывать информацию из базы данных
+    //private ChildEventListener usersChildEventListener;
 
     private TextView userFirstNameTextView, userSecondNameTextView, userBornDateTextView, userSexTextView;
     private String bornDate;
@@ -53,6 +56,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage
     private StorageReference imagesStorageReference;
 
+    private FirebaseFirestore firebaseFirestore;//для работы с cloud firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,8 @@ public class MyProfileActivity extends AppCompatActivity {
         avatarImageView = findViewById(R.id.avatarImageView);
         progressBar = findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(ProgressBar.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
+
 
         FloatingActionButton editFloatingActionButton = findViewById(R.id.editFloatingActionButton);
         editFloatingActionButton.setOnClickListener(new View.OnClickListener() {//можно прописывать в разметке метод onClick или же можно в коде устанавливать setOnClickListener, исход будет одинаковый
@@ -106,13 +112,43 @@ public class MyProfileActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
-        database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
+
         storage = FirebaseStorage.getInstance();//верхнее для работы с сообщениями, это для изображений
-        usersDataBaseReference = database.getReference().child(getResources().getString(R.string.app_country)).child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
         imagesStorageReference = storage.getReference().child(getResources().getString(R.string.app_country)).child("Users_avatars");//в скобках это название папки в Firebase в Storage, которую мы создали вручную на сайте ранее,в которую будут помещаться изображения
 
-        usersChildEventListener = new ChildEventListener() {//это штука реагирует на изменение в базу данных, то есть считывает имя нашего пользователя из базы данных
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        String currentUserUid = currentUser.getUid();
+
+        DocumentReference newsItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+
+        newsItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+
+                userFirstNameTextView.setText(user.getFirstName());
+                userSecondNameTextView.setText(user.getSecondName());
+                userSexTextView.setText(user.getSex());
+
+                Glide.with(avatarImageView.getContext())//таким образом мы загружаем изображения в наш image View
+                        .load(user.getAvatarUrl())
+                        .into(avatarImageView);
+
+                if (!user.getDaysBornDate().equals("") & !user.getMonthBornDate().equals("") & !user.getYearBornDate().equals("")) {
+                    bornDate = user.getDaysBornDate() + "." + user.getMonthBornDate() + "." + user.getYearBornDate();
+                    userBornDateTextView.setText(bornDate);
+                }
+            }
+        });
+
+
+        //так мы работали с Realtime database, но позже перещли на cloud firestore, чтоб удобнее было рейтинг делать
+        //mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
+        //database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
+        //usersDataBaseReference = database.getReference().child(getResources().getString(R.string.app_country)).child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
+
+
+        /*usersChildEventListener = new ChildEventListener() {//это штука реагирует на изменение в базу данных, то есть считывает имя нашего пользователя из базы данных
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 User user = snapshot.getValue(User.class);
@@ -159,7 +195,9 @@ public class MyProfileActivity extends AppCompatActivity {
 
             }
         };
-        usersDataBaseReference.addChildEventListener(usersChildEventListener);//указываем, что лисенер будет считывать данные именно из папки users, которая прикреплена к переменной usersDataBaseReference
+        usersDataBaseReference.addChildEventListener(usersChildEventListener);//указываем, что лисенер будет считывать данные именно из папки users, которая прикреплена к переменной usersDataBaseReference*/
+
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
 
@@ -187,7 +225,7 @@ public class MyProfileActivity extends AppCompatActivity {
             //допустим uri нашего изображения //content://images/some_folder/3 и с помощью строки выше мы считываем как раз последнюю тройку благодаря getLastPathSegment() в строке выше
             final StorageReference imageReference = imagesStorageReference.child(currentUserUid);//используем такой вариант, так как здесь название изображения в Storage будет как id пользователя, соответственно после обновления изображения оно будет перезаписываться на тот же id, а старая фотка будет удаляться как бы, соответственно теперь мы не будем хранить лишние фотки в Firebase Storage
 
-            Toast.makeText(MyProfileActivity.this, "Изображение загружается...", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyProfileActivity.this, getResources().getString(R.string.wait), Toast.LENGTH_LONG).show();
 
             UploadTask uploadTask = imageReference.putFile(selectedImageUri);
 
@@ -210,7 +248,11 @@ public class MyProfileActivity extends AppCompatActivity {
                         String currentUserUid = currentUser.getUid();
 
                         try {
-                            mDatabase.child("Users").child(currentUserUid).child("avatarUrl").setValue(downloadUri.toString());
+                            //firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid).set(user);
+
+                            firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid)
+                                    .update("avatarUrl", downloadUri.toString());
+                            //mDatabase.child("Users").child(currentUserUid).child("avatarUrl").setValue(downloadUri.toString());
                             startActivity(new Intent(MyProfileActivity.this, MyProfileActivity.class));//нужно, чтоб страница обновилась и благодаря методу onCreate у нас обновилось изображение
                             //progressBar.setVisibility(ProgressBar.INVISIBLE);   нам не нужно так как кружочек загрузки нужен вплоть до загрузки заново страницы, а потом в onCreate кружочек опять включается, так что нет никакого смысла его выключать, а потом сразу же включать
                             Toast.makeText(MyProfileActivity.this, "Изображение успешно загружено", Toast.LENGTH_SHORT).show();

@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -41,8 +43,10 @@ public class LogInActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase;//для работы с realtime database, изначально использовали, решид оставить для примера
     private FirebaseDatabase database;
+
+    private FirebaseFirestore firebaseFirestore;//для работы с cloud firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +69,10 @@ public class LogInActivity extends AppCompatActivity {
         textInputPasswordForDirector.setVisibility(View.GONE);
 
         auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
+
+        //это для работы с Realtime Database, мы же сейчас изменим на Cloud firestore, чтоб удобнее было рейтинг создавать, но это оставил, чтоб потом может когда-то подсмотреть
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        //database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
 
        if (auth.getCurrentUser() != null) {//если пользователь уже авторизован
             startActivity(new Intent(LogInActivity.this, NewsActivity.class));
@@ -288,6 +294,9 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void createUser(FirebaseUser firebaseUser) {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         User user = new User();
         user.setId(firebaseUser.getUid());//это поле и ниже получаем из облачной базы данных(вводим эти значения при аутентификации)
         user.setEmail(firebaseUser.getEmail());
@@ -300,6 +309,10 @@ public class LogInActivity extends AppCompatActivity {
         user.setSex(getResources().getString(R.string.gender_not_stated));
 
         String currentUserUid = firebaseUser.getUid();
-        mDatabase.child(getResources().getString(R.string.app_country)).child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
+
+        firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid).set(user);
+
+        //это для работы с Realtime Database, мы же сейчас изменим на Cloud firestore, чтоб удобнее было рейтинг создавать
+        //mDatabase.child(getResources().getString(R.string.app_country)).child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
     }
 }

@@ -17,6 +17,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +27,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EditMyProfileActivity extends AppCompatActivity {
 
@@ -33,12 +38,14 @@ public class EditMyProfileActivity extends AppCompatActivity {
     FirebaseUser currentUser;
 
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private DatabaseReference usersDataBaseReference, mDatabase;//эти две строки нужны для того, чтобы считывать информацию(имя) из базы данных
-    private ChildEventListener usersChildEventListener;
+    //private FirebaseDatabase database;
+    //private DatabaseReference usersDataBaseReference, mDatabase;//эти две строки нужны для того, чтобы считывать информацию(имя) из базы данных
+    //private ChildEventListener usersChildEventListener;
     private EditText daysBornDateEditText, monthBornDateEditText, yearBornDateEditText;
     private RadioButton maleRadioButton, femaleRadioButton;
     private String gender;
+
+    private FirebaseFirestore firebaseFirestore;//для работы с cloud firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +84,47 @@ public class EditMyProfileActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
+        String currentUserUid = currentUser.getUid();
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference newsItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+
+        newsItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+
+                firstNameEditText.setText(user.getFirstName());
+                secondNameEditText.setText(user.getSecondName());
+
+
+                if (!user.getDaysBornDate().equals("") & !user.getMonthBornDate().equals("") & !user.getYearBornDate().equals("")) {
+                    daysBornDateEditText.setText(user.getDaysBornDate());
+                    monthBornDateEditText.setText(user.getMonthBornDate());
+                    yearBornDateEditText.setText(user.getYearBornDate());
+                }
+
+                if (user.getSex().equals(getResources().getString(R.string.gender_male))){
+                    maleRadioButton.setChecked(true);
+                    femaleRadioButton.setChecked(false);
+                    gender = getResources().getString(R.string.gender_male);//эта строка очень важна, так как если мы не меняем ничего и сохраняем, то gender получается ничему у нас не равен, а следовательно в firebase отправляется ничего = поле sex удаляется
+                }else if (user.getSex().equals(getResources().getString(R.string.gender_female))){
+                    femaleRadioButton.setChecked(true);
+                    maleRadioButton.setChecked(false);
+                    gender = getResources().getString(R.string.gender_female);
+                }else if (user.getSex().equals(getResources().getString(R.string.gender_not_stated))){
+                    femaleRadioButton.setChecked(false);
+                    maleRadioButton.setChecked(false);
+                    gender = getResources().getString(R.string.gender_not_stated);
+                }
+
+
+            }
+        });
+
+
+        /*mDatabase = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.app_country));
         database = FirebaseDatabase.getInstance();//получаем доступ к корневой папке нашей базы данных
         usersDataBaseReference = database.getReference().child(getResources().getString(R.string.app_country)).child("Users");//инициализируем, то есть говорим, что usersDataBaseReference это переменная связанная с папкой Users
 
@@ -134,6 +181,7 @@ public class EditMyProfileActivity extends AppCompatActivity {
             }
         };
         usersDataBaseReference.addChildEventListener(usersChildEventListener);//указываем, что лисенер будет считывать данные именно из папки users, которая прикреплена к переменной usersDataBaseReference
+    */
     }
 
     public void cancelButton(View view) {//онклик метод для кнопки "Отмена"
@@ -144,14 +192,17 @@ public class EditMyProfileActivity extends AppCompatActivity {
         String currentUserUid = currentUser.getUid();
 
         if (!firstNameEditText.getText().toString().trim().equals("")) {
-            mDatabase.child("Users").child(currentUserUid).child("firstName").setValue(firstNameEditText.getText().toString().trim());
+            firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid)
+                    .update("firstName", firstNameEditText.getText().toString().trim());
         }
 
         if (!secondNameEditText.getText().toString().trim().equals("")) {
-            mDatabase.child("Users").child(currentUserUid).child("secondName").setValue(secondNameEditText.getText().toString().trim());
+            firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid)
+                    .update("secondName", secondNameEditText.getText().toString().trim());
         }
 
-        mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);//если ничего не выбрано, то мы поставили в методе public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {, что по умолчанию будет пол не указано
+        firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid)
+                .update("sex", gender);//если ничего не выбрано, то мы поставили в методе public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {, что по умолчанию будет пол не указано
 
         try {//для того, чтобы люди не вводили буквенные выражения для даты
 
@@ -172,16 +223,24 @@ public class EditMyProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
             }else if (Integer.parseInt(yearBornDateEditText.getText().toString().trim()) <1900) {
                 Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+            } else if (Integer.parseInt(daysBornDateEditText.getText().toString().trim()) <= 0) {
+                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+            } else if (Integer.parseInt(monthBornDateEditText.getText().toString().trim()) <= 0) {
+                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
             }else {
-                mDatabase.child("Users").child(currentUserUid).child("daysBornDate").setValue(daysBornDateEditText.getText().toString().trim());
-                mDatabase.child("Users").child(currentUserUid).child("monthBornDate").setValue(monthBornDateEditText.getText().toString().trim());
-                mDatabase.child("Users").child(currentUserUid).child("yearBornDate").setValue(yearBornDateEditText.getText().toString().trim());
+                //mDatabase.child("Users").child(currentUserUid).child("daysBornDate").setValue(daysBornDateEditText.getText().toString().trim());
+                //mDatabase.child("Users").child(currentUserUid).child("monthBornDate").setValue(monthBornDateEditText.getText().toString().trim());
+                //mDatabase.child("Users").child(currentUserUid).child("yearBornDate").setValue(yearBornDateEditText.getText().toString().trim());
+
+                firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid)
+                        .update("daysBornDate", daysBornDateEditText.getText().toString().trim(), "monthBornDate", monthBornDateEditText.getText().toString().trim(),
+                                "yearBornDate", yearBornDateEditText.getText().toString().trim());
 
                 Toast.makeText(EditMyProfileActivity.this, "Успешно", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(EditMyProfileActivity.this, MyProfileActivity.class));
             }
         } else {//если он не начал даже заполнять дату, то просто выходим из активити и все, ничего страшного, дату заполнит потом
-            mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);
+            //mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);
             Toast.makeText(EditMyProfileActivity.this, "Успешно", Toast.LENGTH_LONG).show();
             startActivity(new Intent(EditMyProfileActivity.this, MyProfileActivity.class));
         }
