@@ -167,7 +167,6 @@ public class LogInActivity extends AppCompatActivity {
 
 
 
-
     public void toggleLoginMode(View view) {//онклик метод синей надписи под кнопкой
 
         if (!isLoginModeActive){

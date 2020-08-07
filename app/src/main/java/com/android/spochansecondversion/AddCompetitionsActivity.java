@@ -62,6 +62,8 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String currentCompetitionImageUrl;
 
+    private  String onItemClickId;
+
     private boolean isImage = false;//переменная, показывающая есть у нас изображение или нет
 
     @Override
@@ -117,7 +119,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
 
         Intent competitionItemIntent = getIntent(); //получаем интент из FullCompetitionActivity, чтоб если мы редактируем класс, а не создаем новый, то тогда чтоб в EditTextы уже заносились текущие значения
-        String onItemClickId = competitionItemIntent.getStringExtra("onItemClickId");
+        onItemClickId = competitionItemIntent.getStringExtra("onItemClickId");
 
         if (onItemClickId != null) {
 
@@ -173,6 +175,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competition.setCompetitionLocation(competitionLocationEditText.getText().toString().trim());
                     competition.setCompetitionAddress(competitionAddressEditText.getText().toString().trim());
                     competition.setCompetitionDescription(competitionDescriptionEditText.getText().toString().trim());
+                    competition.setCompetitionId(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim());//это не прям айди документа, который задется ниже, здесь же просто поле на всякий с имененм айди сделали, типо пусть будет дублироваться
 
                     if (isImage) {//чтоб при редактировании нам пустая строка сюда не ставилась, если мы новое изображение не загружаем
                         competition.setCompetitionImageUrl(currentCompetitionImageUrl);
@@ -181,11 +184,15 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     }
 
 
-                    //если хоть одна составляющая даты не равна предыдущему значению, то тогда надо удалить прошлую запись, правда фотка тоже удалиться, но она удалиться только из нашей Storage, но в систее она останется и будет показываться людям это сто процентов или вариант, что фотка не удаляется, но тогда пользователь при попытке загрузить другую запись по старой дате перезапишет изображение и у него будет все хреново
-                    if (!daysCompetitionDate.equals(daysCompetitionDateEditText.getText().toString().trim()) || !monthCompetitionDate.equals(monthCompetitionDateEditText.getText().toString().trim()) || !yearCompetitionDate.equals(yearCompetitionDateEditText.getText().toString().trim())) {
-                        //если дату изменили, то соревнования с прошлой датой удаляем
-                        deleteCompetition();//создал внизу, удаляет запись по старой дате, чтоб после изменения записи не было одинаковых записей по старой и новой дате()
-                       }
+                    if (onItemClickId != null) {//то есть если мы редактируем запись, а не создаем новую
+                        //если хоть одна составляющая даты не равна предыдущему значению, то тогда надо удалить прошлую запись
+                        //правда фотка тоже удалиться, но она удалиться только из нашей Storage, но в системе она останется и будет показываться людям это сто процентов или вариант, что фотка не удаляется, но тогда пользователь при попытке загрузить другую запись по старой дате перезапишет изображение и у него будет все хреново, короче сейчас все работает четко
+                        if (!daysCompetitionDate.equals(daysCompetitionDateEditText.getText().toString().trim()) || !monthCompetitionDate.equals(monthCompetitionDateEditText.getText().toString().trim()) || !yearCompetitionDate.equals(yearCompetitionDateEditText.getText().toString().trim())) {
+                            //если дату изменили, то соревнования с прошлой датой удаляем
+                            deleteCompetition();//создал внизу, удаляет запись по старой дате, чтоб после изменения записи не было одинаковых записей по старой и новой дате()
+                        }
+                    }
+
 
 
                     //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху

@@ -195,7 +195,7 @@ public class FullCompetitionItem extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {//удаление прошло успешно, следователь переходим в новую активити и удаляем изображение удаленного соревнования из базы данных, чтоб не захломлять
-                        Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show(); мы уже в showDeleteCompetitionDialog выводим, что элемент удален
 
                         //удаляем наше изображение, чтоб не засорять storage
                         if (competitionImageUrl != null) {//если у соревнования впринципе нет фотки, то чтоб не вылетало приложение из-за ссылки на нулевой объект
