@@ -14,12 +14,13 @@ public class User {
     private String monthBornDate;
     private String yearBornDate;
     private String avatarUrl;
+    private String userId;
 
     //правой кнопкой мыши, потом generate и дальше Constructor
     public User() {
     }
 
-    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl) {
+    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId) {
         this.email = email;
         this.id = id;
         this.firstName = firstName;
@@ -29,6 +30,7 @@ public class User {
         this.monthBornDate = monthBornDate;
         this.yearBornDate = yearBornDate;
         this.avatarUrl = avatarUrl;
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -103,4 +105,11 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

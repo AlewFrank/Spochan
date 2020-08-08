@@ -50,6 +50,16 @@
     <string name="title_myProfile">Мой аккаунт</string>
 
 
+    <string name="group_1">2012г.р. и младше</string>
+    <string name="group_2">2010–2011</string>
+    <string name="group_3">2008–2009</string>
+    <string name="group_4">2006–2007</string>
+    <string name="group_5">2004–2005</string>
+    <string name="group_6">Женщины</string>
+    <string name="group_7">Кю</string>
+    <string name="group_8">Даны</string>
+
+
     <string name="menu_clubs">Клубы</string>
     <string name="menu_help">Помощь</string>
     <string name="menu_communication">Обратная связь</string>
