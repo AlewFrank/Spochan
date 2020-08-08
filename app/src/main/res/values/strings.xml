@@ -64,7 +64,7 @@
     <string name="menu_help">Помощь</string>
     <string name="menu_communication">Обратная связь</string>
     <string name="menu_about_developer">О разработчике</string>
-    <string name="menu_exit">Выйти</string>
+    <string name="menu_exit">Выйти из аккаунта</string>
 
     <string name="competition_title">Заголовок</string>
     <string name="competition_data">Дата проведения</string>

@@ -307,6 +307,7 @@ public class LogInActivity extends AppCompatActivity {
         user.setYearBornDate("");
         user.setAvatarUrl("");
         user.setSex(getResources().getString(R.string.gender_not_stated));
+        user.setDirector(isDirectorModeActivated);
 
         String currentUserUid = firebaseUser.getUid();
 

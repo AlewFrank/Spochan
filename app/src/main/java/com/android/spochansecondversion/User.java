@@ -15,12 +15,13 @@ public class User {
     private String yearBornDate;
     private String avatarUrl;
     private String userId;
+    private boolean isDirector;//отвечает за то администратор человек или спортсмен
 
     //правой кнопкой мыши, потом generate и дальше Constructor
     public User() {
     }
 
-    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId) {
+    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId, boolean isDirector) {
         this.email = email;
         this.id = id;
         this.firstName = firstName;
@@ -31,6 +32,7 @@ public class User {
         this.yearBornDate = yearBornDate;
         this.avatarUrl = avatarUrl;
         this.userId = userId;
+        this.isDirector = isDirector;
     }
 
     public String getEmail() {
@@ -111,5 +113,13 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public boolean isDirector() {
+        return isDirector;
+    }
+
+    public void setDirector(boolean director) {
+        isDirector = director;
     }
 }

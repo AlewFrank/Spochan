@@ -2,8 +2,10 @@ package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -189,7 +191,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                         //правда фотка тоже удалиться, но она удалиться только из нашей Storage, но в системе она останется и будет показываться людям это сто процентов или вариант, что фотка не удаляется, но тогда пользователь при попытке загрузить другую запись по старой дате перезапишет изображение и у него будет все хреново, короче сейчас все работает четко
                         if (!daysCompetitionDate.equals(daysCompetitionDateEditText.getText().toString().trim()) || !monthCompetitionDate.equals(monthCompetitionDateEditText.getText().toString().trim()) || !yearCompetitionDate.equals(yearCompetitionDateEditText.getText().toString().trim())) {
                             //если дату изменили, то соревнования с прошлой датой удаляем
-                            deleteCompetition();//создал внизу, удаляет запись по старой дате, чтоб после изменения записи не было одинаковых записей по старой и новой дате()
+                            deleteCompetitionIfNewCreated();//создал внизу, удаляет запись по старой дате, чтоб после изменения записи не было одинаковых записей по старой и новой дате()
                         }
                     }
 
@@ -320,7 +322,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     }
 
 
-    private void deleteCompetition() {
+    private void deleteCompetitionIfNewCreated() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -356,6 +358,90 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //ничего не делаем
+                    }
+                });
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {//добавляем меню, которое справа сверху
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_delete_competition_or_news_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {//задаем поведение при нажатии на пунктах меню
+
+        switch (item.getItemId()) {
+            case R.id.menu_delete:
+                showDeleteCompetitionDialog();//создали этот метод внизу
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showDeleteCompetitionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
+        builder.setMessage(getResources().getString(R.string.confirm_delete));
+        builder.setPositiveButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCompetition();//имплементируем этот метод в самом низу
+                Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null){dialog.dismiss();}
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteCompetition() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
+
+        competitionItemDocumentReference
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {//удаление прошло успешно, следователь переходим в новую активити и удаляем изображение удаленного соревнования из базы данных, чтоб не захломлять
+                        //Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show(); мы уже в showDeleteCompetitionDialog выводим, что элемент удален
+
+                        //удаляем наше изображение, чтоб не засорять storage
+                        if (ImageUrlValue != null) {//если у соревнования впринципе нет фотки, то чтоб не вылетало приложение из-за ссылки на нулевой объект
+                            storage = FirebaseStorage.getInstance();
+                            imagesStorageReference = storage.getReference().child(getResources().getString(R.string.app_country)).child("Competitions_images").child(yearCompetitionDate + monthCompetitionDate + daysCompetitionDate);
+
+                            imagesStorageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // File deleted successfully
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Uh-oh, an error occurred!
+                                }
+                            });
+                        }
+
+
+                        startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.delete_fail), Toast.LENGTH_LONG).show();
                     }
                 });
     }

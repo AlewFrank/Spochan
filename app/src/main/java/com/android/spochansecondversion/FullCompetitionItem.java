@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +49,12 @@ public class FullCompetitionItem extends AppCompatActivity {
 
     private FirebaseStorage storage;//это надо для удаления фотографий, так как фотки хранятся в папке Storage
     private StorageReference imagesStorageReference;
+
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+    private boolean isDirectorModeActivated;
+
+    private boolean result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +136,30 @@ public class FullCompetitionItem extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
+        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
+        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
+
+        floatingActionButton.setVisibility(View.GONE);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        String currentUserUid = currentUser.getUid();
+        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+
+        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+
+                isDirectorModeActivated = user.isDirector();
+
+                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,84 +177,22 @@ public class FullCompetitionItem extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {//добавляем меню, которое справа сверху
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_delete_competition_or_news_item, menu);
+        inflater.inflate(R.menu.exit_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {//задаем поведение при нажатии на пунктах меню
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.menu_delete:
-                showDeleteCompetitionDialog();//создали этот метод внизу
+        switch (item.getItemId()){
+            case R.id.sign_out:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(FullCompetitionItem.this, LogInActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void showDeleteCompetitionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-        builder.setMessage(getResources().getString(R.string.confirm_delete));
-        builder.setPositiveButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteCompetition();//имплементируем этот метод в самом низу
-                Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (dialog != null){dialog.dismiss();}
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void deleteCompetition() {
-
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
-
-        competitionItemDocumentReference
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {//удаление прошло успешно, следователь переходим в новую активити и удаляем изображение удаленного соревнования из базы данных, чтоб не захломлять
-                        //Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show(); мы уже в showDeleteCompetitionDialog выводим, что элемент удален
-
-                        //удаляем наше изображение, чтоб не засорять storage
-                        if (competitionImageUrl != null) {//если у соревнования впринципе нет фотки, то чтоб не вылетало приложение из-за ссылки на нулевой объект
-                            storage = FirebaseStorage.getInstance();
-                            imagesStorageReference = storage.getReference().child(getResources().getString(R.string.app_country)).child("Competitions_images").child(yearCompetitionDate + monthCompetitionDate + daysCompetitionDate);
-
-                            imagesStorageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // File deleted successfully
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Uh-oh, an error occurred!
-                                }
-                            });
-                        }
-
-
-                        startActivity(new Intent(FullCompetitionItem.this, CompetitionsActivity.class));
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.delete_fail), Toast.LENGTH_LONG).show();
-                    }
-                });
     }
 }

@@ -11,12 +11,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,6 +53,10 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     private ProgressBar progressBar;
 
     private TextView newsTimeTextView, newsDataTextView;
+
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+    private boolean isDirectorModeActivated;
 
     private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage не рядом с изображениями
     private StorageReference newsImagesStorageReference;
@@ -128,7 +136,32 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
 
 
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
+        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
+        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
+
+        floatingActionButton.setVisibility(View.GONE);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        String currentUserUid = currentUser.getUid();
+        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+
+        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+
+                isDirectorModeActivated = user.isDirector();
+
+                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,28 +177,32 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {//этот метод мы создали в классе адаптера + position это не какая-то переменная программы, это мы ее такой создали, а получаем мы этот position в методе public void onClick(View v) в классе CompetitionAdapter
         //int position = getAdapterPosition(); можно еще такой способ использовать, как в PizzaRecipes делали
-        final String onItemClickId = snapshot.getId();
 
-        final Intent newsIntent = new Intent(NewsActivity.this, AddNewsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-        newsIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
+        if (isDirectorModeActivated) {//чтоб только администратор мог совершать эти действия
+            final String onItemClickId = snapshot.getId();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-        builder.setMessage(getResources().getString(R.string.choose_action));
-        builder.setPositiveButton(getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(newsIntent);
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //if (dialog != null){dialog.dismiss();} эта запись просто отменяет и возвращает к тому состоянию, которое было до нажатия
-                showDeleteCompetitionDialog(onItemClickId);//создали метод ниже
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+            final Intent newsIntent = new Intent(NewsActivity.this, AddNewsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
+            newsIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
+            builder.setMessage(getResources().getString(R.string.choose_action));
+            builder.setPositiveButton(getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(newsIntent);
+                }
+            });
+            builder.setNegativeButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //if (dialog != null){dialog.dismiss();} эта запись просто отменяет и возвращает к тому состоянию, которое было до нажатия
+                    showDeleteCompetitionDialog(onItemClickId);//создали метод ниже
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
     }
 
     private void showDeleteCompetitionDialog(final String onItemClickId) {
@@ -231,4 +268,23 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.exit_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.sign_out:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(NewsActivity.this, LogInActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
