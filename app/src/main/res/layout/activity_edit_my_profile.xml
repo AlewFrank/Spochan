@@ -114,7 +114,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/born_date" />
+                android:text="@string/born_date"
+                android:layout_marginStart="20dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -174,7 +175,7 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:textColor="@android:color/white"
-                android:text="Отмена"
+                android:text="@string/cancel"
                 android:textStyle="italic"
                 android:textSize="15sp"
                 android:background="@color/colorPrimary"
@@ -188,7 +189,7 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:textColor="@android:color/white"
-                android:text="Сохранить"
+                android:text="@string/save"
                 android:textStyle="italic"
                 android:textSize="15sp"
                 android:background="@color/colorPrimary"

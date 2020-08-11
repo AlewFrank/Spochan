@@ -21,6 +21,8 @@ public class EditRatingMembers extends AppCompatActivity {
 
     private EditText firstPlaceSecondName, secondPlaceSecondName, thirdPlaceSecondName, forthPlaceSecondName, fifthPlaceSecondName;
 
+    private EditText firstPlacePoints, secondPlacePoints, thirdPlacePoints, forthPlacePoints, fifthPlacePoints;
+
     private String onGroupClick;
 
     private FirebaseFirestore firebaseFirestore;
@@ -32,18 +34,23 @@ public class EditRatingMembers extends AppCompatActivity {
 
         firstPlaceFirstName = findViewById(R.id.firstPlaceFirstName);
         firstPlaceSecondName = findViewById(R.id.firstPlaceSecondName);
+        firstPlacePoints = findViewById(R.id.firstPlacePoints);
 
         secondPlaceFirstName = findViewById(R.id.secondPlaceFirstName);
         secondPlaceSecondName = findViewById(R.id.secondPlaceSecondName);
+        secondPlacePoints = findViewById(R.id.secondPlacePoints);
 
         thirdPlaceFirstName = findViewById(R.id.thirdPlaceFirstName);
         thirdPlaceSecondName = findViewById(R.id.thirdPlaceSecondName);
+        thirdPlacePoints = findViewById(R.id.thirdPlacePoints);
 
         forthPlaceFirstName = findViewById(R.id.forthPlaceFirstName);
         forthPlaceSecondName = findViewById(R.id.forthPlaceSecondName);
+        forthPlacePoints = findViewById(R.id.forthPlacePoints);
 
         fifthPlaceFirstName = findViewById(R.id.fifthPlaceFirstName);
         fifthPlaceSecondName = findViewById(R.id.fifthPlaceSecondName);
+        fifthPlacePoints = findViewById(R.id.fifthPlacePoints);
 
         Intent forEditActivityIntent = getIntent(); //получаем интент с названием группы, которую хотим редактировать
         onGroupClick = forEditActivityIntent.getStringExtra("onGroupClick");
@@ -91,6 +98,7 @@ public class EditRatingMembers extends AppCompatActivity {
                     if (user.getFirstName() != null || user.getSecondName() != null) {
                         firstPlaceFirstName.setText(user.getFirstName());
                         firstPlaceSecondName.setText(user.getSecondName());
+                        firstPlacePoints.setText(user.getUserPoints());
                     }
                 }
 
@@ -98,6 +106,7 @@ public class EditRatingMembers extends AppCompatActivity {
                     if (user.getFirstName() != null || user.getSecondName() != null) {
                         secondPlaceFirstName.setText(user.getFirstName());
                         secondPlaceSecondName.setText(user.getSecondName());
+                        secondPlacePoints.setText(user.getUserPoints());
                     }
                 }
 
@@ -105,6 +114,7 @@ public class EditRatingMembers extends AppCompatActivity {
                     if (user.getFirstName() != null || user.getSecondName() != null) {
                         thirdPlaceFirstName.setText(user.getFirstName());
                         thirdPlaceSecondName.setText(user.getSecondName());
+                        thirdPlacePoints.setText(user.getUserPoints());
                     }
                 }
 
@@ -112,6 +122,7 @@ public class EditRatingMembers extends AppCompatActivity {
                     if (user.getFirstName() != null || user.getSecondName() != null) {
                         forthPlaceFirstName.setText(user.getFirstName());
                         forthPlaceSecondName.setText(user.getSecondName());
+                        forthPlacePoints.setText(user.getUserPoints());
                     }
                 }
 
@@ -119,6 +130,7 @@ public class EditRatingMembers extends AppCompatActivity {
                     if (user.getFirstName() != null || user.getSecondName() != null) {
                         fifthPlaceFirstName.setText(user.getFirstName());
                         fifthPlaceSecondName.setText(user.getSecondName());
+                        fifthPlacePoints.setText(user.getUserPoints());
                     }
                 }
 
@@ -139,6 +151,8 @@ public class EditRatingMembers extends AppCompatActivity {
             if (!firstPlaceFirstName.getText().toString().trim().equals("") || !firstPlaceSecondName.getText().toString().trim().equals("")) {
                 user.setFirstName(firstPlaceFirstName.getText().toString().trim());
                 user.setSecondName(firstPlaceSecondName.getText().toString().trim());
+                user.setUserPoints(firstPlacePoints.getText().toString().trim());
+
             }
         }
 
@@ -146,6 +160,7 @@ public class EditRatingMembers extends AppCompatActivity {
             if (!secondPlaceFirstName.getText().toString().trim().equals("") || !secondPlaceSecondName.getText().toString().trim().equals("")) {
                 user.setFirstName(secondPlaceFirstName.getText().toString().trim());
                 user.setSecondName(secondPlaceSecondName.getText().toString().trim());
+                user.setUserPoints(secondPlacePoints.getText().toString().trim());
             }
         }
 
@@ -153,6 +168,7 @@ public class EditRatingMembers extends AppCompatActivity {
             if (!thirdPlaceFirstName.getText().toString().trim().equals("") || !thirdPlaceSecondName.getText().toString().trim().equals("")) {
                 user.setFirstName(thirdPlaceFirstName.getText().toString().trim());
                 user.setSecondName(thirdPlaceSecondName.getText().toString().trim());
+                user.setUserPoints(thirdPlacePoints.getText().toString().trim());
             }
         }
 
@@ -160,6 +176,7 @@ public class EditRatingMembers extends AppCompatActivity {
             if (!forthPlaceFirstName.getText().toString().trim().equals("") || !forthPlaceSecondName.getText().toString().trim().equals("")) {
                 user.setFirstName(forthPlaceFirstName.getText().toString().trim());
                 user.setSecondName(forthPlaceSecondName.getText().toString().trim());
+                user.setUserPoints(forthPlacePoints.getText().toString().trim());
             }
         }
 
@@ -167,6 +184,7 @@ public class EditRatingMembers extends AppCompatActivity {
             if (!fifthPlaceFirstName.getText().toString().trim().equals("") || !fifthPlaceSecondName.getText().toString().trim().equals("")) {
                 user.setFirstName(fifthPlaceFirstName.getText().toString().trim());
                 user.setSecondName(fifthPlaceSecondName.getText().toString().trim());
+                user.setUserPoints(fifthPlacePoints.getText().toString().trim());
             }
         }
 

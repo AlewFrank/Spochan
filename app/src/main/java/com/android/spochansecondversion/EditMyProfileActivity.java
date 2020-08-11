@@ -210,23 +210,23 @@ public class EditMyProfileActivity extends AppCompatActivity {
             //если все EditText пустые, то значит человек еще не притрагивался к их заполнению, следовательно, можно просто выйти из активити(переход к ветке else), если человек хочет изменять дату потом
 
             if (daysBornDateEditText.getText().toString().trim().length() != 2) {//проверяем чтоб дата имела только два знака
-                Toast.makeText(this, "Дни должны содержать 2 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.days_exception), Toast.LENGTH_SHORT).show();
             }else if (monthBornDateEditText.getText().toString().trim().length() != 2) {//проверяем чтоб дата имела только два знака
-                Toast.makeText(this, "Месяц должен содержать 2 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.months_exception), Toast.LENGTH_SHORT).show();
             }else if (yearBornDateEditText.getText().toString().trim().length() != 4) {//проверяем чтоб дата имела только четыре знака
-                Toast.makeText(this, "Год должен содержать 4 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.years_exception), Toast.LENGTH_SHORT).show();
             }else if (Integer.parseInt(daysBornDateEditText.getText().toString().trim()) >31) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             } else if (Integer.parseInt(monthBornDateEditText.getText().toString().trim()) >12) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             }else if (Integer.parseInt(yearBornDateEditText.getText().toString().trim()) >2099) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             }else if (Integer.parseInt(yearBornDateEditText.getText().toString().trim()) <1900) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             } else if (Integer.parseInt(daysBornDateEditText.getText().toString().trim()) <= 0) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             } else if (Integer.parseInt(monthBornDateEditText.getText().toString().trim()) <= 0) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
             }else {
                 //mDatabase.child("Users").child(currentUserUid).child("daysBornDate").setValue(daysBornDateEditText.getText().toString().trim());
                 //mDatabase.child("Users").child(currentUserUid).child("monthBornDate").setValue(monthBornDateEditText.getText().toString().trim());
@@ -236,16 +236,16 @@ public class EditMyProfileActivity extends AppCompatActivity {
                         .update("daysBornDate", daysBornDateEditText.getText().toString().trim(), "monthBornDate", monthBornDateEditText.getText().toString().trim(),
                                 "yearBornDate", yearBornDateEditText.getText().toString().trim());
 
-                Toast.makeText(EditMyProfileActivity.this, "Успешно", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditMyProfileActivity.this, getResources().getString(R.string.successful), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(EditMyProfileActivity.this, MyProfileActivity.class));
             }
         } else {//если он не начал даже заполнять дату, то просто выходим из активити и все, ничего страшного, дату заполнит потом
             //mDatabase.child("Users").child(currentUserUid).child("sex").setValue(gender);
-            Toast.makeText(EditMyProfileActivity.this, "Успешно", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditMyProfileActivity.this, getResources().getString(R.string.successful), Toast.LENGTH_LONG).show();
             startActivity(new Intent(EditMyProfileActivity.this, MyProfileActivity.class));
         }
         } catch (NumberFormatException nef) {
-            Toast.makeText(EditMyProfileActivity.this, "Введите численное значение", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditMyProfileActivity.this, getResources().getString(R.string.chislo_exception), Toast.LENGTH_SHORT).show();
         }
     }
 

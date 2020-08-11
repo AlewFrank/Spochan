@@ -177,17 +177,17 @@ public class LogInActivity extends AppCompatActivity {
 
         if (!isLoginModeActive){
             isLoginModeActive = true;
-            logInButton.setText("Войти");
-            toggleLoginSingUpTextView.setText("Еще нет аккаунта?");
-            helloTextView.setText("Рады снова вас видеть");
+            logInButton.setText(getResources().getString(R.string.enter));
+            toggleLoginSingUpTextView.setText(getResources().getString(R.string.no_account));
+            helloTextView.setText(getResources().getString(R.string.glad_to_see_you_again));
             textInputFirstName.setVisibility(View.GONE);
             textInputSecondName.setVisibility(View.GONE);
             textInputConfirmPassword.setVisibility(View.GONE);
         } else {
             isLoginModeActive = false;
-            logInButton.setText("  Зарегистрироваться  ");
-            toggleLoginSingUpTextView.setText("Уже есть аккаунт?");
-            helloTextView.setText("Добро Пожаловать");
+            logInButton.setText(getResources().getString(R.string.register));
+            toggleLoginSingUpTextView.setText(getResources().getString(R.string.have_account));
+            helloTextView.setText(getResources().getString(R.string.welcome));
             textInputFirstName.setVisibility(View.VISIBLE);
             textInputSecondName.setVisibility(View.VISIBLE);
             textInputConfirmPassword.setVisibility(View.VISIBLE);
@@ -293,7 +293,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    private void createUser(FirebaseUser firebaseUser) {
+    private void createUser(FirebaseUser firebaseUser) {//создает пользователя в в firebase firestore
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -308,6 +308,7 @@ public class LogInActivity extends AppCompatActivity {
         user.setAvatarUrl("");
         user.setSex(getResources().getString(R.string.gender_not_stated));
         user.setDirector(isDirectorModeActivated);
+        user.setUserPoints("");
 
         String currentUserUid = firebaseUser.getUid();
 
@@ -315,5 +316,38 @@ public class LogInActivity extends AppCompatActivity {
 
         //это для работы с Realtime Database, мы же сейчас изменим на Cloud firestore, чтоб удобнее было рейтинг создавать
         //mDatabase.child(getResources().getString(R.string.app_country)).child("Users").child(currentUserUid).setValue(user);//этот метод из документации Firebase, благодаря нему ссылка профиля и id это одно и тоже значение, а значит гораздо легче в дальнейшем менять значения и просто работать с данными
+    }
+
+    public void forgetPassword(View view) { //онклик метод, если человек забыл свой пароль
+
+        //убираем все поля, кроме ввода имейла
+        textInputFirstName.setVisibility(View.GONE);
+        textInputPassword.setVisibility(View.GONE);
+        textInputSecondName.setVisibility(View.GONE);
+        textInputConfirmPassword.setVisibility(View.GONE);
+        textInputPasswordForDirector.setVisibility(View.GONE);
+        toggleLoginSingUpTextView.setVisibility(View.GONE);
+        Toast.makeText(LogInActivity.this, getResources().getString(R.string.input_email), Toast.LENGTH_LONG).show();
+
+
+
+        logInButton.setText(getResources().getString(R.string.push));
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailAddress = textInputEmail.getEditText().getText().toString().trim();
+
+                auth.sendPasswordResetEmail(emailAddress)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Email sent.");
+                                    startActivity(new Intent(LogInActivity.this, LogInActivity.class));
+                                }
+                            }
+                        });
+            }
+        });
     }
 }

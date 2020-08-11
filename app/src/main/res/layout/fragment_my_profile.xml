@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="35dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp">
 
             <TextView
                 android:id="@+id/userFirstNameTextView"
@@ -67,14 +68,16 @@
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:background="#7b7b7b" />
+            android:background="#7b7b7b"
+            android:layout_marginStart="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp">
 
             <TextView
                 android:id="@+id/userSecondNameTextView"
@@ -95,14 +98,16 @@
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:background="#7b7b7b" />
+            android:background="#7b7b7b"
+            android:layout_marginStart="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp">
 
             <TextView
                 android:id="@+id/userSexTextView"
@@ -123,14 +128,16 @@
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:background="#7b7b7b" />
+            android:background="#7b7b7b"
+            android:layout_marginStart="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp">
 
             <TextView
                 android:id="@+id/userBornDateTextView"
@@ -175,7 +182,8 @@
         android:background="@color/colorPrimary"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_edit" />
+        app:srcCompat="@drawable/ic_edit"
+        android:focusable="true" />
 
     <ProgressBar
         android:id="@+id/progressBar"

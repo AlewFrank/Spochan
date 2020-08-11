@@ -126,7 +126,6 @@
                     android:text="@string/competition_location" />
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,9 +165,9 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/load_complete"
                     android:textColor="@android:color/holo_green_dark"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,6 +213,43 @@
                     android:text="@string/competition_description" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/trueRadioButton"
+                    android:onClick="onRadioButtonClicked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/reg_true"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/falseRadioButton"
+                    android:onClick="onRadioButtonClicked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/reg_false"
+                    android:layout_marginStart="15dp" />
+
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/competition_reg" />
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -236,7 +272,7 @@
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:textColor="@android:color/white"
-                    android:text="Отмена"
+                    android:text="@string/cancel"
                     android:textStyle="italic"
                     android:textSize="15sp"
                     android:background="@color/colorPrimary"
@@ -250,7 +286,7 @@
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:textColor="@android:color/white"
-                    android:text="Сохранить"
+                    android:text="@string/save"
                     android:textStyle="italic"
                     android:textSize="15sp"
                     android:background="@color/colorPrimary"

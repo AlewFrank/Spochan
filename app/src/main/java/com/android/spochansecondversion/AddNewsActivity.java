@@ -65,7 +65,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_competitions);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_news);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -265,9 +265,9 @@ public class AddNewsActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
                         loadComplete.setVisibility(View.VISIBLE);
                         mediumMark.setVisibility(View.VISIBLE);
-                        Toast.makeText(AddNewsActivity.this, "Изображение успешно загружено", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddNewsActivity.this,  getResources().getString(R.string.load_successful), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(AddNewsActivity.this, "Ошибка: изображение не загружено", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_fail), Toast.LENGTH_LONG).show();
                     }
                 }
             });

@@ -7,7 +7,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:layout_above="@id/bottom_navigation">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="italic"
                     android:textSize="17sp"
-                    android:text="Адрес: " />
+                    android:text="@string/address" />
 
                 <TextView
                     android:id="@+id/competitionAddressTextView"
@@ -86,7 +87,9 @@
                     android:layout_height="wrap_content"
                     android:textStyle="italic"
                     android:textSize="17sp"
-                    android:text="@string/not_indicated" />
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/not_indicated"
+                    android:layout_marginStart="4dp" />
 
             </LinearLayout>
 
@@ -100,6 +103,153 @@
                 android:layout_marginStart="15dp"
                 android:text="@string/not_indicated"
                 android:layout_marginTop="17dp"/>
+
+            <Button
+                android:id="@+id/registerOnCompetitionButton"
+                android:visibility="gone"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:text="@string/competition_registration"
+                android:textColor="@color/White"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="50dp"/>
+
+            <TextView
+                android:id="@+id/openRegListTextView"
+                android:onClick="openRegList"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/open_reg_list"
+                android:textStyle="italic"
+                android:textSize="17sp"
+                android:textColor="@android:color/holo_blue_light"
+                android:layout_marginTop="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/radioButtonsLinearLayout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/firstGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_1"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/secondGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_2"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/thirdGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_3"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/forthGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_4"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/fifthGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_5"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/sixGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_6"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/sevenGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_7"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/eightGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_8"
+                    android:layout_marginStart="15dp" />
+
+                <RadioButton
+                    android:id="@+id/nineGroupRadioButton"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="onRadioButtonClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:text="@string/group_9"
+                    android:layout_marginStart="15dp" />
+
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_your_group" />
+            </LinearLayout>
+
+
+
+
+
+
+
 
         </LinearLayout>
 
@@ -121,7 +271,8 @@
         android:background="@color/colorPrimary"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_edit" />
+        app:srcCompat="@drawable/ic_edit"
+        android:focusable="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

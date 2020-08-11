@@ -1,351 +1,397 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".RatingActivity"
-android:background="#f0f0f0">
-
-
-<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@id/bottom_navigation"
-    android:scrollbars="vertical">
+    tools:context=".RatingActivity"
+    android:background="#f0f0f0">
 
-    <LinearLayout
-        android:layout_marginTop="15dp"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"
-        android:orientation="vertical">
+        android:scrollbars="vertical">
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="firstGroup">
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_navigation"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/group_1"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="firstGroup">
 
-            <ImageView
-                android:id="@+id/firstGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_1"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/firstGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/firstGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="secondGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_2"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/secondGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/secondGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="thirdGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_3"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/thirdGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/thirdGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="forthGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_4"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/forthGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fourthGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="fifthGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_5"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/fifthGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fifthGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="sixGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_6"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/sixGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sixGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="sevenGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_7"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/sevenGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sevenGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="eightGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_8"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/eightGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/eightGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="#ffffff"
+                android:elevation="4dp"
+                android:onClick="nineGroup">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_9"
+                    android:layout_marginStart="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:id="@+id/nineGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nineGroupListRecycleView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
+
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/firstGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="secondGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_2"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/secondGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/secondGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="thirdGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_3"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/thirdGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/thirdGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="forthGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_4"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/forthGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fourthGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="fifthGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_5"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/fifthGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fifthGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="sixGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_6"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/sixGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sixGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="sevenGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_7"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/sevenGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sevenGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:onClick="eightGroup">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_8"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
-
-            <ImageView
-                android:id="@+id/eightGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/eightGroupListRecycleView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp" />
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
 
 
 
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/addFloatingActionButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginEnd="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginBottom="80dp"
-    android:background="@color/colorPrimary"
-    android:clickable="true"
-    app:backgroundTint="@color/colorPrimary"
-    app:srcCompat="@drawable/ic_edit" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="80dp"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_edit"
+        android:focusable="true"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentRight="true" />
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/bottom_navigation"
-    android:background="@android:color/white"
-    app:menu="@menu/bottom_nav_menu"
-    app:itemTextColor="@drawable/selector"
-    app:itemIconTint="@drawable/selector"
-    android:layout_alignParentBottom="true"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        android:background="@android:color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        android:layout_alignParentBottom="true"/>
 
-<ProgressBar
-    android:id="@+id/progressBar"
-    android:visibility="invisible"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

@@ -61,4 +61,10 @@ public class ChooseGroupForRating extends AppCompatActivity {
         forEditActivityIntent.putExtra("onGroupClick", "group_8"); //связываем строку со значение
         startActivity(forEditActivityIntent);
     }
+
+    public void nineGroup(View view) {
+        Intent forEditActivityIntent = new Intent(ChooseGroupForRating.this, EditRatingMembers.class);
+        forEditActivityIntent.putExtra("onGroupClick", "group_9"); //связываем строку со значение
+        startActivity(forEditActivityIntent);
+    }
 }

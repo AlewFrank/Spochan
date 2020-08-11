@@ -20,18 +20,56 @@
             android:layout_height="40dp"
             android:src="@drawable/user_image"/>
 
-        <TextView
-            android:id="@+id/userNameTextView"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textStyle="italic"
-            android:textSize="17sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/not_indicated"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp" />
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/userNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="17sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/not_indicated"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic"
+                    android:textSize="17sp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/user_points"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:id="@+id/userPointsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic"
+                    android:textSize="17sp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/not_indicated"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
 
 

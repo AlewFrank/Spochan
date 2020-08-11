@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,12 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     private boolean isImage = false;//переменная, показывающая есть у нас изображение или нет
 
+    private boolean isCompetitionRegistrationActive = false;//переменная, которая используется для того, чтобы отображать кнопку, позволяющую регистрироваться на чемпионат
+
+    private RadioButton falseRadioButton, trueRadioButton;
+
+    private String competitionTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +121,9 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
         editButton = findViewById(R.id.editButton);
 
+        trueRadioButton = findViewById(R.id.trueRadioButton);
+        falseRadioButton = findViewById(R.id.falseRadioButton);
+
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
@@ -138,6 +148,8 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competitionTitleEditText.setText(competition.getCompetitionTitle());
                     competitionLocationEditText.setText(competition.getCompetitionLocation());
 
+                    competitionTitle = competition.getCompetitionTitle();//используем, чтоб сравнивать изначальное имя и новое при сохранении
+
                     daysCompetitionDateEditText.setText(competition.getDaysCompetitionDate());
                     monthCompetitionDateEditText.setText(competition.getMonthCompetitionDate());
                     yearCompetitionDateEditText.setText(competition.getYearCompetitionDate());
@@ -149,6 +161,18 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competitionAddressEditText.setText(competition.getCompetitionAddress());
                     competitionDescriptionEditText.setText(competition.getCompetitionDescription());
                     ImageUrlValue = competition.getCompetitionImageUrl();
+
+                    isCompetitionRegistrationActive = competition.isCompetitionRegistrationActive();
+
+                    if (competition.isCompetitionRegistrationActive()) {
+                        trueRadioButton.setChecked(true);
+                        falseRadioButton.setChecked(false);
+                    } else {
+                        trueRadioButton.setChecked(false);
+                        falseRadioButton.setChecked(true);
+                    }
+
+
 
                 }
             });
@@ -178,6 +202,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competition.setCompetitionAddress(competitionAddressEditText.getText().toString().trim());
                     competition.setCompetitionDescription(competitionDescriptionEditText.getText().toString().trim());
                     competition.setCompetitionId(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim());//это не прям айди документа, который задется ниже, здесь же просто поле на всякий с имененм айди сделали, типо пусть будет дублироваться
+                    competition.setCompetitionRegistrationActive(isCompetitionRegistrationActive);
 
                     if (isImage) {//чтоб при редактировании нам пустая строка сюда не ставилась, если мы новое изображение не загружаем
                         competition.setCompetitionImageUrl(currentCompetitionImageUrl);
@@ -195,12 +220,33 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                         }
                     }
 
+                    if (competitionTitle != null)  {//чтоб при создании, когда competitionTitle не выскакивало уведомление о раздваивании баз данных
+                        if (isCompetitionRegistrationActive & !competitionTitleEditText.getText().toString().trim().equals(competitionTitle)) {//если пытается отредактировать название, когда включена запись на соревнование, это нельзя делать, так как в базе данных у нас запись людей идет по названию, соответственно, если изменить название, то будет два разных списка
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
+                            builder.setMessage(getResources().getString(R.string.dont_edit_title));
+                            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    competitionTitleEditText.setText(competitionTitle);//просто ставим предыдущее значение
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        } else {
+                            //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
+                            db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
+                            Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
+                        }
+                    } else {
+                        //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
+                        db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
+                        Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
+                    }
 
 
-                    //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
-                    db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
-                    Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
+
                 }
     }
 
@@ -260,9 +306,9 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
                             loadComplete.setVisibility(View.VISIBLE);
                             mediumMark.setVisibility(View.VISIBLE);
-                            Toast.makeText(AddCompetitionsActivity.this, "Изображение успешно загружено", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_successful), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(AddCompetitionsActivity.this, "Ошибка: изображение не загружено", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_fail), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -276,46 +322,46 @@ public class AddCompetitionsActivity extends AppCompatActivity {
         try {//для того, чтобы люди не вводили буквенные выражения для даты
 
             if (competitionTitleEditText.getText().toString().trim().equals("")) {
-                Toast.makeText(this, "Введите значение заголовка", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.title_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (daysCompetitionDateEditText.getText().toString().trim().length() != 2) {//проверяем чтоб дата имела только два знака
-                Toast.makeText(this, "Дни должны содержать 2 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.days_exception), Toast.LENGTH_SHORT).show();
                 return false;
             }else if (monthCompetitionDateEditText.getText().toString().trim().length() != 2) {//проверяем чтоб дата имела только два знака
-                Toast.makeText(this, "Месяц должен содержать 2 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.months_exception), Toast.LENGTH_SHORT).show();
                 return false;
             }else if (yearCompetitionDateEditText.getText().toString().trim().length() != 4) {//проверяем чтоб дата имела только четыре знака
-                Toast.makeText(this, "Год должен содержать 4 символа", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.years_exception), Toast.LENGTH_SHORT).show();
                 return false;
             }else if (Integer.parseInt(daysCompetitionDateEditText.getText().toString().trim()) >31) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             }else if (Integer.parseInt(daysCompetitionDateEditText.getText().toString().trim()) <= 0) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (Integer.parseInt(monthCompetitionDateEditText.getText().toString().trim()) <= 0) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (Integer.parseInt(monthCompetitionDateEditText.getText().toString().trim()) >12) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (Integer.parseInt(monthCompetitionDateEditText.getText().toString().trim()) >12) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (Integer.parseInt(yearCompetitionDateEditText.getText().toString().trim()) >2099) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             }else if (Integer.parseInt(yearCompetitionDateEditText.getText().toString().trim()) <1900) {
-                Toast.makeText(this, "Формат даты неверный", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.date_format_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (competitionLocationEditText.getText().toString().trim().equals("")) {
-                Toast.makeText(this, "Введите значение города", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.city_exception), Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 return true;
             }
         } catch (NumberFormatException nef) {
-            Toast.makeText(AddCompetitionsActivity.this, "Введите численное значение", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.chislo_exception), Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -434,6 +480,10 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                             });
                         }
 
+                        //удаляем список с зарегестрировавшимися, чтоб опять же не засорять базу данных
+                        //DocumentReference competitionRegListDocumentReference = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle);
+                        firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).delete();
+
 
                         startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
                     }
@@ -444,5 +494,25 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                         Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.delete_fail), Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        if (checked) {
+            switch(view.getId()) {
+                case R.id.trueRadioButton:
+                    if (checked)
+                        isCompetitionRegistrationActive = true;
+                    falseRadioButton.setChecked(false);
+                    break;
+                case R.id.falseRadioButton:
+                    if (checked)
+                        isCompetitionRegistrationActive = false;
+                    trueRadioButton.setChecked(false);
+            }
+        }
     }
 }

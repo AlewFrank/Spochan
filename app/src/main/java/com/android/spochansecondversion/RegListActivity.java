@@ -9,32 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class RatingActivity extends AppCompatActivity {
+public class RegListActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
 
-    private UserAdapter adapter;
-
-    private ProgressBar progressBar;
+    private RegListAdapter adapter;
 
     private boolean isClose1 = true;
     private boolean isClose2 = true;
@@ -46,90 +35,23 @@ public class RatingActivity extends AppCompatActivity {
     private boolean isClose8 = true;
     private boolean isClose9 = true;
 
-    private FirebaseAuth auth;
-    private FirebaseUser currentUser;
-    private boolean isDirectorModeActivated;
+    private String competitionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating);
+        setContentView(R.layout.activity_reg_list);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setSelectedItemId(R.id.navigation_rating);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.navigation_rating:
-                        return true;
-                    case R.id.navigation_news:
-                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.navigation_myProfile:
-                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.navigation_competitions:
-                        startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
-            }
-        });
-
-
-
-
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
-
-        floatingActionButton.setVisibility(View.GONE);
-
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        String currentUserUid = currentUser.getUid();
-        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-
-                isDirectorModeActivated = user.isDirector();
-
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    floatingActionButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RatingActivity.this, ChooseGroupForRating.class));
-            }
-        });
-
-
+        Intent competitionTitleIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
+        competitionTitle = competitionTitleIntent.getStringExtra("competitionTitle");
     }
+
 
 
     public void firstGroup(View view) {//онклик метод на нашу первую группу
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView firstGroupImageView = findViewById(R.id.firstGroupImageView);
         RecyclerView firstGroupListRecycleView = findViewById(R.id.firstGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose1) {//isClose изначально тру, то есть изначально все скрыто
@@ -138,9 +60,10 @@ public class RatingActivity extends AppCompatActivity {
             firstGroupListRecycleView.setVisibility(View.VISIBLE);
             firstGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_1").collection("group_1");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_1");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -156,7 +79,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             firstGroupListRecycleView.setHasFixedSize(true);
             firstGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -169,18 +92,12 @@ public class RatingActivity extends AppCompatActivity {
             firstGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
 
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void secondGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView secondGroupImageView = findViewById(R.id.secondGroupImageView);
         RecyclerView secondGroupListRecycleView = findViewById(R.id.secondGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose2) {//isClose изначально тру, то есть изначально все скрыто
@@ -189,9 +106,10 @@ public class RatingActivity extends AppCompatActivity {
             secondGroupListRecycleView.setVisibility(View.VISIBLE);
             secondGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_2").collection("group_2");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_2");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -207,7 +125,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             secondGroupListRecycleView.setHasFixedSize(true);
             secondGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -220,18 +138,12 @@ public class RatingActivity extends AppCompatActivity {
             secondGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
 
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void thirdGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView thirdGroupImageView = findViewById(R.id.thirdGroupImageView);
         RecyclerView thirdGroupListRecycleView = findViewById(R.id.thirdGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose3) {//isClose изначально тру, то есть изначально все скрыто
@@ -240,9 +152,10 @@ public class RatingActivity extends AppCompatActivity {
             thirdGroupListRecycleView.setVisibility(View.VISIBLE);
             thirdGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_3").collection("group_3");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_3");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -258,7 +171,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             thirdGroupListRecycleView.setHasFixedSize(true);
             thirdGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -270,19 +183,12 @@ public class RatingActivity extends AppCompatActivity {
             thirdGroupListRecycleView.setVisibility(View.GONE);
             thirdGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void forthGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView forthGroupImageView = findViewById(R.id.forthGroupImageView);
         RecyclerView fourthGroupListRecycleView = findViewById(R.id.fourthGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose4) {//isClose изначально тру, то есть изначально все скрыто
@@ -291,9 +197,10 @@ public class RatingActivity extends AppCompatActivity {
             fourthGroupListRecycleView.setVisibility(View.VISIBLE);
             forthGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_4").collection("group_4");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_4");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -309,7 +216,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             fourthGroupListRecycleView.setHasFixedSize(true);
             fourthGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -321,19 +228,13 @@ public class RatingActivity extends AppCompatActivity {
             fourthGroupListRecycleView.setVisibility(View.GONE);
             forthGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void fifthGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView fifthGroupImageView = findViewById(R.id.fifthGroupImageView);
         RecyclerView fifthGroupListRecycleView = findViewById(R.id.fifthGroupListRecycleView);
 
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose5) {//isClose изначально тру, то есть изначально все скрыто
@@ -342,9 +243,10 @@ public class RatingActivity extends AppCompatActivity {
             fifthGroupListRecycleView.setVisibility(View.VISIBLE);
             fifthGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_5").collection("group_5");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_5");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -360,7 +262,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             fifthGroupListRecycleView.setHasFixedSize(true);
             fifthGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -372,19 +274,12 @@ public class RatingActivity extends AppCompatActivity {
             fifthGroupListRecycleView.setVisibility(View.GONE);
             fifthGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void sixGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView sixGroupImageView = findViewById(R.id.sixGroupImageView);
         RecyclerView sixGroupListRecycleView = findViewById(R.id.sixGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose6) {//isClose изначально тру, то есть изначально все скрыто
@@ -393,9 +288,10 @@ public class RatingActivity extends AppCompatActivity {
             sixGroupListRecycleView.setVisibility(View.VISIBLE);
             sixGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_6").collection("group_6");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_6");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -411,7 +307,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             sixGroupListRecycleView.setHasFixedSize(true);
             sixGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -423,19 +319,13 @@ public class RatingActivity extends AppCompatActivity {
             sixGroupListRecycleView.setVisibility(View.GONE);
             sixGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void sevenGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView sevenGroupImageView = findViewById(R.id.sevenGroupImageView);
         RecyclerView sevenGroupListRecycleView = findViewById(R.id.sevenGroupListRecycleView);
 
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose7) {//isClose изначально тру, то есть изначально все скрыто
@@ -444,9 +334,10 @@ public class RatingActivity extends AppCompatActivity {
             sevenGroupListRecycleView.setVisibility(View.VISIBLE);
             sevenGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_7").collection("group_7");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_7");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -462,7 +353,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             sevenGroupListRecycleView.setHasFixedSize(true);
             sevenGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -474,19 +365,12 @@ public class RatingActivity extends AppCompatActivity {
             sevenGroupListRecycleView.setVisibility(View.GONE);
             sevenGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void eightGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView eightGroupImageView = findViewById(R.id.eightGroupImageView);
         RecyclerView eightGroupListRecycleView = findViewById(R.id.eightGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose8) {//isClose изначально тру, то есть изначально все скрыто
@@ -495,9 +379,10 @@ public class RatingActivity extends AppCompatActivity {
             eightGroupListRecycleView.setVisibility(View.VISIBLE);
             eightGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_8").collection("group_8");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_8");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -513,7 +398,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             eightGroupListRecycleView.setHasFixedSize(true);
             eightGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -525,19 +410,12 @@ public class RatingActivity extends AppCompatActivity {
             eightGroupListRecycleView.setVisibility(View.GONE);
             eightGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
     }
 
     public void nineGroup(View view) {
 
-        progressBar = findViewById(R.id.progressBar);
         ImageView nineGroupImageView = findViewById(R.id.nineGroupImageView);
         RecyclerView nineGroupListRecycleView = findViewById(R.id.nineGroupListRecycleView);
-
-        progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
 
 
         if (isClose9) {//isClose изначально тру, то есть изначально все скрыто
@@ -546,9 +424,10 @@ public class RatingActivity extends AppCompatActivity {
             nineGroupListRecycleView.setVisibility(View.VISIBLE);
             nineGroupImageView.setImageResource(R.drawable.ic_active_arrow);
 
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
             //Query
-            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_9").collection("group_9");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            Query query = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection("group_9");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
             PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
@@ -564,7 +443,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-            adapter = new UserAdapter(options);
+            adapter = new RegListAdapter(options);
 
             nineGroupListRecycleView.setHasFixedSize(true);
             nineGroupListRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -575,30 +454,6 @@ public class RatingActivity extends AppCompatActivity {
 
             nineGroupListRecycleView.setVisibility(View.GONE);
             nineGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
-        }
-
-
-        progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.exit_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.sign_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(RatingActivity.this, LogInActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

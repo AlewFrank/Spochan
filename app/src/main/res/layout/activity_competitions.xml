@@ -29,7 +29,8 @@
         android:background="@color/colorPrimary"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"
+        android:focusable="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

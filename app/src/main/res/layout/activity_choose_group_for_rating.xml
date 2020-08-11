@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выберите группу для редактирования: "
+        android:text="@string/choose_group"
         android:textStyle="italic"
         android:textSize="20sp"
         android:layout_marginLeft="10dp"
@@ -94,6 +94,16 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/group_8"
+        android:textColor="@color/White"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"/>
+
+    <Button
+        android:onClick="nineGroup"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/group_9"
         android:textColor="@color/White"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorPrimary"/>

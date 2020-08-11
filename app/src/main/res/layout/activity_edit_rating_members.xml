@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:text="1 место: "
+                    android:text="@string/place1"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp" />
 
@@ -47,6 +47,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:hint="@string/second_name"/>
+
+                <EditText
+                    android:id="@+id/firstPlacePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:hint="@string/user_points"/>
             </LinearLayout>
 
             <LinearLayout
@@ -60,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:text="2 место: "
+                    android:text="@string/place2"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp" />
 
@@ -79,6 +87,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:hint="@string/second_name"/>
+
+                <EditText
+                    android:id="@+id/secondPlacePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:hint="@string/user_points"/>
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:text="3 место: "
+                    android:text="@string/place3"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp" />
 
@@ -111,6 +127,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:hint="@string/second_name"/>
+
+                <EditText
+                    android:id="@+id/thirdPlacePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:hint="@string/user_points"/>
             </LinearLayout>
 
             <LinearLayout
@@ -124,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:text="4 место: "
+                    android:text="@string/place4"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp" />
 
@@ -143,6 +167,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:hint="@string/second_name"/>
+
+                <EditText
+                    android:id="@+id/forthPlacePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:hint="@string/user_points"/>
             </LinearLayout>
 
             <LinearLayout
@@ -156,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:text="5 место: "
+                    android:text="@string/place5"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp" />
 
@@ -175,6 +207,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:hint="@string/second_name"/>
+
+                <EditText
+                    android:id="@+id/fifthPlacePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:hint="@string/user_points"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -194,7 +234,8 @@
         android:background="@color/colorPrimary"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_done" />
+        app:srcCompat="@drawable/ic_done"
+        android:focusable="true" />
 
 
 

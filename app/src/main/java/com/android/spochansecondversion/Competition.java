@@ -11,13 +11,14 @@ public class Competition {
     private String daysCompetitionDate;
     private String monthCompetitionDate;
     private String yearCompetitionDate;
+    private boolean isCompetitionRegistrationActive;//переменная, которая используется для того, чтобы отображать кнопку, позволяющую регистрироваться на чемпионат
 
 
     //правой кнопкой мыши, потом generate и дальше Constructor, а ниже это создавалось с помощью Getter and Setter
     public Competition() {
     }
 
-    public Competition(String competitionId, String competitionTitle, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl, String daysCompetitionDate, String monthCompetitionDate, String yearCompetitionDate) {
+    public Competition(String competitionId, String competitionTitle, String competitionLocation, String competitionAddress, String competitionDescription, String competitionImageUrl, String daysCompetitionDate, String monthCompetitionDate, String yearCompetitionDate, boolean isCompetitionRegistrationActive) {
         this.competitionId = competitionId;
         this.competitionTitle = competitionTitle;
         this.competitionLocation = competitionLocation;
@@ -27,6 +28,7 @@ public class Competition {
         this.daysCompetitionDate = daysCompetitionDate;
         this.monthCompetitionDate = monthCompetitionDate;
         this.yearCompetitionDate = yearCompetitionDate;
+        this.isCompetitionRegistrationActive = isCompetitionRegistrationActive;
     }
 
     public String getCompetitionTitle() {
@@ -99,5 +101,13 @@ public class Competition {
 
     public void setYearCompetitionDate(String yearCompetitionDate) {
         this.yearCompetitionDate = yearCompetitionDate;
+    }
+
+    public boolean isCompetitionRegistrationActive() {
+        return isCompetitionRegistrationActive;
+    }
+
+    public void setCompetitionRegistrationActive(boolean competitionRegistrationActive) {
+        isCompetitionRegistrationActive = competitionRegistrationActive;
     }
 }

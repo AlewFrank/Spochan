@@ -257,10 +257,10 @@ public class MyProfileActivity extends AppCompatActivity {
                             //mDatabase.child("Users").child(currentUserUid).child("avatarUrl").setValue(downloadUri.toString());
                             startActivity(new Intent(MyProfileActivity.this, MyProfileActivity.class));//нужно, чтоб страница обновилась и благодаря методу onCreate у нас обновилось изображение
                             //progressBar.setVisibility(ProgressBar.INVISIBLE);   нам не нужно так как кружочек загрузки нужен вплоть до загрузки заново страницы, а потом в onCreate кружочек опять включается, так что нет никакого смысла его выключать, а потом сразу же включать
-                            Toast.makeText(MyProfileActivity.this, "Изображение успешно загружено", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(MyProfileActivity.this, "Обновление может занять до 60 секунд", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyProfileActivity.this, getResources().getString(R.string.load_successful), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyProfileActivity.this, getResources().getString(R.string.update_for_60_seconds), Toast.LENGTH_LONG).show();
                         } catch (NumberFormatException nef) {
-                            Toast.makeText(MyProfileActivity.this, "Ошибка с загрузкой изображения", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyProfileActivity.this, getResources().getString(R.string.load_fail), Toast.LENGTH_LONG).show();
                         }
 
                     } else {

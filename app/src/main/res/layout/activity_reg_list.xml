@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RatingActivity"
-    android:background="#f0f0f0">
-
+    tools:context=".RegListActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -35,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_1"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
                     android:layout_weight="3"/>
 
@@ -54,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,9 +69,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_2"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/secondGroupImageView"
@@ -89,7 +89,8 @@
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,9 +106,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_3"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/thirdGroupImageView"
@@ -124,7 +126,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,9 +143,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_4"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/forthGroupImageView"
@@ -159,7 +163,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,9 +180,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_5"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/fifthGroupImageView"
@@ -194,33 +200,35 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
                 android:background="#ffffff"
                 android:elevation="4dp"
                 android:onClick="sixGroup">
 
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_6"
-                android:layout_marginStart="10dp"
-                android:textSize="20sp"
-                android:layout_weight="3"/>
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_6"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="20sp"
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
-            <ImageView
-                android:id="@+id/sixGroupImageView"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_disactive_arrow"/>
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/sixGroupImageView"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_disactive_arrow"/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sixGroupListRecycleView"
@@ -229,7 +237,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -245,9 +254,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_7"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/sevenGroupImageView"
@@ -264,7 +274,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -280,9 +291,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_8"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/eightGroupImageView"
@@ -299,7 +311,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -315,9 +328,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/group_9"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:layout_marginStart="10dp" />
 
                 <ImageView
                     android:id="@+id/nineGroupImageView"
@@ -334,44 +348,10 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp" />
 
         </LinearLayout>
     </ScrollView>
-
-
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addFloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="80dp"
-        android:background="@color/colorPrimary"
-        android:clickable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_edit"
-        android:focusable="true" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation"
-        android:background="@android:color/white"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
-        android:layout_alignParentBottom="true"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:visibility="invisible"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

@@ -4,15 +4,24 @@
 
 
     <string name="set_email">Введите ваш E-mail</string>
+    <string name="email">E-mail</string>
     <string name="set_first_name">Введите ваше имя</string>
+    <string name="first_name_in_log">Ваше имя</string>
     <string name="set_second_name">Введите вашу фамилию</string>
+    <string name="second_name_in_log">Ваша фамилия</string>
     <string name="set_password">Введите пароль</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
     <string name="set_director_password">Введите пароль администратора</string>
+    <string name="director_password">Пароль администратора</string>
     <string name="wrong_director_password">Неправильный пароль администратора</string>
     <string name="normal_password_length">Пароль должен содержать минимум 6 символов</string>
     <string name="password_match">Пароли должны совпадать</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="load_your_image">Загрузить изображение</string>
+    <string name="load_successful">Изображение успешно загружено</string>
+    <string name="load_fail">Ошибка: изображение не загружено</string>
+    <string name="update_for_60_seconds">Обновление может занять до 60 секунд</string>
     <string name="please_load_your_image">и загрузите изображение</string>
     <string name="load_complete">Успешно</string>
     <string name="first_name">Имя пользователя</string>
@@ -32,11 +41,36 @@
     <string name="choose_action">Выберите действие</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
+    <string name="successful">Успешно</string>
+    <string name="enter">Войти</string>
+    <string name="register">  Зарегистрироваться  </string>
+    <string name="no_account">Еще нет аккаунта?</string>
+    <string name="have_account">Уже есть аккаунт?</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="input_email">Введите ваш email</string>
+    <string name="glad_to_see_you_again">Рады снова вас видеть</string>
+    <string name="welcome">Добро Пожаловать</string>
     <string name="cancel">Отмена</string>
-    <string name="wait">Ожидайте...</string>
+    <string name="save">Сохранить</string>
+    <string name="ok">OK</string>
+    <string name="push">Отправить </string>
+    <string name="wait">Ожидайте…</string>
     <string name="change_image">Заменить изображение</string>
-
+    <string name="user_points">Кол-во баллов: </string>
+    <string name="fill_your_profile">Сначала перейдите в раздел "Мой аккаунт" и заполните всю информацию о себе </string>
+    <string name="dont_edit_title">Не редактируйте заголовок соревнований, пока включена регистрация, так как это приведет к раздвоению базы данных и часть пользователей будет зарегистрирована в базе по старому названию, а часть по новой. Сначала отредактируйте все поля, сохраните и только потом включайте регистрацию на мероприятие </string>
+    <string name="reg_list">Список зарегестрировавшихся </string>
+    <string name="open_reg_list">Открыть список зарегестрировавшихся </string>
+    <string name="choose_your_group">Выберите группу для участия </string>
     <string name="fields_notification">Сначала заполните все поля</string>
+
+    <string name="title_exception">Введите значение заголовка</string>
+    <string name="days_exception">Дни должны содержать 2 символа</string>
+    <string name="months_exception">Месяц должен содержать 2 символа</string>
+    <string name="years_exception">Год должен содержать 4 символа</string>
+    <string name="date_format_exception">Формат даты неверный</string>
+    <string name="city_exception">Введите значение города</string>
+    <string name="chislo_exception">Введите численное значение</string>
 
     <string name="gender_not_stated">Не указано</string>
     <string name="gender_male">Мужской</string>
@@ -50,6 +84,7 @@
     <string name="title_myProfile">Мой аккаунт</string>
 
 
+    <string name="choose_group">Выберите группу для редактирования: </string>
     <string name="group_1">2012г.р. и младше</string>
     <string name="group_2">2010–2011</string>
     <string name="group_3">2008–2009</string>
@@ -58,7 +93,13 @@
     <string name="group_6">Женщины</string>
     <string name="group_7">Кю</string>
     <string name="group_8">Даны</string>
+    <string name="group_9">Ветераны</string>
 
+    <string name="place1">1 место:</string>
+    <string name="place2">2 место:</string>
+    <string name="place3">3 место:</string>
+    <string name="place4">4 место:</string>
+    <string name="place5">5 место:</string>
 
     <string name="menu_clubs">Клубы</string>
     <string name="menu_help">Помощь</string>
@@ -70,5 +111,10 @@
     <string name="competition_data">Дата проведения</string>
     <string name="competition_location">Город проведения</string>
     <string name="competition_address">Точный адрес</string>
+    <string name="address">Адрес:</string>
     <string name="competition_description">Описание</string>
+    <string name="competition_registration">Зарегестрироваться на чемпионат </string>
+    <string name="competition_reg">Регистрация на чемпионат </string>
+    <string name="reg_true">Отобразить </string>
+    <string name="reg_false">Скрыть </string>
 </resources>
