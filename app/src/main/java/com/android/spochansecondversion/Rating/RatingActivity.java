@@ -44,7 +44,7 @@ public class RatingActivity extends AppCompatActivity {
 
 
 
-    //НАДО ПОМЕНЯТЬ ШРИФТЫ НА ТОТ, КОТОРЫЙ ДИЗАЙНЕР ДАЛ
+    //НАДО ПОМЕНЯТЬ ШРИФТЫ НА ТОТ, КОТОРЫЙ ДИЗАЙНЕР ДАЛ f
 
 
 
