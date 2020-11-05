@@ -1,9 +1,20 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.logInSignUp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +25,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.NewsActivity;
+import com.android.spochansecondversion.R;
+import com.android.spochansecondversion.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,15 +36,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
 
     private static final String TAG = "LogInActivity";
 
+    private Toolbar toolbar;
+
     private Button logInButton;
-    TextView helloTextView, toggleLoginSingUpTextView;
+    TextView toggleLoginSingUpTextView, forgetPassword;
     TextInputLayout textInputEmail;
     TextInputLayout textInputFirstName;
     TextInputLayout textInputSecondName;
@@ -48,14 +63,31 @@ public class LogInActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;//для работы с cloud firestore
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        toolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(toolbar);
+
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawe);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.register, R.string.enter);
+//        toggle.syncState();
+//        int color = ContextCompat.getColor(this, R.color.colorAccent);
+//        toolbar.getNavigationIcon().setColorFilter(color, PorterDuff.Mode.DST_ATOP);
+
+        //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
+        forgetPassword = findViewById(R.id.forgetPassword);
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-LightItalic.ttf");
+        forgetPassword.setTypeface(roboto);
+        
+
         logInButton = findViewById(R.id.logInButton);
-        toggleLoginSingUpTextView = findViewById(R.id.toggleLoginSingUpTextView);
-        helloTextView = findViewById(R.id.helloTextView);
+        //toggleLoginSingUpTextView = findViewById(R.id.toggleLoginSingUpTextView);
+        //helloTextView = findViewById(R.id.helloTextView);
         textInputEmail = findViewById(R.id.textInputEmail);
         textInputFirstName = findViewById(R.id.textInputFirstName);
         textInputSecondName = findViewById(R.id.textInputSecondName);
@@ -179,7 +211,6 @@ public class LogInActivity extends AppCompatActivity {
             isLoginModeActive = true;
             logInButton.setText(getResources().getString(R.string.enter));
             toggleLoginSingUpTextView.setText(getResources().getString(R.string.no_account));
-            helloTextView.setText(getResources().getString(R.string.glad_to_see_you_again));
             textInputFirstName.setVisibility(View.GONE);
             textInputSecondName.setVisibility(View.GONE);
             textInputConfirmPassword.setVisibility(View.GONE);
@@ -187,7 +218,6 @@ public class LogInActivity extends AppCompatActivity {
             isLoginModeActive = false;
             logInButton.setText(getResources().getString(R.string.register));
             toggleLoginSingUpTextView.setText(getResources().getString(R.string.have_account));
-            helloTextView.setText(getResources().getString(R.string.welcome));
             textInputFirstName.setVisibility(View.VISIBLE);
             textInputSecondName.setVisibility(View.VISIBLE);
             textInputConfirmPassword.setVisibility(View.VISIBLE);
@@ -335,7 +365,7 @@ public class LogInActivity extends AppCompatActivity {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailAddress = textInputEmail.getEditText().getText().toString().trim();
+                final String emailAddress = textInputEmail.getEditText().getText().toString().trim();
 
                 auth.sendPasswordResetEmail(emailAddress)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -343,11 +373,27 @@ public class LogInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "Email sent.");
-                                    startActivity(new Intent(LogInActivity.this, LogInActivity.class));
+                                    showDialog(emailAddress);
                                 }
                             }
                         });
             }
         });
+    }
+
+    private void showDialog(String emailAddress) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
+        builder.setMessage(getResources().getString(R.string.text_password) + " " + emailAddress);
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null){dialog.dismiss();}  //просто убираем сообщение с экрана
+                startActivity(new Intent(LogInActivity.this, LogInActivity.class));
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -1,9 +1,12 @@
 package com.android.spochansecondversion;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 public class ChooseGroupForRating extends AppCompatActivity {
@@ -12,6 +15,13 @@ public class ChooseGroupForRating extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_group_for_rating);
+
+        //четыре строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
+//        ActionBar actionBar = this.getSupportActionBar();
+//        if(actionBar!=null){
+//            actionBar.setHomeButtonEnabled(true);
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
     }
 
     public void firstGroup(View view) {
@@ -66,5 +76,16 @@ public class ChooseGroupForRating extends AppCompatActivity {
         Intent forEditActivityIntent = new Intent(ChooseGroupForRating.this, EditRatingMembers.class);
         forEditActivityIntent.putExtra("onGroupClick", "group_9"); //связываем строку со значение
         startActivity(forEditActivityIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home: //поведение кнопки слева-сверху
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

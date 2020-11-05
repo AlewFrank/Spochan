@@ -2,6 +2,7 @@ package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -79,6 +80,13 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_competitions);
+
+        //четыре строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
+        ActionBar actionBar = this.getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -421,6 +429,9 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {//задаем поведение при нажатии на пунктах меню
 
         switch (item.getItemId()) {
+            case android.R.id.home: //поведение кнопки слева-сверху
+                this.finish();
+                return true;
             case R.id.menu_delete:
                 showDeleteCompetitionDialog();//создали этот метод внизу
                 return true;
@@ -480,9 +491,9 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                             });
                         }
 
-                        //удаляем список с зарегестрировавшимися, чтоб опять же не засорять базу данных
+                        /*//удаляем список с зарегестрировавшимися, чтоб опять же не засорять базу данных
                         //DocumentReference competitionRegListDocumentReference = firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle);
-                        firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).delete();
+                        firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).delete();*/
 
 
                         startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));

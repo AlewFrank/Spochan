@@ -2,10 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menu_clubs"
-        android:title="@string/menu_clubs"
-        app:showAsAction="never"/>
+
 
     <item
         android:id="@+id/menu_help"
@@ -13,13 +10,14 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/menu_communication"
-        android:title="@string/menu_communication"
+        android:id="@+id/settings"
+        android:title="@string/settings"
         app:showAsAction="never"/>
 
+
     <item
-        android:id="@+id/menu_about_developer"
-        android:title="@string/menu_about_developer"
+        android:id="@+id/menu_ask_developer"
+        android:title="@string/menu_ask_developer"
         app:showAsAction="never"/>
 
     <item

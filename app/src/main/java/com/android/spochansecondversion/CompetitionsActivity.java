@@ -1,53 +1,33 @@
 package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.TaskStackBuilder;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;
-import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 public class CompetitionsActivity extends AppCompatActivity implements CompetitionAdapter.OnListItemClick{
 
@@ -62,6 +42,11 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean isDirectorModeActivated;
+
+    String[] addresses = {"26bas@mail.ru"};
+    String subject_help = "Help"; //тема письма для помощи
+    String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
+    String emailtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,6 +228,26 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(CompetitionsActivity.this, LogInActivity.class));
+                return true;
+            case R.id.menu_ask_developer:
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.menu_help:
+                emailtext = getResources().getString(R.string.help_email);
+                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
+                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
+                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
+                if (intent_help.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent_help);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

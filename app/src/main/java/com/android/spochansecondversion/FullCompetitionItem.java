@@ -1,13 +1,12 @@
 package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,11 +19,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,8 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 public class FullCompetitionItem extends AppCompatActivity {
 
@@ -43,7 +39,7 @@ public class FullCompetitionItem extends AppCompatActivity {
     private ImageView competitionImageView;
 
     private String yearCompetitionDate, monthCompetitionDate, daysCompetitionDate;//это нужно для того, что айди удаляемого(если захотим удалить соревнование) изображения знать
-    private String competitionImageUrl;
+    private String competitionDate;
 
     private FirebaseFirestore firebaseFirestore;
 
@@ -64,10 +60,53 @@ public class FullCompetitionItem extends AppCompatActivity {
     private LinearLayout radioButtonsLinearLayout;
     private RadioButton firstGroupRadioButton, secondGroupRadioButton, thirdGroupRadioButton, forthGroupRadioButton, fifthGroupRadioButton, sixGroupRadioButton, sevenGroupRadioButton, eightGroupRadioButton, nineGroupRadioButton;
 
+    String[] addresses = {"26bas@mail.ru"};
+    String subject_help = "Help"; //тема письма для помощи
+    String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
+    String emailtext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_competition_item);
+
+
+
+
+
+
+
+
+
+
+
+
+        //сделать, чтоб при прокрутке изображение главное убиралось точно так же, как и в приложении про toolbar, которое я из интернета скачал
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //четыре строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
+        ActionBar actionBar = this.getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -145,6 +184,8 @@ public class FullCompetitionItem extends AppCompatActivity {
 
                 competitionLocationTextView.setText(competition.getCompetitionLocation());
                 competitionDataTextView.setText(competition.getDaysCompetitionDate() + "." + competition.getMonthCompetitionDate() + "." + competition.getYearCompetitionDate());
+
+                competitionDate = competition.getDaysCompetitionDate() + "." + competition.getMonthCompetitionDate() + "." + competition.getYearCompetitionDate();
 
                 daysCompetitionDate = competition.getDaysCompetitionDate();//это нужно для того, что айди удаляемого(если захотим удалить соревнование) изображения знать
                 monthCompetitionDate = competition.getMonthCompetitionDate();
@@ -231,7 +272,7 @@ public class FullCompetitionItem extends AppCompatActivity {
                             if (!user.getSex().equals("") & !user.getDaysBornDate().equals("") & !user.getMonthBornDate().equals("") & !user.getYearBornDate().equals("")) {
 
                                 //таким образом сохраняем пользователей в коллекцию с названием соревнований и документ по их группам + сохраняем их еще и по списку в зависимсоти от имени и фамилии, но также и добавляем айди, чтоб если есть полные тески, то все тоже работало
-                                firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle).collection(whichRegGroupActive).document(user.getSecondName() + "." + user.getFirstName() + "." + user.getId()).set(user);
+                                firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle + "." + competitionDate).collection(whichRegGroupActive).document(user.getSecondName() + "." + user.getFirstName() + "." + user.getId()).set(user);
 
                                 Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(FullCompetitionItem.this, CompetitionsActivity.class));//ни в коем случае не делай здесь переход в FullCompetitionItem,так как при переходе сюда не из CompetitionActivity переменная onItemClickId будет равна нулю и соответственно будет все вылетать, так как информация по соревнованию не прогрузится по пустой ссылке
@@ -271,9 +312,32 @@ public class FullCompetitionItem extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
+            case android.R.id.home: //поведение кнопки слева-сверху
+                this.finish();
+                return true;
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(FullCompetitionItem.this, LogInActivity.class));
+                return true;
+            case R.id.menu_ask_developer:
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.menu_help:
+                emailtext = getResources().getString(R.string.help_email);
+                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
+                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
+                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
+                if (intent_help.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent_help);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -282,7 +346,7 @@ public class FullCompetitionItem extends AppCompatActivity {
 
     public void openRegList(View view) { //онклик метод для нашего текста Открыть список зарегестрировавшихся
         Intent competitionTitleIntent = new Intent(FullCompetitionItem.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-        competitionTitleIntent.putExtra("competitionTitle", competitionTitle); //связываем строку со значение
+        competitionTitleIntent.putExtra("competitionTitleAndCompetitionDate", competitionTitle + "." + competitionDate); //связываем строку со значение
 
         startActivity(competitionTitleIntent);
     }

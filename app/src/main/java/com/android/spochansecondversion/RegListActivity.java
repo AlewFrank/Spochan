@@ -1,6 +1,7 @@
 package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,8 +44,26 @@ public class RegListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_list);
 
+        //четыре строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
+        ActionBar actionBar = this.getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         Intent competitionTitleIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
-        competitionTitle = competitionTitleIntent.getStringExtra("competitionTitle");
+        competitionTitle = competitionTitleIntent.getStringExtra("competitionTitleAndCompetitionDate");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home: //поведение кнопки слева-сверху
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -456,4 +476,5 @@ public class RegListActivity extends AppCompatActivity {
             nineGroupImageView.setImageResource(R.drawable.ic_disactive_arrow);
         }
     }
+
 }

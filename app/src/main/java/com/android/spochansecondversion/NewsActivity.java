@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,19 +29,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnListItemClick{ //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
 
@@ -60,6 +54,11 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
 
     private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage не рядом с изображениями
     private StorageReference newsImagesStorageReference;
+
+    String[] addresses = {"26bas@mail.ru"};
+    String subject_help = "Help"; //тема письма для помощи
+    String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
+    String emailtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,6 +281,26 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(NewsActivity.this, LogInActivity.class));
+                return true;
+            case R.id.menu_ask_developer:
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.menu_help:
+                emailtext = getResources().getString(R.string.help_email);
+                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
+                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
+                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
+                if (intent_help.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent_help);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

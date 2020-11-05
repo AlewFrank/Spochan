@@ -11,18 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegListActivity"></activity>
+        <activity android:name=".logInSignUp.RegisterActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".RegListActivity" />
         <activity android:name=".EditRatingMembers" />
         <activity android:name=".ChooseGroupForRating" />
         <activity android:name=".AddNewsActivity" />
         <activity android:name=".FullCompetitionItem" />
         <activity android:name=".AddCompetitionsActivity" />
         <activity android:name=".EditMyProfileActivity" />
-        <activity android:name=".RatingActivity" />
+        <activity android:name=".Rating.RatingActivity" />
         <activity android:name=".MyProfileActivity" />
         <activity android:name=".CompetitionsActivity" />
         <activity android:name=".NewsActivity" />
-        <activity android:name=".LogInActivity">
+        <activity android:name=".logInSignUp.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

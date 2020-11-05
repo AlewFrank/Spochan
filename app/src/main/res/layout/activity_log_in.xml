@@ -4,158 +4,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogInActivity"
+    tools:context=".logInSignUp.LogInActivity"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:layout_marginTop="10dp"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:background="@color/White">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/helloTextView"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <Button
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_baseline_arrow_back_24"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp" />
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="@string/glad_to_see_you_again"
-            android:textStyle="italic"
-            android:textColor="@android:color/black"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputPasswordForDirector"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPasswordForDirector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/director_password" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputEmail"
-            app:errorEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="@string/director_password"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputEmail"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/email" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputFirstName"
-            app:errorEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputFirstName"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/first_name_in_log" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="text"
+                    android:hint="@string/first_name_in_log" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputSecondName"
-            app:errorEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputSecondName"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/second_name_in_log" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputPassword"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="text"
+                    android:hint="@string/second_name_in_log" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/password" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputConfirmPassword"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/password" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputConfirmPassword"
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/confirm_password" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/logInButton"
-            android:layout_margin="5dp"
-            android:layout_width="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="@string/enter"
-            android:onClick="loginSignUpUser"
-            android:textStyle="italic"
-            android:textSize="15sp"
-            android:background="@color/colorPrimary"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/confirm_password" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/countryTextView"
-            android:text="Пусть люди выбирают не язык, а именно страну, чтоб можно было нормально их по папкам распределять + указать, что изменить невозможно потом"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/logInButton"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                style="@style/Button"
 
-        <TextView
-            android:id="@+id/toggleLoginSingUpTextView"
-            android:textColor="@android:color/holo_blue_light"
-            android:text="@string/no_account"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:onClick="toggleLoginMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
 
-        <TextView
-            android:id="@+id/forgetPassword"
-            android:textColor="@android:color/holo_blue_light"
-            android:text="@string/forget_password"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:onClick="forgetPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+                android:text="@string/enter"
+                android:onClick="loginSignUpUser" />
+
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                style="@style/ButtonRegistration"
+
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+
+                android:text="@string/register"
+                android:onClick="loginSignUpUser" />
+
+            <TextView
+                android:id="@+id/forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="forgetPassword"
+                android:text="@string/forget_password"
+                android:textColor="#2F80ED"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+
+
 </ScrollView>

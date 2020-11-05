@@ -1,14 +1,17 @@
 package com.android.spochansecondversion;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.android.spochansecondversion.Rating.RatingActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,6 +34,12 @@ public class EditRatingMembers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_rating_members);
+
+
+        //три строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
+//        ActionBar actionBar =getSupportActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         firstPlaceFirstName = findViewById(R.id.firstPlaceFirstName);
         firstPlaceSecondName = findViewById(R.id.firstPlaceSecondName);
@@ -192,5 +201,16 @@ public class EditRatingMembers extends AppCompatActivity {
         DocumentReference groupItemDocumentReference = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document(onGroupClick).collection(onGroupClick).document(groupId);
 
         groupItemDocumentReference.set(user);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home: //поведение кнопки слева-сверху
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

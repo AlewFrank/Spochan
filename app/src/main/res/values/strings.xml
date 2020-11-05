@@ -3,7 +3,7 @@
     <string name="app_country">Russia</string>
 
 
-    <string name="set_email">Введите ваш E-mail</string>
+    <string name="set_email">Неверно введен E-mail</string>
     <string name="email">E-mail</string>
     <string name="set_first_name">Введите ваше имя</string>
     <string name="first_name_in_log">Ваше имя</string>
@@ -11,6 +11,8 @@
     <string name="second_name_in_log">Ваша фамилия</string>
     <string name="set_password">Введите пароль</string>
     <string name="password">Пароль</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="text_password">Письмо со ссылкой на изменение пароля было отправлено на вашу почту</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="set_director_password">Введите пароль администратора</string>
     <string name="director_password">Пароль администратора</string>
@@ -43,7 +45,7 @@
     <string name="edit">Редактировать</string>
     <string name="successful">Успешно</string>
     <string name="enter">Войти</string>
-    <string name="register">  Зарегистрироваться  </string>
+    <string name="register">  Регистрирация </string>
     <string name="no_account">Еще нет аккаунта?</string>
     <string name="have_account">Уже есть аккаунт?</string>
     <string name="forget_password">Забыли пароль?</string>
@@ -63,6 +65,9 @@
     <string name="open_reg_list">Открыть список зарегестрировавшихся </string>
     <string name="choose_your_group">Выберите группу для участия </string>
     <string name="fields_notification">Сначала заполните все поля</string>
+    <string name="help_email">Введите ваше сообщение тут…</string>
+    <string name="settings">Настройки</string>
+    <string name="language">Выбрать язык</string>
 
     <string name="title_exception">Введите значение заголовка</string>
     <string name="days_exception">Дни должны содержать 2 символа</string>
@@ -102,8 +107,9 @@
     <string name="place5">5 место:</string>
 
     <string name="menu_clubs">Клубы</string>
-    <string name="menu_help">Помощь</string>
+    <string name="menu_help">Задать вопрос</string>
     <string name="menu_communication">Обратная связь</string>
+    <string name="menu_ask_developer">Связаться с разработчиком</string>
     <string name="menu_about_developer">О разработчике</string>
     <string name="menu_exit">Выйти из аккаунта</string>
 

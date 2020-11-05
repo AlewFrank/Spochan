@@ -2,12 +2,13 @@ package com.android.spochansecondversion;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,21 +18,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class MyProfileActivity extends AppCompatActivity {
+
+    private static final String TAG = "MyProfileActivity";//используем для функции смены пароля в самом низу
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -51,6 +50,8 @@ public class MyProfileActivity extends AppCompatActivity {
     private String bornDate;
     private ImageView avatarImageView;
 
+    private String userEmail;
+
     private ProgressBar progressBar;
 
     private static final int RC_IMAGE_PICKER = 123;//константа, которую используем в методе loadNewImage, рандомное число, которое ни на что не влияет
@@ -59,6 +60,11 @@ public class MyProfileActivity extends AppCompatActivity {
     private StorageReference imagesStorageReference;
 
     private FirebaseFirestore firebaseFirestore;//для работы с cloud firestore
+
+    String[] addresses = {"26bas@mail.ru"};
+    String subject_help = "Help"; //тема письма для помощи
+    String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
+    String emailtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +137,8 @@ public class MyProfileActivity extends AppCompatActivity {
                 userFirstNameTextView.setText(user.getFirstName());
                 userSecondNameTextView.setText(user.getSecondName());
                 userSexTextView.setText(user.getSex());
+
+                userEmail = user.getEmail();
 
                 Glide.with(avatarImageView.getContext())//таким образом мы загружаем изображения в наш image View
                         .load(user.getAvatarUrl())
@@ -275,7 +283,7 @@ public class MyProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.exit_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -283,12 +291,61 @@ public class MyProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.sign_out:
+            case R.id.menu_exit:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MyProfileActivity.this, LogInActivity.class));
+                return true;
+            case R.id.menu_ask_developer:
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.menu_help:
+                emailtext = getResources().getString(R.string.help_email);
+                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
+                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
+                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
+                if (intent_help.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent_help);
+                }
+                return true;
+            case R.id.settings:
+
+                startActivity(new Intent(MyProfileActivity.this, SettingsActivity.class));
+                /*auth.sendPasswordResetEmail(userEmail)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Email sent.");
+                                    showDialog();
+                                }
+                            }
+                        });*/
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
+        builder.setMessage(getResources().getString(R.string.text_password) + " " + userEmail);
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null){dialog.dismiss();}  //просто убираем сообщение с экрана
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
