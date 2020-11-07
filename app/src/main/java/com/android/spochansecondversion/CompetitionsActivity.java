@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.Rating.RatingActivity;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;

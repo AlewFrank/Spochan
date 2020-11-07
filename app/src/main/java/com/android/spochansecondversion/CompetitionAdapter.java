@@ -80,6 +80,7 @@ public class CompetitionAdapter extends FirestorePagingAdapter<Competition, Comp
         private TextView competitionLocation;
         private ImageView competitionImage;
 
+
         public CompetitionViewHolder(@NonNull View itemView) {
             super(itemView);
 

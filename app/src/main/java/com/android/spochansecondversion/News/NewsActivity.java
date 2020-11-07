@@ -1,4 +1,4 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.News;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,7 +19,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.CompetitionsActivity;
+import com.android.spochansecondversion.MyProfileActivity;
+import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.User;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -36,7 +40,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnListItemClick{ //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
+public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnListItemClick { //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
 
     private RecyclerView newsRecycleView;
 

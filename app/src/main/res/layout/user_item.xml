@@ -4,12 +4,17 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
-    android:layout_margin="16dp"
-    android:elevation="4dp">
+    android:elevation="15dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="108dp"
+        android:layout_height="120dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -17,7 +22,7 @@
             android:scaleType="centerCrop"
             android:layout_margin="5dp"
             android:layout_width="108dp"
-            android:layout_height="98dp"
+            android:layout_height="110dp"
             android:src="@drawable/user_image"/>
 
         <LinearLayout
@@ -71,7 +76,7 @@
                 android:id="@+id/userBornDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:textStyle="normal"
                 android:textSize="18sp"
                 android:layout_marginLeft="15dp"
@@ -93,7 +98,7 @@
                 android:id="@+id/userPointsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="31dp"
                 android:textStyle="bold"
                 android:textSize="36sp"
                 android:text="1234"

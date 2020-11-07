@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.Rating.RatingActivity;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.bumptech.glide.Glide;

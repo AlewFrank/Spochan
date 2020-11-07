@@ -1,15 +1,13 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.News;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.exifinterface.media.ExifInterface;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.spochansecondversion.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.api.LogDescriptor;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -125,7 +122,7 @@ public class AddNewsActivity extends AppCompatActivity {
                     currentTimeScale = news.getNewsTime();
                     currentDateScale = news.getNewsData();
                     newsDescriptionEditText.setText(news.getNewsDescription());
-                    currentNewsImageUrl = news.getNewsImageUrl();//если человек редактирует, но не создает новую фотку, то это ссылка на старую
+                    //currentNewsImageUrl = news.getNewsImageUrl();//если человек редактирует, но не создает новую фотку, то это ссылка на старую
                     //то есть мы сейчас устанавливаем в эту ячейку старое значение, а если будет происходить загрузка нового, то эта переменная перезапишется
                 }
             });
@@ -203,13 +200,13 @@ public class AddNewsActivity extends AppCompatActivity {
                 news.setNewsDescription(newsDescriptionEditText.getText().toString().trim());
                 news.setNewsData(currentDateScale);
                 news.setNewsTime(currentTimeScale);
-                news.setNewsImageUrl(currentNewsImageUrl);
+                //news.setNewsImageUrl(currentNewsImageUrl);
                 news.setNewsId(itemId);
             } else {//чтоб при редактировании время оставалось изначальным
                 news.setNewsDescription(newsDescriptionEditText.getText().toString().trim());
                 news.setNewsData(dateText);
                 news.setNewsTime(demoTimeText);
-                news.setNewsImageUrl(currentNewsImageUrl);
+                //news.setNewsImageUrl(currentNewsImageUrl);
                 news.setNewsId(itemId);
             }
 

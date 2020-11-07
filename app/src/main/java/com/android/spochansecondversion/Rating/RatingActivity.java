@@ -3,26 +3,26 @@ package com.android.spochansecondversion.Rating;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.spochansecondversion.ChooseGroupForRating;
 import com.android.spochansecondversion.CompetitionsActivity;
 import com.android.spochansecondversion.MyProfileActivity;
-import com.android.spochansecondversion.NewsActivity;
+import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.User;
-import com.android.spochansecondversion.UserAdapter;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -36,15 +36,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class RatingActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
 
-
-
-
-
-
-    //НАДО ПОМЕНЯТЬ ШРИФТЫ НА ТОТ, КОТОРЫЙ ДИЗАЙНЕР ДАЛ f
+//НАДО ПОМЕНЯТЬ ШРИФТЫ НА ТОТ, КОТОРЫЙ ДИЗАЙНЕР ДАЛ f
 
 
 
@@ -53,133 +48,197 @@ public class RatingActivity extends AppCompatActivity {
 
 
 
-    private FirebaseFirestore firebaseFirestore;
+//сделай elevation в самом конце, когда закончишь со всем дизайном этого окна, пока что сделал фон не совсем белым
 
-    private UserAdapter adapter;
 
-    private ProgressBar progressBar;
 
-    private boolean isClose1 = true;
-    private boolean isClose2 = true;
-    private boolean isClose3 = true;
-    private boolean isClose4 = true;
-    private boolean isClose5 = true;
-    private boolean isClose6 = true;
-    private boolean isClose7 = true;
-    private boolean isClose8 = true;
-    private boolean isClose9 = true;
 
-    private FirebaseAuth auth;
-    private FirebaseUser currentUser;
-    private boolean isDirectorModeActivated;
 
-    String[] addresses = {"26bas@mail.ru"};
-    String subject_help = "Help"; //тема письма для помощи
-    String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
-    String emailtext;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_rating);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId()) {
-                    case R.id.navigation_rating:
-                        return true;
-                    case R.id.navigation_news:
-                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.navigation_myProfile:
-                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.navigation_competitions:
-                        startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class RatingActivity extends AppCompatActivity {
+
+        private FirebaseFirestore firebaseFirestore;
+
+        private RatingAdapter adapter;
+
+        private ProgressBar progressBar;
+
+        private FirebaseAuth auth;
+        private FirebaseUser currentUser;
+        private boolean isDirectorModeActivated;
+
+        private RecyclerView.Adapter groupAdapter;
+        private GridLayoutManager layoutManager;
+
+        private  String group;
+        private String groupTitle;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_rating);
+
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+            bottomNavigationView.setSelectedItemId(R.id.navigation_rating);
+
+            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                    switch (item.getItemId()) {
+                        case R.id.navigation_rating:
+                            return true;
+                        case R.id.navigation_news:
+                            startActivity(new Intent(getApplicationContext(), NewsActivity.class));
+                            overridePendingTransition(0,0);
+                            return true;
+                        case R.id.navigation_myProfile:
+                            startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
+                            overridePendingTransition(0,0);
+                            return true;
+                        case R.id.navigation_competitions:
+                            startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
+                            overridePendingTransition(0,0);
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
 
 
 
-        firebaseFirestore = FirebaseFirestore.getInstance();
+            firebaseFirestore = FirebaseFirestore.getInstance();
 
 
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
+            //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
+            final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
 
-        floatingActionButton.setVisibility(View.GONE);
+            floatingActionButton.setVisibility(View.GONE);
 
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        String currentUserUid = currentUser.getUid();
-        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+            auth = FirebaseAuth.getInstance();
+            currentUser = auth.getCurrentUser();
+            String currentUserUid = currentUser.getUid();
+            DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
 
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
+            userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User user = documentSnapshot.toObject(User.class);
 
-                isDirectorModeActivated = user.isDirector();
+                    isDirectorModeActivated = user.isDirector();
 
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    floatingActionButton.setVisibility(View.VISIBLE);
+                    if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                    }
                 }
+            });
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(RatingActivity.this, ChooseGroupForRating.class));
+                }
+            });
+
+
+            RecyclerView sportsmenListRecycleView = findViewById(R.id.sportsmenListRecycleView);
+            RecyclerView groupListRecycleView = findViewById(R.id.groupListRecycleView);
+            sportsmenListRecycleView.setVisibility(View.VISIBLE);
+            groupListRecycleView.setVisibility(View.VISIBLE);
+
+
+
+            ArrayList<Group> groups = new ArrayList<>();
+
+            groups.add(new Group(getResources().getString(R.string.group_1), "group_1"));
+            groups.add(new Group(getResources().getString(R.string.group_2), "group_2"));
+            groups.add(new Group(getResources().getString(R.string.group_3), "group_3"));
+            groups.add(new Group(getResources().getString(R.string.group_4), "group_4"));
+            groups.add(new Group(getResources().getString(R.string.group_5), "group_5"));
+            groups.add(new Group(getResources().getString(R.string.group_6), "group_6"));
+            groups.add(new Group(getResources().getString(R.string.group_7), "group_7"));
+            groups.add(new Group(getResources().getString(R.string.group_8), "group_8"));
+            groups.add(new Group(getResources().getString(R.string.group_9), "group_9"));
+
+            groupListRecycleView.setHasFixedSize(true);
+            groupAdapter = new GroupAdapter(groups, this);
+            groupListRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            groupListRecycleView.setAdapter(groupAdapter);
+
+
+            TextView groupTitleTextView = findViewById(R.id.groupTitle);
+
+
+            Intent intent = getIntent();
+            if (intent != null) {//так обозначается "не равен"
+                group = intent.getStringExtra("index");
+                groupTitle = intent.getStringExtra("title");
             }
-        });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RatingActivity.this, ChooseGroupForRating.class));
+            if (group != null) {//так обозначается "не равен"
+                Log.d("groupIndex", group);
+                groupTitleTextView.setText("Категория " + groupTitle);
+            } else {
+                group = "group_8";//когда поменяешь цифру, то обязательно поменяй слова тремя строчками ниже
+                Log.d("groupIndex", group);
+                groupTitleTextView.setText("Категория Дан");
             }
-        });
 
 
+            //Query
+            Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document(group).collection(group);  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
-        //Query
-        Query query = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document("group_1").collection("group_1");  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+            PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
-        PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
+            //RecyclerOptions
+            FirestorePagingOptions<User> options = new FirestorePagingOptions.Builder<User>().setLifecycleOwner(this).setQuery(query, config, new SnapshotParser<User>() {
+                @NonNull
+                @Override
+                public User parseSnapshot(@NonNull DocumentSnapshot snapshot) {//snapshot это как мгновенный снимок, то есть можем использовать его для получения айди и всякой другой фигни о конкретной карточке
+                    User user = snapshot.toObject(User.class);
+                    String itemId = snapshot.getId();
+                    user.setUserId(itemId);
+                    return user;
+                }
+            }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-        //RecyclerOptions
-        FirestorePagingOptions<User> options = new FirestorePagingOptions.Builder<User>().setLifecycleOwner(this).setQuery(query, config, new SnapshotParser<User>() {
-            @NonNull
-            @Override
-            public User parseSnapshot(@NonNull DocumentSnapshot snapshot) {//snapshot это как мгновенный снимок, то есть можем использовать его для получения айди и всякой другой фигни о конкретной карточке
-                User user = snapshot.toObject(User.class);
-                String itemId = snapshot.getId();
-                user.setUserId(itemId);
-                return user;
-            }
-        }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
+            adapter = new RatingAdapter(options);
 
-        adapter = new UserAdapter(options);
-
-        RecyclerView sportsmenListRecycleView = findViewById(R.id.sportsmenListRecycleView);
-
-        sportsmenListRecycleView.setHasFixedSize(true);
-        sportsmenListRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        sportsmenListRecycleView.setAdapter(adapter);
-
-
-    }
-
-
-
-
+            sportsmenListRecycleView.setHasFixedSize(true);
+            sportsmenListRecycleView.setLayoutManager(new LinearLayoutManager(this));
+            sportsmenListRecycleView.setAdapter(adapter);
+        }
 
 
 
@@ -642,43 +701,23 @@ public class RatingActivity extends AppCompatActivity {
 //
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.exit_menu, menu);
-        return true;
-    }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.exit_menu, menu);
+            return true;
+        }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        @Override
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.sign_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(RatingActivity.this, LogInActivity.class));
-                return true;
-            case R.id.menu_ask_developer:
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
-                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-                return true;
-            case R.id.menu_help:
-                emailtext = getResources().getString(R.string.help_email);
-                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
-                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
-                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
-                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
-                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
-                if (intent_help.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent_help);
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            switch (item.getItemId()){
+                case R.id.sign_out:
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(RatingActivity.this, LogInActivity.class));
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         }
     }
-}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <solid android:color="@android:color/darker_gray"/>
+
+    <size android:height="30dp"
+        android:width="40dp"/>
+
+    <corners
+        android:bottomRightRadius="@dimen/corner_radius_for_user_item"
+        android:topRightRadius="@dimen/corner_radius_for_user_item"
+        android:bottomLeftRadius="@dimen/corner_radius_for_user_item"
+        android:topLeftRadius="@dimen/corner_radius_for_user_item"
+        />
+
+</shape>
