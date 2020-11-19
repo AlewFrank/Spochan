@@ -68,6 +68,7 @@
     <string name="help_email">Введите ваше сообщение тут…</string>
     <string name="settings">Настройки</string>
     <string name="language">Выбрать язык</string>
+    <string name="user_city">Город спортсмена</string>
 
     <string name="title_exception">Введите значение заголовка</string>
     <string name="days_exception">Дни должны содержать 2 символа</string>
@@ -86,7 +87,7 @@
     <string name="title_rating">Рейтинг</string>
     <string name="title_news">Главная</string>
     <string name="title_competitions">Календарь мероприятий</string>
-    <string name="title_myProfile">Мой аккаунт</string>
+    <string name="title_settings">Настройки</string>
 
 
     <string name="choose_group">Выберите группу для редактирования: </string>
@@ -99,12 +100,6 @@
     <string name="group_7">Кю</string>
     <string name="group_8">Даны</string>
     <string name="group_9">Ветераны</string>
-
-    <string name="place1">1 место:</string>
-    <string name="place2">2 место:</string>
-    <string name="place3">3 место:</string>
-    <string name="place4">4 место:</string>
-    <string name="place5">5 место:</string>
 
     <string name="menu_clubs">Клубы</string>
     <string name="menu_help">Задать вопрос</string>

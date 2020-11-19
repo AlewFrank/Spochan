@@ -9,6 +9,7 @@
     <dimen name="corner_radius_for_buttons">10dp</dimen>
 
     <dimen name="corner_radius_for_user_item">15dp</dimen>
+    <dimen name="corner_radius_for_news_button_item">40dp</dimen>
 
     <dimen name="corner_radius_for_group_cards">5dp</dimen>
 </resources>

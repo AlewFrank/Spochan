@@ -74,7 +74,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_myProfile);
+       // bottomNavigationView.setSelectedItemId(R.id.navigation_settings);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -89,8 +89,8 @@ public class MyProfileActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), NewsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.navigation_myProfile:
-                        return true;
+//                    case R.id.navigation_myProfile:
+//                        return true;
                     case R.id.navigation_competitions:
                         startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
                         overridePendingTransition(0,0);

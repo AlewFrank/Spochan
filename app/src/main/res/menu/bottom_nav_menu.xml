@@ -7,18 +7,14 @@
         android:title="@string/title_news" />
 
     <item
-        android:id="@+id/navigation_rating"
-        android:icon="@drawable/ic_rating"
-        android:title="@string/title_rating" />
-
-    <item
         android:id="@+id/navigation_competitions"
         android:icon="@drawable/ic_competitions"
         android:title="@string/title_competitions" />
 
     <item
-        android:id="@+id/navigation_myProfile"
-        android:icon="@drawable/ic_my_profile"
-        android:title="@string/title_myProfile" />
+        android:id="@+id/navigation_rating"
+        android:icon="@drawable/ic_baseline_raiting_24"
+        android:title="@string/title_rating" />
+
 
 </menu>

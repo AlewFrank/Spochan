@@ -71,10 +71,10 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
                         startActivity(new Intent(getApplicationContext(), NewsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.navigation_myProfile:
-                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
+//                    case R.id.navigation_myProfile:
+//                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
                     case R.id.navigation_competitions:
                         return true;
                 }

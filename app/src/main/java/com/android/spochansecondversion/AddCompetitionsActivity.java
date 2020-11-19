@@ -99,7 +99,6 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_rating:
                     case R.id.navigation_news:
-                    case R.id.navigation_myProfile:
                     case R.id.navigation_competitions:
                         Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.edit_notification), Toast.LENGTH_SHORT).show();
                         return true;

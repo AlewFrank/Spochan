@@ -60,7 +60,7 @@
 
             <TextView
                 android:id="@+id/userCityTextView"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="normal"
@@ -76,7 +76,7 @@
                 android:id="@+id/userBornDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textStyle="normal"
                 android:textSize="18sp"
                 android:layout_marginLeft="15dp"

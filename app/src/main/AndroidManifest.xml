@@ -14,8 +14,7 @@
         <activity android:name=".logInSignUp.RegisterActivity"></activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".RegListActivity" />
-        <activity android:name=".EditRatingMembers" />
-        <activity android:name=".ChooseGroupForRating" />
+        <activity android:name=".Rating.EditRatingMembers" />
         <activity android:name=".News.AddNewsActivity" />
         <activity android:name=".FullCompetitionItem" />
         <activity android:name=".AddCompetitionsActivity" />

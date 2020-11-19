@@ -6,22 +6,27 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.spochansecondversion.R;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,21 +46,23 @@ public class AddNewsActivity extends AppCompatActivity {
 
     private static final int RC_IMAGE_PICKER = 456;//константа, которую используем в методе loadNewImage, рандомное число, которое ни на что не влияет
 
-    private Button editButton;
-
-    private TextView loadComplete, mediumMark, loadNewImage;
+    private Button editButton, cancelButton;
 
     private FirebaseFirestore firebaseFirestore;
     private ProgressBar progressBar;
+    private String currentNewsImageUrl1 = "", currentNewsImageUrl2 = "", currentNewsImageUrl3 = "", currentNewsImageUrl4 = "", currentNewsImageUrl5 = "";
     private String currentNewsImageUrl;
+
+    private ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
+    private ImageView backgroundForImage1, backgroundForImage2, backgroundForImage3, backgroundForImage4, backgroundForImage5;
 
     private String onItemClickId;
 
-    private EditText newsDescriptionEditText;
+    private TextInputEditText newsDescriptionEditText, newsTitleEditText;
 
     private String itemId;
 
-    private String currentDateScale, currentTimeScale;
+    private int imageCounter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +88,6 @@ public class AddNewsActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_rating:
                     case R.id.navigation_news:
-                    case R.id.navigation_myProfile:
                     case R.id.navigation_competitions:
                         Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.edit_notification), Toast.LENGTH_SHORT).show();
                         return true;
@@ -91,12 +97,38 @@ public class AddNewsActivity extends AppCompatActivity {
         });
 
 
-        editButton = findViewById(R.id.editButton);
-        loadComplete = findViewById(R.id.loadComplete);
-        mediumMark = findViewById(R.id.mediumMark);
 
+
+        editButton = findViewById(R.id.editButton);
+        cancelButton = findViewById(R.id.cancelButton);
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-LightItalic.ttf");
+        editButton.setTypeface(roboto);
+        cancelButton.setTypeface(roboto);
+
+        newsTitleEditText = findViewById(R.id.newsTitleEditText);
         newsDescriptionEditText = findViewById(R.id.newsDescriptionEditText);
-        loadNewImage = findViewById(R.id.loadNewImage);
+
+        imageButton1 = findViewById(R.id.imageButton1);
+        imageButton2 = findViewById(R.id.imageButton2);
+        imageButton3 = findViewById(R.id.imageButton3);
+        imageButton4 = findViewById(R.id.imageButton4);
+        imageButton5 = findViewById(R.id.imageButton5);
+
+        backgroundForImage1 = findViewById(R.id.backgroundForImage1);
+        backgroundForImage2 = findViewById(R.id.backgroundForImage2);
+        backgroundForImage3 = findViewById(R.id.backgroundForImage3);
+        backgroundForImage4 = findViewById(R.id.backgroundForImage4);
+        backgroundForImage5 = findViewById(R.id.backgroundForImage5);
+
+        imageButton2.setVisibility(View.GONE);
+        imageButton3.setVisibility(View.GONE);
+        imageButton4.setVisibility(View.GONE);
+        imageButton5.setVisibility(View.GONE);
+
+        backgroundForImage2.setVisibility(View.GONE);
+        backgroundForImage3.setVisibility(View.GONE);
+        backgroundForImage4.setVisibility(View.GONE);
+        backgroundForImage5.setVisibility(View.GONE);
 
 
 
@@ -107,11 +139,9 @@ public class AddNewsActivity extends AppCompatActivity {
         Intent newsIntent = getIntent(); //получаем интент из NewsActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
         onItemClickId = newsIntent.getStringExtra("onItemClickId");
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         if (onItemClickId != null) {
-
-            loadNewImage.setText(getResources().getString(R.string.change_image));
-
-            firebaseFirestore = FirebaseFirestore.getInstance();
 
             DocumentReference newsItemDocumentReference = firebaseFirestore.collection("News" + getResources().getString(R.string.app_country)).document(onItemClickId);
 
@@ -119,9 +149,30 @@ public class AddNewsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     News news = documentSnapshot.toObject(News.class);
-                    currentTimeScale = news.getNewsTime();
-                    currentDateScale = news.getNewsData();
+                    newsTitleEditText.setText(news.getNewsTitle());
                     newsDescriptionEditText.setText(news.getNewsDescription());
+
+                    currentNewsImageUrl1 = news.getNewsImageUrl_1();
+                    currentNewsImageUrl2 = news.getNewsImageUrl_2();
+                    currentNewsImageUrl3 = news.getNewsImageUrl_3();
+                    currentNewsImageUrl4 = news.getNewsImageUrl_4();
+                    currentNewsImageUrl5 = news.getNewsImageUrl_5();
+
+                    //так как нельзя будет редактировать изображения, то сделаем так, чтобы они впринципе не отображались
+
+                    imageButton1.setVisibility(View.GONE);
+                    imageButton2.setVisibility(View.GONE);
+                    imageButton3.setVisibility(View.GONE);
+                    imageButton4.setVisibility(View.GONE);
+                    imageButton5.setVisibility(View.GONE);
+
+                    backgroundForImage1.setVisibility(View.GONE);
+                    backgroundForImage2.setVisibility(View.GONE);
+                    backgroundForImage3.setVisibility(View.GONE);
+                    backgroundForImage4.setVisibility(View.GONE);
+                    backgroundForImage5.setVisibility(View.GONE);
+
+
                     //currentNewsImageUrl = news.getNewsImageUrl();//если человек редактирует, но не создает новую фотку, то это ссылка на старую
                     //то есть мы сейчас устанавливаем в эту ячейку старое значение, а если будет происходить загрузка нового, то эта переменная перезапишется
                 }
@@ -178,7 +229,7 @@ public class AddNewsActivity extends AppCompatActivity {
     }
 
     public void addButton(View view) {
-        if (!newsDescriptionEditText.getText().toString().trim().equals("") & currentNewsImageUrl != null) {
+        if (!newsTitleEditText.getText().toString().trim().equals("") & !newsDescriptionEditText.getText().toString().trim().equals("") & currentNewsImageUrl1 != null & !currentNewsImageUrl1.equals("")) {
 
             Date currentDate = new Date();
 
@@ -197,21 +248,46 @@ public class AddNewsActivity extends AppCompatActivity {
             if (onItemClickId != null) {//если мы перешли в эту активити по нажатию на какую-то табличку, то вся новая информация сохраняется по тому же айди, то есть происходит редактирование, а не создание новой новости
                 itemId = onItemClickId;
 
-                news.setNewsDescription(newsDescriptionEditText.getText().toString().trim());
-                news.setNewsData(currentDateScale);
-                news.setNewsTime(currentTimeScale);
-                //news.setNewsImageUrl(currentNewsImageUrl);
-                news.setNewsId(itemId);
+                db.collection("users").document("frank")
+                        .update(
+                                "age", 13,
+                                "favorites.color", "Red"
+                        );
+
+                firebaseFirestore.collection("News" + getResources().getString(R.string.app_country)).document(onItemClickId).update("newsDescription", newsDescriptionEditText.getText().toString().trim());
+                firebaseFirestore.collection("News" + getResources().getString(R.string.app_country)).document(onItemClickId).update("newsTitle", newsTitleEditText.getText().toString().trim());
             } else {//чтоб при редактировании время оставалось изначальным
                 news.setNewsDescription(newsDescriptionEditText.getText().toString().trim());
+                news.setNewsTitle(newsTitleEditText.getText().toString().trim());
                 news.setNewsData(dateText);
                 news.setNewsTime(demoTimeText);
                 //news.setNewsImageUrl(currentNewsImageUrl);
+                if (currentNewsImageUrl1 != null & !currentNewsImageUrl1.equals("")) {
+                    news.setNewsImageUrl_1(currentNewsImageUrl1);
+                }
+
+                if (currentNewsImageUrl2 != null & !currentNewsImageUrl2.equals("")) {
+                    news.setNewsImageUrl_2(currentNewsImageUrl2);
+                }
+
+                if (currentNewsImageUrl3 != null & !currentNewsImageUrl3.equals("")) {
+                    news.setNewsImageUrl_3(currentNewsImageUrl3);
+                }
+
+                if (currentNewsImageUrl4 != null & !currentNewsImageUrl4.equals("")) {
+                    news.setNewsImageUrl_4(currentNewsImageUrl4);
+                }
+
+                if (currentNewsImageUrl5 != null & !currentNewsImageUrl5.equals("")) {
+                    news.setNewsImageUrl_5(currentNewsImageUrl5);
+                }
+
                 news.setNewsId(itemId);
+                db.collection("News" + getResources().getString(R.string.app_country)).document(itemId).set(news);//устанавливаем айди по моменту, когда было начато создание надписи
+                Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
             }
 
-            db.collection("News" + getResources().getString(R.string.app_country)).document(itemId).set(news);//устанавливаем айди по моменту, когда было начато создание надписи
-            Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
+
             startActivity(new Intent(AddNewsActivity.this, NewsActivity.class));
         } else {
             Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.fields_notification) + " " + getResources().getString(R.string.please_load_your_image), Toast.LENGTH_LONG).show();
@@ -241,14 +317,14 @@ public class AddNewsActivity extends AppCompatActivity {
                 itemId = onItemClickId;
             }
             //устанавливаем для изображения такое же id, как и у новости, чтобы потом было легче усоздать ссылку и удалить, когда будем удалять соревновательный элемент в FullCompetitionActivity
-            final StorageReference imageReference  = newsImagesStorageReference.child(itemId);
+            final StorageReference imageReference  = newsImagesStorageReference.child(itemId).child(String.valueOf(imageCounter));
 
             Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.wait), Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
             editButton.setEnabled(false);//чтоб человек не мог нажать, пока у нас загружается фотография
             UploadTask uploadTask = imageReference.putFile(selectedImageUri);
 
-            uploadTask = imageReference.putFile(selectedImageUri);
+            //uploadTask = imageReference.putFile(selectedImageUri);
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
@@ -267,12 +343,42 @@ public class AddNewsActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
 
                         //единственная проблема тут это если вдруг человек загрузил изображение, но потом вышел и не сохранил новость, то фотка все равно будет в базе, но это пофиг, так как она никуда не установится, никуда не запишется, просто будет фотка в storage ни с чем не связанная
-                        currentNewsImageUrl = downloadUri.toString();
+                        currentNewsImageUrl = downloadUri.toString();//это строка нужна чтоб нельзя было загрузить новость, если фотка еще не подгружена
                         editButton.setEnabled(true);
                         progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
-                        loadComplete.setVisibility(View.VISIBLE);
-                        mediumMark.setVisibility(View.VISIBLE);
                         Toast.makeText(AddNewsActivity.this,  getResources().getString(R.string.load_successful), Toast.LENGTH_LONG).show();
+
+                        imageCounter ++;
+
+                        if (imageCounter == 2) {
+                            currentNewsImageUrl1 = currentNewsImageUrl;
+                            Glide.with(backgroundForImage1.getContext()).load(currentNewsImageUrl1).into(backgroundForImage1);//таким образом мы загружаем изображение, которое только что отправили в базу даннных
+                            imageButton2.setVisibility(View.VISIBLE);//делаем видимыми следующее окошко для добавления фоток
+                            backgroundForImage2.setVisibility(View.VISIBLE);//делаем видимыми следующее окошко для добавления фоток
+                            imageButton1.setVisibility(View.GONE);//убираем значок камеры с пред фотки, чтоб там наложения не было
+                        } else if (imageCounter == 3) {
+                            currentNewsImageUrl2 = currentNewsImageUrl;
+                            Glide.with(backgroundForImage2.getContext()).load(currentNewsImageUrl2).into(backgroundForImage2);
+                            imageButton3.setVisibility(View.VISIBLE);
+                            backgroundForImage3.setVisibility(View.VISIBLE);
+                            imageButton2.setVisibility(View.GONE);
+                        } else if (imageCounter == 4) {
+                            currentNewsImageUrl3 = currentNewsImageUrl;
+                            Glide.with(backgroundForImage3.getContext()).load(currentNewsImageUrl3).into(backgroundForImage3);
+                            imageButton4.setVisibility(View.VISIBLE);
+                            backgroundForImage4.setVisibility(View.VISIBLE);
+                            imageButton3.setVisibility(View.GONE);
+                        } else if (imageCounter == 5) {
+                            currentNewsImageUrl4 = currentNewsImageUrl;
+                            Glide.with(backgroundForImage4.getContext()).load(currentNewsImageUrl4).into(backgroundForImage4);
+                            imageButton5.setVisibility(View.VISIBLE);
+                            backgroundForImage5.setVisibility(View.VISIBLE);
+                            imageButton4.setVisibility(View.GONE);
+                        } else if (imageCounter == 6) {
+                            currentNewsImageUrl5 = currentNewsImageUrl;
+                            Glide.with(backgroundForImage5.getContext()).load(currentNewsImageUrl5).into(backgroundForImage5);
+                            imageButton5.setVisibility(View.GONE);
+                        }
                     } else {
                         Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_fail), Toast.LENGTH_LONG).show();
                     }

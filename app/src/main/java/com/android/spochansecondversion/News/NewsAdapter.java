@@ -1,6 +1,7 @@
 package com.android.spochansecondversion.News;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,9 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                 .into(holder.newsImage);
 
         holder.previousImageButton.setVisibility(View.GONE); //чтоб изначально нельзя было выбрать предыдущую кнопку
+        holder.previousImageBackGround.setVisibility(View.GONE);
         holder.nextImageButton.setVisibility(View.GONE); //чтоб изначально нельзя было выбрать следующую кнопку, если у нас одно изображение
+        holder.nextImageBackGround.setVisibility(View.GONE);
 
         model.setPreviousImageIndex(0);
         model.setNextImageIndex(2);
@@ -82,6 +85,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
             holder.point1.setVisibility(View.VISIBLE);
             holder.point2.setVisibility(View.VISIBLE);
             holder.nextImageButton.setVisibility(View.VISIBLE);
+            holder.nextImageBackGround.setVisibility(View.VISIBLE);
         }
 
         if (imageCount >= 3) {
@@ -115,6 +119,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     previousImageIndex = model.getPreviousImageIndex() - 1;
                     model.setPreviousImageIndex(previousImageIndex);
                     holder.nextImageButton.setVisibility(View.VISIBLE);
+                    holder.nextImageBackGround.setVisibility(View.VISIBLE);
                 } else if (model.getNewsImageUrl_3() != null && model.getPreviousImageIndex() == 3) {
 
                     Glide.with(holder.newsImage.getContext())
@@ -129,6 +134,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     previousImageIndex = model.getPreviousImageIndex() - 1;
                     model.setPreviousImageIndex(previousImageIndex);
                     holder.nextImageButton.setVisibility(View.VISIBLE);
+                    holder.nextImageBackGround.setVisibility(View.VISIBLE);
                 } else if (model.getNewsImageUrl_2() != null && model.getPreviousImageIndex() == 2) {
 
                     Glide.with(holder.newsImage.getContext())
@@ -143,6 +149,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     previousImageIndex = model.getPreviousImageIndex() - 1;
                     model.setPreviousImageIndex(previousImageIndex);
                     holder.nextImageButton.setVisibility(View.VISIBLE);
+                    holder.nextImageBackGround.setVisibility(View.VISIBLE);
                 } else if (model.getNewsImageUrl_1() != null && model.getPreviousImageIndex() == 1) {
 
                     Glide.with(holder.newsImage.getContext())
@@ -157,7 +164,9 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     previousImageIndex = model.getPreviousImageIndex() - 1;
                     model.setPreviousImageIndex(previousImageIndex);
                     holder.previousImageButton.setVisibility(View.GONE);
+                    holder.previousImageBackGround.setVisibility(View.GONE);
                     holder.nextImageButton.setVisibility(View.VISIBLE);
+                    holder.nextImageBackGround.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -171,6 +180,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
 
                     if (model.getNewsImageUrl_3() == null) {
                         holder.nextImageButton.setVisibility(View.GONE);
+                        holder.nextImageBackGround.setVisibility(View.GONE);
                     }
 
                     Glide.with(holder.newsImage.getContext())
@@ -185,10 +195,12 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     previousImageIndex = model.getPreviousImageIndex() + 1;
                     model.setPreviousImageIndex(previousImageIndex);
                     holder.previousImageButton.setVisibility(View.VISIBLE);
+                    holder.previousImageBackGround.setVisibility(View.VISIBLE);
                 } else if (model.getNewsImageUrl_3() != null && model.getNextImageIndex() == 3) {
 
                     if (model.getNewsImageUrl_4() == null) {
                         holder.nextImageButton.setVisibility(View.GONE);
+                        holder.nextImageBackGround.setVisibility(View.GONE);
                     }
 
                     Glide.with(holder.newsImage.getContext())
@@ -206,6 +218,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
 
                     if (model.getNewsImageUrl_5() == null) {
                         holder.nextImageButton.setVisibility(View.GONE);
+                        holder.nextImageBackGround.setVisibility(View.GONE);
                     }
 
                     Glide.with(holder.newsImage.getContext())
@@ -222,6 +235,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                 } else if (model.getNewsImageUrl_5() != null && model.getNextImageIndex() == 5) {
 
                     holder.nextImageButton.setVisibility(View.GONE);
+                    holder.nextImageBackGround.setVisibility(View.GONE);
 
                     Glide.with(holder.newsImage.getContext())
                             .load(model.getNewsImageUrl_5())
@@ -286,7 +300,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         private ImageView newsImage;
         private Button previousImageButton;
         private Button nextImageButton;
-
+        private ImageView previousImageBackGround, nextImageBackGround;
         private ImageView point1, point2, point3, point4, point5;
 
         public NewsViewHolder(@NonNull View itemView) {
@@ -299,6 +313,8 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
             newsImage = itemView.findViewById(R.id.newsImageView);
             previousImageButton = itemView.findViewById(R.id.previousImageButton);
             nextImageButton = itemView.findViewById(R.id.nextImageButton);
+            previousImageBackGround = itemView.findViewById(R.id.previousImageBackGround);
+            nextImageBackGround = itemView.findViewById(R.id.nextImageBackGround);
 
             point1 = itemView.findViewById(R.id.point1);
             point2 = itemView.findViewById(R.id.point2);

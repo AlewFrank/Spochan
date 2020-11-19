@@ -10,37 +10,49 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.spochansecondversion.News.NewsAdapter;
 import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.User;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class RatingAdapter  extends FirestorePagingAdapter<User, RatingAdapter.RatingViewHolder> {
 
     //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
 
-    public RatingAdapter(@NonNull FirestorePagingOptions<User> options) {
+    private OnListItemClick onListItemClick;
+
+    public RatingAdapter(@NonNull FirestorePagingOptions<User> options, RatingAdapter.OnListItemClick onListItemClick) {
         super(options);
+        this.onListItemClick = onListItemClick;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull RatingAdapter.RatingViewHolder holder, int position, @NonNull User model) {
+    protected void onBindViewHolder(@NonNull RatingViewHolder holder, int position, @NonNull User model) {
         holder.userName.setText(model.getFirstName());
         holder.userSurname.setText(model.getSecondName());
         String bornDate = model.getDaysBornDate() + "." + model.getMonthBornDate() + "." + model.getYearBornDate();
         holder.userBornDate.setText(bornDate);
         holder.userPoints.setText(model.getUserPoints());
+        holder.userCity.setText(model.getUserCity());
+
+        if (model.getAvatarUrl() != null) {
+            Glide.with(holder.userImageView.getContext())
+                    .load(model.getAvatarUrl())
+                    .into(holder.userImageView);
+        }
     }
 
 
 
     @NonNull
     @Override
-    public RatingAdapter.RatingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RatingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        return new RatingAdapter.RatingViewHolder(view);
+        return new RatingViewHolder(view);
     }
 
     @Override
@@ -69,13 +81,15 @@ public class RatingAdapter  extends FirestorePagingAdapter<User, RatingAdapter.R
 
 
 
-    public class RatingViewHolder extends RecyclerView.ViewHolder {
+    public class RatingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView userName;
         private TextView userSurname;
         private TextView userCity;
         private TextView userBornDate;
         private TextView userPoints;
+
+        private ImageView userImageView;
 
         public RatingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,8 +100,19 @@ public class RatingAdapter  extends FirestorePagingAdapter<User, RatingAdapter.R
             userBornDate = itemView.findViewById(R.id.userBornDateTextView);
             userPoints = itemView.findViewById(R.id.userPointsTextView);
 
+            userImageView = itemView.findViewById(R.id.userImageView);
 
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onListItemClick.onItemClick(getItem(getAdapterPosition()), getAdapterPosition());
+        }
+    }
+
+    public interface OnListItemClick {
+        void onItemClick(DocumentSnapshot snapshot, int position);
     }
 
 

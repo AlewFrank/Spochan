@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -50,14 +51,14 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
 
     private ProgressBar progressBar;
 
-    private TextView newsTimeTextView, newsDataTextView;
+    private TextView newsTimeTextView, newsDataTextView, newsTitleTextView, newsDescriptionTextView;
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean isDirectorModeActivated;
 
     private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage не рядом с изображениями
-    private StorageReference newsImagesStorageReference;
+    private StorageReference newsImagesStorageReference1, newsImagesStorageReference2, newsImagesStorageReference3, newsImagesStorageReference4, newsImagesStorageReference5;
 
     String[] addresses = {"26bas@mail.ru"};
     String subject_help = "Help"; //тема письма для помощи
@@ -85,10 +86,10 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
                         return true;
                     case R.id.navigation_news:
                         return true;
-                    case R.id.navigation_myProfile:
-                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
+//                    case R.id.navigation_myProfile:
+//                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
                     case R.id.navigation_competitions:
                         startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
                         overridePendingTransition(0,0);
@@ -100,10 +101,6 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
-
-
-        newsTimeTextView = findViewById(R.id.newsTimeTextView);
-        newsDataTextView = findViewById(R.id.newsDataTextView);
 
 
 
@@ -243,20 +240,18 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
                         //удаляем наше изображение, чтоб не засорять storage
                         //так как айди записи и фотографии совпадает, то можно в ссылке на изображение указывать onItemClickId
                         storage = FirebaseStorage.getInstance();
-                        newsImagesStorageReference = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId);
+                        newsImagesStorageReference1 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("1");
+                        newsImagesStorageReference2 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("2");
+                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("3");
+                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("4");
+                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("5");
 
-                        newsImagesStorageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // File deleted successfully
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Uh-oh, an error occurred!
-                            }
-                        });
 
+                        newsImagesStorageReference1.delete();
+                        newsImagesStorageReference2.delete();
+                        newsImagesStorageReference3.delete();
+                        newsImagesStorageReference4.delete();
+                        newsImagesStorageReference5.delete();
 
                         Toast.makeText(NewsActivity.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
                         startActivity(new Intent(NewsActivity.this, NewsActivity.class));//чтоб страница обновилась

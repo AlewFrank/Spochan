@@ -62,7 +62,7 @@ public class EditMyProfileActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_myProfile);
+       // bottomNavigationView.setSelectedItemId(R.id.navigation_settings);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -71,7 +71,6 @@ public class EditMyProfileActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_rating:
                     case R.id.navigation_news:
-                    case R.id.navigation_myProfile:
                     case R.id.navigation_competitions:
                         Toast.makeText(EditMyProfileActivity.this, getResources().getString(R.string.edit_notification), Toast.LENGTH_SHORT).show();
                         return true;
