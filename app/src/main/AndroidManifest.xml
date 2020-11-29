@@ -16,12 +16,12 @@
         <activity android:name=".RegListActivity" />
         <activity android:name=".Rating.EditRatingMembers" />
         <activity android:name=".News.AddNewsActivity" />
-        <activity android:name=".FullCompetitionItem" />
-        <activity android:name=".AddCompetitionsActivity" />
+        <activity android:name=".Competition.FullCompetitionItem" />
+        <activity android:name=".Competition.AddCompetitionsActivity" />
         <activity android:name=".EditMyProfileActivity" />
         <activity android:name=".Rating.RatingActivity" />
         <activity android:name=".MyProfileActivity" />
-        <activity android:name=".CompetitionsActivity" />
+        <activity android:name=".Competition.CompetitionsActivity" />
         <activity android:name=".News.NewsActivity" />
         <activity android:name=".logInSignUp.LogInActivity">
             <intent-filter>

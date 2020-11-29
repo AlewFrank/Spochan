@@ -2,7 +2,9 @@ package com.android.spochansecondversion.Rating;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -56,16 +58,21 @@ public class EditRatingMembers extends AppCompatActivity {
 
     private static final int RC_IMAGE_PICKER = 921;//константа, которую используем в методе loadNewImage, рандомное число, которое ни на что не влияет
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_rating_members);
 
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+
 
         //три строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
-//        ActionBar actionBar =getSupportActionBar();
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent ratingIntent = getIntent();
         onGroupClick = ratingIntent.getStringExtra("onItemClickId");
@@ -133,10 +140,12 @@ public class EditRatingMembers extends AppCompatActivity {
         });
 
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);
+        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 User user = new User();
 
@@ -164,13 +173,12 @@ public class EditRatingMembers extends AppCompatActivity {
 
 
                 DocumentReference groupItemDocumentReference = firebaseFirestore.collection("Rating" + getResources().getString(R.string.app_country)).document(groupIndex).collection(groupIndex).document(onGroupClick);
-
                 groupItemDocumentReference.set(user);
-
-            }
-
                 Toast.makeText(EditRatingMembers.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(EditRatingMembers.this, RatingActivity.class));
+            } else {
+                    Toast.makeText(EditRatingMembers.this, getResources().getString(R.string.put_data), Toast.LENGTH_LONG).show();
+                }
             }
         });
 

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/competitionDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="18sp"
+                android:textColor="#333333"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/not_indicated"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="512dp"
+                android:paddingBottom="512dp"
+                />
+
+
+            <Button
+                android:id="@+id/registerOnCompetitionButton"
+                android:visibility="gone"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:text="@string/competition_registration"
+                android:textColor="@color/White"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="50dp"/>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:liftOnScroll="true"
+        >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleEnabled="false"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/colorPrimary"
+            app:scrimAnimationDuration="300"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/competitionImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:src="@drawable/competitions_item_background"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:src="@drawable/gradient_for_competition_item"/>
+
+
+                <TextView
+                    android:id="@+id/competitionTitleTextView"
+                    android:text = "Competition Title"
+                    android:textSize="30sp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_above="@+id/competitionLocationTextView"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/competitionLocationTextView"
+                    android:text = "Competition Location"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="italic"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="82dp"/>
+
+                <TextView
+                    android:id="@+id/competitionDataTextView"
+                    android:text = "Competition Data"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="82dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp" />
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="350dp"
+                android:background="@color/colorPrimary">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_location_for_full_competition_item"/>
+
+                    <TextView
+                        android:id="@+id/competitionAddressTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/White"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="@string/not_indicated"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginEnd="4dp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                app:titleMarginStart="50000dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+
+
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

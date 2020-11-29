@@ -1,8 +1,12 @@
 package com.android.spochansecondversion.Rating;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,11 +26,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.spochansecondversion.CompetitionsActivity;
-import com.android.spochansecondversion.MyProfileActivity;
-import com.android.spochansecondversion.News.AddNewsActivity;
+import com.android.spochansecondversion.Competition.CompetitionsActivity;
 import com.android.spochansecondversion.News.NewsActivity;
-import com.android.spochansecondversion.News.NewsAdapter;
 import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.User;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
@@ -31,7 +35,6 @@ import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -103,12 +106,26 @@ import java.util.ArrayList;
         private GridLayoutManager layoutManager;
 
         private  String group;
-        private String groupTitle;
+        private  String groupTitle;
+
+        private Toolbar mToolbar;
+
+        String[] addresses = {"26bas@mail.ru"};
+        String subject_help = "Help"; //тема письма для помощи
+        String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
+        String emailtext;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_rating);
+
+            mToolbar = findViewById(R.id.main_toolbar);
+            setSupportActionBar(mToolbar);
+
+            //mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.DST_ATOP);
+
+
 
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -189,8 +206,11 @@ import java.util.ArrayList;
             groupListRecycleView.setAdapter(groupAdapter);
 
 
-            TextView groupTitleTextView = findViewById(R.id.groupTitle);
 
+            TextView groupTitleTextView = findViewById(R.id.groupTitle);
+            //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
+            Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
+            groupTitleTextView.setTypeface(roboto_bold);
 
             Intent intent = getIntent();
             if (intent != null) {//так обозначается "не равен"
@@ -200,10 +220,12 @@ import java.util.ArrayList;
 
             if (group != null) {//так обозначается "не равен"
                 Log.d("groupIndex", group);
+                //mToolbar.setTitle("Категория " + intent.getStringExtra("title"));
                 groupTitleTextView.setText("Категория " + groupTitle);
             } else {
                 group = "group_8";//когда поменяешь цифру, то обязательно поменяй слова тремя строчками ниже
                 Log.d("groupIndex", group);
+                //mToolbar.setTitle("Категория Дан");
                 groupTitleTextView.setText("Категория Дан");
             }
 
@@ -251,6 +273,26 @@ import java.util.ArrayList;
                 case R.id.sign_out:
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(RatingActivity.this, LogInActivity.class));
+                    return true;
+                case R.id.menu_ask_developer:
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                    intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                    intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
+                    return true;
+                case R.id.menu_help:
+                    emailtext = getResources().getString(R.string.help_email);
+                    Intent intent_help = new Intent(Intent.ACTION_SENDTO);
+                    intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
+                    intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+                    intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
+                    intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
+                    if (intent_help.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent_help);
+                    }
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);

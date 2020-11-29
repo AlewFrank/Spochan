@@ -7,19 +7,6 @@
     tools:context=".Rating.EditRatingMembers"
     android:scrollbars="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-
-        <Button
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_baseline_arrow_back_24"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" />
-    </RelativeLayout>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -209,6 +196,14 @@
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_done"
         android:focusable="true" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        app:titleMarginStart="50000dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        />
 
 
 

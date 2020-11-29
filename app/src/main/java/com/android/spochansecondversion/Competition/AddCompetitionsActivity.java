@@ -1,13 +1,8 @@
-package com.android.spochansecondversion;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+package com.android.spochansecondversion.Competition;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.android.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,16 +35,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddCompetitionsActivity extends AppCompatActivity {
 
@@ -48,9 +49,10 @@ public class AddCompetitionsActivity extends AppCompatActivity {
     private EditText competitionTitleEditText, competitionLocationEditText, competitionAddressEditText, competitionDescriptionEditText;
     private EditText daysCompetitionDateEditText, monthCompetitionDateEditText, yearCompetitionDateEditText;
 
-    private TextView loadComplete, mediumMark, loadNewImage;
+    private Button editButton, cancelButton;
 
-    private Button editButton;
+    private ImageButton loadNewImage;
+    private ImageView backgroundForImage;
 
     private String ImageUrlValue;
 
@@ -76,10 +78,15 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     private String competitionTitle;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_competitions);
+
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
 
         //четыре строки ниже это чтобы установить кнопку назад в левом верхнем углу, а поведение имплементируем в методе onOptionsItemSelected
         ActionBar actionBar = this.getSupportActionBar();
@@ -122,14 +129,18 @@ public class AddCompetitionsActivity extends AppCompatActivity {
         monthCompetitionDateEditText = findViewById(R.id.monthCompetitionDateEditText);
         yearCompetitionDateEditText = findViewById(R.id.yearCompetitionDateEditText);
 
-        loadComplete = findViewById(R.id.loadComplete);
-        mediumMark = findViewById(R.id.mediumMark);
         loadNewImage = findViewById(R.id.loadNewImage);
 
         editButton = findViewById(R.id.editButton);
+        cancelButton = findViewById(R.id.cancelButton);
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-LightItalic.ttf");
+        editButton.setTypeface(roboto);
+        cancelButton.setTypeface(roboto);
 
         trueRadioButton = findViewById(R.id.trueRadioButton);
         falseRadioButton = findViewById(R.id.falseRadioButton);
+
+        backgroundForImage = findViewById(R.id.backgroundForImage);
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
@@ -141,8 +152,6 @@ public class AddCompetitionsActivity extends AppCompatActivity {
         onItemClickId = competitionItemIntent.getStringExtra("onItemClickId");
 
         if (onItemClickId != null) {
-
-            loadNewImage.setText(getResources().getString(R.string.change_image));
 
             firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -161,13 +170,18 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     monthCompetitionDateEditText.setText(competition.getMonthCompetitionDate());
                     yearCompetitionDateEditText.setText(competition.getYearCompetitionDate());
 
+                    if (competition.getCompetitionImageUrl() != null) {
+                        ImageUrlValue = competition.getCompetitionImageUrl();
+                        loadNewImage.setVisibility(View.INVISIBLE);
+                        Glide.with(backgroundForImage.getContext()).load(ImageUrlValue).into(backgroundForImage);
+                    }
+
                     daysCompetitionDate = competition.getDaysCompetitionDate();
                     monthCompetitionDate = competition.getMonthCompetitionDate();
                     yearCompetitionDate = competition.getYearCompetitionDate();
 
                     competitionAddressEditText.setText(competition.getCompetitionAddress());
                     competitionDescriptionEditText.setText(competition.getCompetitionDescription());
-                    ImageUrlValue = competition.getCompetitionImageUrl();
 
                     isCompetitionRegistrationActive = competition.isCompetitionRegistrationActive();
 
@@ -311,9 +325,10 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                             editButton.setEnabled(true);
                             isImage = true;
                             progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
-                            loadComplete.setVisibility(View.VISIBLE);
-                            mediumMark.setVisibility(View.VISIBLE);
                             Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_successful), Toast.LENGTH_LONG).show();
+
+                            loadNewImage.setVisibility(View.INVISIBLE);
+                            Glide.with(backgroundForImage.getContext()).load(currentCompetitionImageUrl).into(backgroundForImage);//таким образом мы загружаем изображение, которое только что отправили в базу даннных
                         } else {
                             Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_fail), Toast.LENGTH_LONG).show();
                         }

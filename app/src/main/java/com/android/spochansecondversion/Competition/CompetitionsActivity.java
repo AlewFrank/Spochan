@@ -1,4 +1,4 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.Competition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.android.spochansecondversion.News.NewsActivity;
+import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.Rating.RatingActivity;
+import com.android.spochansecondversion.User;
 import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;

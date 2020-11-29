@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,8 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.spochansecondversion.CompetitionsActivity;
-import com.android.spochansecondversion.MyProfileActivity;
+import com.android.spochansecondversion.Competition.CompetitionsActivity;
 import com.android.spochansecondversion.R;
 import com.android.spochansecondversion.Rating.RatingActivity;
 import com.android.spochansecondversion.User;

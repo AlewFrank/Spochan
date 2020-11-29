@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".AddCompetitionsActivity">
+    tools:context=".Competition.AddCompetitionsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_above="@id/bottom_navigation">
 
         <LinearLayout
@@ -18,12 +19,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:onClick="loadNewImage"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="42dp">
+
+                <ImageView
+                    android:id="@+id/backgroundForImage"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/background_for_camera_foa_add_news"/>
+
+                <ImageButton
+                    android:id="@+id/loadNewImage"
+                    android:onClick="loadNewImage"
+                    android:layout_centerInParent="true"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/ic_camera_24"/>
+
+            </RelativeLayout>
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
                 <EditText
@@ -127,49 +152,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/loadNewImage"
-                    android:onClick="loadNewImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/load_your_image"
-                    android:textColor="@android:color/holo_blue_light"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/mediumMark"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:layout_marginLeft="10dp"
-                    android:text=" :"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/loadComplete"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/load_complete"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -250,8 +232,6 @@
                     android:text="@string/competition_reg" />
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,29 +247,23 @@
 
                 <Button
                     android:id="@+id/cancelButton"
+                    style="@style/Button"
                     android:onClick="cancelButton"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
-                    android:textColor="@android:color/white"
                     android:text="@string/cancel"
-                    android:textStyle="italic"
-                    android:textSize="15sp"
-                    android:background="@color/colorPrimary"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
 
                 <Button
                     android:id="@+id/editButton"
+                    style="@style/Button"
                     android:onClick="addButton"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
-                    android:textColor="@android:color/white"
                     android:text="@string/save"
-                    android:textStyle="italic"
-                    android:textSize="15sp"
-                    android:background="@color/colorPrimary"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
 
@@ -315,6 +289,14 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/bottom_nav_menu" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        app:titleMarginStart="50000dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        />
 
     <ProgressBar
         android:id="@+id/progressBar"

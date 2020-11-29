@@ -1,4 +1,4 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.Competition;
 
 public class Competition {
 

@@ -1,6 +1,5 @@
-package com.android.spochansecondversion;
+package com.android.spochansecondversion.Competition;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
