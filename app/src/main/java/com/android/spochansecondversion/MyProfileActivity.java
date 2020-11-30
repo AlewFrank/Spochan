@@ -317,20 +317,20 @@ public class MyProfileActivity extends AppCompatActivity {
                     startActivity(intent_help);
                 }
                 return true;
-            case R.id.settings:
-
-                startActivity(new Intent(MyProfileActivity.this, SettingsActivity.class));
-                /*auth.sendPasswordResetEmail(userEmail)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "Email sent.");
-                                    showDialog();
-                                }
-                            }
-                        });*/
-                return true;
+//            case R.id.settings:
+//
+//                startActivity(new Intent(MyProfileActivity.this, SettingsActivity.class));
+//                /*auth.sendPasswordResetEmail(userEmail)
+//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if (task.isSuccessful()) {
+//                                    Log.d(TAG, "Email sent.");
+//                                    showDialog();
+//                                }
+//                            }
+//                        });*/
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -1,57 +1,50 @@
-package com.android.spochansecondversion.Rating;
+package com.android.spochansecondversion.Registration;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.spochansecondversion.R;
+import com.android.spochansecondversion.Rating.RatingAdapter;
 import com.android.spochansecondversion.User;
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class RatingAdapter  extends FirestorePagingAdapter<User, RatingAdapter.RatingViewHolder> {
+public class RegListAdapter extends FirestorePagingAdapter<User, RegListAdapter.UserViewHolder> {
 
     //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
 
-    private OnListItemClick onListItemClick;
+    private RegListAdapter.OnListItemClick onListItemClick;
 
-    public RatingAdapter(@NonNull FirestorePagingOptions<User> options, RatingAdapter.OnListItemClick onListItemClick) {
+    public RegListAdapter(@NonNull FirestorePagingOptions<User> options, RegListAdapter.OnListItemClick onListItemClick) {
         super(options);
         this.onListItemClick = onListItemClick;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull RatingViewHolder holder, int position, @NonNull User model) {
-        holder.userName.setText(model.getFirstName());
-        holder.userSurname.setText(model.getSecondName());
+    protected void onBindViewHolder(@NonNull RegListAdapter.UserViewHolder holder, int position, @NonNull User model) {
+        holder.userName.setText(model.getSecondName());
+        holder.userSurname.setText(model.getFirstName());
         String bornDate = model.getDaysBornDate() + "." + model.getMonthBornDate() + "." + model.getYearBornDate();
-        holder.userBornDate.setText(bornDate);
-        holder.userPoints.setText(model.getUserPoints());
         holder.userCity.setText(model.getUserCity());
-
-        if (model.getAvatarUrl() != null) {
-            Glide.with(holder.userImageView.getContext())
-                    .load(model.getAvatarUrl())
-                    .into(holder.userImageView);
-        }
+        holder.userBornDate.setText(bornDate);
+        holder.userGroup.setText(model.getUserGroup());
     }
 
 
 
     @NonNull
     @Override
-    public RatingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item_for_raiting, parent, false);
-        return new RatingViewHolder(view);
+    public RegListAdapter.UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item_for_reg_list, parent, false);
+        return new RegListAdapter.UserViewHolder(view);
     }
 
     @Override
@@ -80,26 +73,22 @@ public class RatingAdapter  extends FirestorePagingAdapter<User, RatingAdapter.R
 
 
 
-    public class RatingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView userName;
-        private TextView userSurname;
-        private TextView userCity;
-        private TextView userBornDate;
-        private TextView userPoints;
+        private final TextView userName;
+        private final TextView userSurname;
+        private final TextView userCity;
+        private final TextView userBornDate;
+        private final TextView userGroup;
 
-        private ImageView userImageView;
-
-        public RatingViewHolder(@NonNull View itemView) {
+        public UserViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userName = itemView.findViewById(R.id.userNameTextView);
             userSurname = itemView.findViewById(R.id.userSurnameTextView);
             userCity = itemView.findViewById(R.id.userCityTextView);
             userBornDate = itemView.findViewById(R.id.userBornDateTextView);
-            userPoints = itemView.findViewById(R.id.userPointsTextView);
-
-            userImageView = itemView.findViewById(R.id.userImageView);
+            userGroup = itemView.findViewById(R.id.userGroupTextView);
 
             itemView.setOnClickListener(this);
         }

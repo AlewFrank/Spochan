@@ -11,9 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".logInSignUp.RegisterActivity"></activity>
+        <activity android:name=".Registration.MemberOfChampionship"></activity>
+        <activity android:name=".Registration.AddMemberOfChampionship" />
+        <activity android:name=".logInSignUp.RegisterActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".RegListActivity" />
+        <activity android:name=".Registration.RegListActivity" />
         <activity android:name=".Rating.EditRatingMembers" />
         <activity android:name=".News.AddNewsActivity" />
         <activity android:name=".Competition.FullCompetitionItem" />

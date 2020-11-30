@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,22 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.R;
-import com.android.spochansecondversion.Rating.RatingActivity;
-import com.android.spochansecondversion.RegListActivity;
+import com.android.spochansecondversion.Registration.AddMemberOfChampionship;
+import com.android.spochansecondversion.Registration.MemberOfChampionship;
+import com.android.spochansecondversion.Registration.RegListActivity;
 import com.android.spochansecondversion.User;
-import com.android.spochansecondversion.logInSignUp.LogInActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -196,39 +189,9 @@ public class FullCompetitionItem extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
-                if (whichRegGroupActive != null) {//то есть группа уже выбрана
-                    userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {//получаем текущего пользователя, чтоб отправить его данные в список зарегестрированных пользователей
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                            User user = documentSnapshot.toObject(User.class);
-
-
-                            //чтоб у человека были заполнены все поля, а не только имя и фамилия
-                            if (!user.getSex().equals("") & !user.getDaysBornDate().equals("") & !user.getMonthBornDate().equals("") & !user.getYearBornDate().equals("")) {
-
-                                //таким образом сохраняем пользователей в коллекцию с названием соревнований и документ по их группам + сохраняем их еще и по списку в зависимсоти от имени и фамилии, но также и добавляем айди, чтоб если есть полные тески, то все тоже работало
-                                firebaseFirestore.collection("CompetitionUserList" + getResources().getString(R.string.app_country)).document(competitionTitle + "." + competitionDate).collection(whichRegGroupActive).document(user.getSecondName() + "." + user.getFirstName() + "." + user.getId()).set(user);
-
-                                Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(FullCompetitionItem.this, CompetitionsActivity.class));//ни в коем случае не делай здесь переход в FullCompetitionItem,так как при переходе сюда не из CompetitionActivity переменная onItemClickId будет равна нулю и соответственно будет все вылетать, так как информация по соревнованию не прогрузится по пустой ссылке
-
-                            } else {
-                                Toast.makeText(FullCompetitionItem.this, getResources().getString(R.string.fill_your_profile), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                } else {//если человек только намеревается выбрать группу
-                    registerOnCompetitionButton.setText(getResources().getString(R.string.push));
-
-                    competitionAddressTextView.setVisibility(View.GONE);//чтоб не мешалось
-                    competitionDescription.setVisibility(View.GONE);
-                }
-
-
-
+                Intent competitionTitleIntent = new Intent(FullCompetitionItem.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
+                competitionTitleIntent.putExtra("competitionTitle", competitionTitle + " ! " + competitionDate); //связываем строку со значение
+                startActivity(new Intent(FullCompetitionItem.this, RegListActivity.class));
             }
         });
     }

@@ -30,6 +30,8 @@
     <string name="second_name">Фамилия</string>
     <string name="sex">Пол</string>
     <string name="born_date">Дата рождения</string>
+    <string name="user_club">Клуб</string>
+    <string name="user_group">Категория</string>
     <string name="not_indicated">Не указано</string>
     <string name="continue_as_director">Продолжить как администратор</string>
     <string name="continue_as_sportsman">Продолжить как спортсмен</string>
@@ -70,6 +72,9 @@
     <string name="settings">Настройки</string>
     <string name="language">Выбрать язык</string>
     <string name="user_city">Город спортсмена</string>
+    <string name="result">Всего: </string>
+    <string name="comeOnButton">Пришел </string>
+    <string name="payButton">Оплатил </string>
 
     <string name="title_exception">Введите значение заголовка</string>
     <string name="days_exception">Дни должны содержать 2 символа</string>

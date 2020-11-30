@@ -18,12 +18,15 @@ public class User {
     private boolean isDirector;//отвечает за то администратор человек или спортсмен
     private String userPoints;//используем в рейтинге
     private String userCity;
+    private String coachId;
+    private String userGroup;
+    private String userClub;
 
     //правой кнопкой мыши, потом generate и дальше Constructor
     public User() {
     }
 
-    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId, boolean isDirector, String userPoints, String userCity) {
+    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId, boolean isDirector, String userPoints, String userCity, String coachId, String userGroup, String userClub) {
         this.email = email;
         this.id = id;
         this.firstName = firstName;
@@ -37,6 +40,9 @@ public class User {
         this.isDirector = isDirector;
         this.userPoints = userPoints;
         this.userCity = userCity;
+        this.coachId = coachId;
+        this.userGroup = userGroup;
+        this.userClub = userClub;
     }
 
     public String getEmail() {
@@ -141,5 +147,29 @@ public class User {
 
     public void setUserCity(String userCity) {
         this.userCity = userCity;
+    }
+
+    public String getCoachId() {
+        return coachId;
+    }
+
+    public void setCoachId(String coachId) {
+        this.coachId = coachId;
+    }
+
+    public String getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(String userGroup) {
+        this.userGroup = userGroup;
+    }
+
+    public String getUserClub() {
+        return userClub;
+    }
+
+    public void setUserClub(String userClub) {
+        this.userClub = userClub;
     }
 }
