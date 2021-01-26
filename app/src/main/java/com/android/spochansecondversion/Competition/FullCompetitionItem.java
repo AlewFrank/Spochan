@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +37,6 @@ public class FullCompetitionItem extends AppCompatActivity {
     private ImageView competitionImageView;
 
     private String yearCompetitionDate, monthCompetitionDate, daysCompetitionDate;//это нужно для того, что айди удаляемого(если захотим удалить соревнование) изображения знать
-    private String competitionDate;
 
     private FirebaseFirestore firebaseFirestore;
 
@@ -47,6 +47,7 @@ public class FullCompetitionItem extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean isDirectorModeActivated;
+    private boolean isCoachModeActivated;
 
     private Button registerOnCompetitionButton;
 
@@ -116,12 +117,17 @@ public class FullCompetitionItem extends AppCompatActivity {
 
 
 
-        Intent competitionIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
-        onItemClickId = competitionIntent.getStringExtra("onItemClickId");
+        final Intent competitionIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
+        onItemClickId = competitionIntent.getStringExtra("competitionId");
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        final String currentUserUid = currentUser.getUid();
+        final DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
 
         competitionItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -133,7 +139,6 @@ public class FullCompetitionItem extends AppCompatActivity {
                 competitionLocationTextView.setText(competition.getCompetitionLocation());
                 competitionDataTextView.setText(competition.getDaysCompetitionDate() + "." + competition.getMonthCompetitionDate() + "." + competition.getYearCompetitionDate());
 
-                competitionDate = competition.getDaysCompetitionDate() + "." + competition.getMonthCompetitionDate() + "." + competition.getYearCompetitionDate();
 
                 daysCompetitionDate = competition.getDaysCompetitionDate();//это нужно для того, что айди удаляемого(если захотим удалить соревнование) изображения знать
                 monthCompetitionDate = competition.getMonthCompetitionDate();
@@ -143,7 +148,20 @@ public class FullCompetitionItem extends AppCompatActivity {
                 competitionDescription.setText(competition.getCompetitionDescription());
 
                 if (competition.isCompetitionRegistrationActive()) {
-                    registerOnCompetitionButton.setVisibility(View.VISIBLE);
+
+                    userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            User user = documentSnapshot.toObject(User.class);
+
+                            isDirectorModeActivated = user.isDirector();
+                            isCoachModeActivated = user.isCoach();
+
+                            if (isDirectorModeActivated || isCoachModeActivated) {
+                                registerOnCompetitionButton.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
 
                 } else {
                     registerOnCompetitionButton.setVisibility(View.GONE);
@@ -160,46 +178,28 @@ public class FullCompetitionItem extends AppCompatActivity {
             }
         });
 
-
-
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-//        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
-//        floatingActionButton.setVisibility(View.GONE);
-
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        final String currentUserUid = currentUser.getUid();
-        final DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-
-                isDirectorModeActivated = user.isDirector();
-
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    //floatingActionButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
         registerOnCompetitionButton.setOnClickListener(new View.OnClickListener() {//выполняется, если мы нажали на кнопку с регистрацией на чемпионат
             @Override
             public void onClick(View v) {
 
                 Intent competitionTitleIntent = new Intent(FullCompetitionItem.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                competitionTitleIntent.putExtra("competitionTitle", competitionTitle + " ! " + competitionDate); //связываем строку со значение
-                startActivity(new Intent(FullCompetitionItem.this, RegListActivity.class));
+                competitionTitleIntent.putExtra("competitionTitle", competitionTitle + daysCompetitionDate + monthCompetitionDate + yearCompetitionDate); //связываем строку со значение
+                competitionTitleIntent.putExtra("competitionId", onItemClickId); //это нужно для адекватного нажатия кнопки назад в рег лист активити
+                startActivity(competitionTitleIntent);
             }
         });
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_edit_competition_item, menu);
+
+        final Intent competitionIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити
+
+        if (competitionIntent.getBooleanExtra("isDirectorModeActivated", false)) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_edit_competition_item, menu);
+        }
         return true;
     }
 
@@ -211,12 +211,12 @@ public class FullCompetitionItem extends AppCompatActivity {
 
         switch (item.getItemId()){
             case android.R.id.home: //поведение кнопки слева-сверху
-                this.finish();
+                startActivity(new Intent(FullCompetitionItem.this, CompetitionsActivity.class));
                 return true;
             case R.id.menu_edit:
                 //отправляем intent в AddCompetitionsActivity, чтоб там отредактировать значения
                 Intent competitionItemIntent = new Intent(FullCompetitionItem.this, AddCompetitionsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                competitionItemIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
+                competitionItemIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
                 startActivity(competitionItemIntent);
                 return true;
             default:

@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -124,7 +125,6 @@ import java.util.ArrayList;
             setSupportActionBar(mToolbar);
 
             //mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.DST_ATOP);
-
 
 
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

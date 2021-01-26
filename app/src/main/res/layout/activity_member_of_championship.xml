@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Registration.MemberOfChampionship">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleMarginStart="50000dp"
+        />
+
     <ScrollView
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
@@ -15,6 +23,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/userSecondNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_indicated"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/Black"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/second_name" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,37 +85,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/first_name"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical"
-                android:layout_marginStart="15dp">
-
-                <TextView
-                    android:id="@+id/userSecondNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/not_indicated"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/Black"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginEnd="16dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/second_name" />
             </LinearLayout>
 
             <LinearLayout
@@ -209,6 +217,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/userCertificationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_indicated"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/Black"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_certification" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
@@ -225,7 +265,9 @@
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:text="@string/payButton"
+                    android:onClick="payButtonPressed"
                     style="@style/Button"
+                    android:background="@drawable/button_main_enabled"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
 
@@ -235,7 +277,9 @@
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:text="@string/comeOnButton"
+                    android:onClick="comeOnButtonPressed"
                     style="@style/Button"
+                    android:background="@drawable/button_main_enabled"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
 

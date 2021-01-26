@@ -32,6 +32,7 @@
     <string name="born_date">Дата рождения</string>
     <string name="user_club">Клуб</string>
     <string name="user_group">Категория</string>
+    <string name="user_certification">Аттестация</string>
     <string name="not_indicated">Не указано</string>
     <string name="continue_as_director">Продолжить как администратор</string>
     <string name="continue_as_sportsman">Продолжить как спортсмен</string>
@@ -45,6 +46,7 @@
     <string name="choose_action">Выберите действие</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
+    <string name="filter">Фильтрация</string>
     <string name="successful">Успешно</string>
     <string name="enter">Войти</string>
     <string name="register">  Регистрирация </string>
@@ -73,8 +75,13 @@
     <string name="language">Выбрать язык</string>
     <string name="user_city">Город спортсмена</string>
     <string name="result">Всего: </string>
+    <string name="result2">Всего </string>
     <string name="comeOnButton">Пришел </string>
+    <string name="comeOnButton2">Пришли </string>
     <string name="payButton">Оплатил </string>
+    <string name="payButton2">Оплатили </string>
+    <string name="wrongSportsman">У вас нет права редактировать данного спортсмена </string>
+    <string name="notAllowed">У вас нет права редактировать данную информацию </string>
 
     <string name="title_exception">Введите значение заголовка</string>
     <string name="days_exception">Дни должны содержать 2 символа</string>

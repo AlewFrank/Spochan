@@ -163,7 +163,8 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
         String onItemClickId = snapshot.getId();
 
         Intent competitionIntent = new Intent(CompetitionsActivity.this, FullCompetitionItem.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-        competitionIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
+        competitionIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
+        competitionIntent.putExtra("isDirectorModeActivated", isDirectorModeActivated); //чтоб понимать создавать ли меню с возможностью редактирования сорев или нет
 
         startActivity(competitionIntent);
     }

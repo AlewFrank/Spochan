@@ -149,7 +149,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
 
         Intent competitionItemIntent = getIntent(); //получаем интент из FullCompetitionActivity, чтоб если мы редактируем класс, а не создаем новый, то тогда чтоб в EditTextы уже заносились текущие значения
-        onItemClickId = competitionItemIntent.getStringExtra("onItemClickId");
+        onItemClickId = competitionItemIntent.getStringExtra("competitionId");
 
         if (onItemClickId != null) {
 

@@ -16,17 +16,22 @@ public class User {
     private String avatarUrl;
     private String userId;
     private boolean isDirector;//отвечает за то администратор человек или спортсмен
+    private boolean isCoach;//отвечает за то тренер человек или нет
     private String userPoints;//используем в рейтинге
     private String userCity;
     private String coachId;
     private String userGroup;
     private String userClub;
+    private String userCertification;
+
+    private boolean hasPayed;//используем для задания того пришел человек или нет
+    private boolean hasComeOn;
 
     //правой кнопкой мыши, потом generate и дальше Constructor
     public User() {
     }
 
-    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId, boolean isDirector, String userPoints, String userCity, String coachId, String userGroup, String userClub) {
+    public User(String email, String id, String firstName, String secondName, String sex, String daysBornDate, String monthBornDate, String yearBornDate, String avatarUrl, String userId, boolean isDirector, boolean isCoach, String userPoints, String userCity, String coachId, String userGroup, String userClub, String userCertification, boolean hasPayed, boolean hasComeOn) {
         this.email = email;
         this.id = id;
         this.firstName = firstName;
@@ -38,11 +43,15 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.userId = userId;
         this.isDirector = isDirector;
+        this.isCoach = isCoach;
         this.userPoints = userPoints;
         this.userCity = userCity;
         this.coachId = coachId;
         this.userGroup = userGroup;
         this.userClub = userClub;
+        this.userCertification = userCertification;
+        this.hasPayed = hasPayed;
+        this.hasComeOn = hasComeOn;
     }
 
     public String getEmail() {
@@ -171,5 +180,37 @@ public class User {
 
     public void setUserClub(String userClub) {
         this.userClub = userClub;
+    }
+
+    public String getUserCertification() {
+        return userCertification;
+    }
+
+    public void setUserCertification(String userCertification) {
+        this.userCertification = userCertification;
+    }
+
+    public boolean isHasPayed() {
+        return hasPayed;
+    }
+
+    public void setHasPayed(boolean hasPayed) {
+        this.hasPayed = hasPayed;
+    }
+
+    public boolean isHasComeOn() {
+        return hasComeOn;
+    }
+
+    public void setHasComeOn(boolean hasComeOn) {
+        this.hasComeOn = hasComeOn;
+    }
+
+    public boolean isCoach() {
+        return isCoach;
+    }
+
+    public void setCoach(boolean coach) {
+        isCoach = coach;
     }
 }

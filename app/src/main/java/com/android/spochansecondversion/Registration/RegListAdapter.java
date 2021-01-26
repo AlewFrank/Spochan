@@ -1,9 +1,11 @@
 package com.android.spochansecondversion.Registration;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,91 +19,86 @@ import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class RegListAdapter extends FirestorePagingAdapter<User, RegListAdapter.UserViewHolder> {
+import java.util.ArrayList;
 
-    //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
+public class RegListAdapter extends RecyclerView.Adapter<RegListAdapter.UserViewHolder> {
 
-    private RegListAdapter.OnListItemClick onListItemClick;
+    //Тут адаптервзят из AwesomeChat, так как там идет работа с RealTime Database, так что если есть какие-то вопросы, то смотри туда
 
-    public RegListAdapter(@NonNull FirestorePagingOptions<User> options, RegListAdapter.OnListItemClick onListItemClick) {
-        super(options);
-        this.onListItemClick = onListItemClick;
+    private OnUserClickListener listener;
+    private ArrayList<User> users;
+
+    public interface OnUserClickListener {
+        void onUserClick(int position);
+    }
+
+    public void setOnUserClickListener(OnUserClickListener listener) {
+        this.listener = listener;
+    }
+
+    public RegListAdapter(ArrayList<User> users) {
+        this.users = users;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull RegListAdapter.UserViewHolder holder, int position, @NonNull User model) {
-        holder.userName.setText(model.getSecondName());
-        holder.userSurname.setText(model.getFirstName());
-        String bornDate = model.getDaysBornDate() + "." + model.getMonthBornDate() + "." + model.getYearBornDate();
-        holder.userCity.setText(model.getUserCity());
+    public void onBindViewHolder(@NonNull RegListAdapter.UserViewHolder holder, int position) {
+        User currentUser = users.get(position);
+        holder.userName.setText(currentUser.getSecondName());
+        holder.userSurname.setText(currentUser.getFirstName());
+        String bornDate = currentUser.getDaysBornDate() + "." + currentUser.getMonthBornDate() + "." + currentUser.getYearBornDate();
+        holder.userClub.setText(currentUser.getUserClub());
         holder.userBornDate.setText(bornDate);
-        holder.userGroup.setText(model.getUserGroup());
+        holder.userGroup.setText(currentUser.getUserGroup());
+
+        if (!currentUser.isHasPayed() || !currentUser.isHasComeOn()) {
+            holder.colorfulRelativeLayout.setBackgroundColor((int) R.color.Red);
+        }
     }
 
-
+    @Override
+    public int getItemCount() {
+        return users.size();
+    }
 
     @NonNull
     @Override
     public RegListAdapter.UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item_for_reg_list, parent, false);
-        return new RegListAdapter.UserViewHolder(view);
-    }
-
-    @Override
-    protected void onLoadingStateChanged(@NonNull LoadingState state) {
-        super.onLoadingStateChanged(state);
-
-        switch (state) {
-            case LOADED:
-                Log.d("PAGING_LOG", "Total items loaded: " + getItemCount());
-                break;
-            case ERROR:
-                Log.d("PAGING_LOG", "Error loading data");
-                break;
-            case FINISHED:
-                Log.d("PAGING_LOG", "All data loading ");
-                break;
-            case LOADING_MORE:
-                Log.d("PAGING_LOG", "Loading new page");
-                break;
-            case LOADING_INITIAL:
-                Log.d("PAGING_LOG", "Loading initial page");
-                break;
-        }
+        UserViewHolder viewHolder = new UserViewHolder(view, listener);
+        return viewHolder;
     }
 
 
-
-
-    public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView userName;
         private final TextView userSurname;
-        private final TextView userCity;
-        private final TextView userBornDate;
         private final TextView userGroup;
+        private final TextView userBornDate;
+        private final TextView userClub;
+        private RelativeLayout colorfulRelativeLayout;
 
-        public UserViewHolder(@NonNull View itemView) {
+        public UserViewHolder(@NonNull View itemView, final OnUserClickListener listener) {
             super(itemView);
 
             userName = itemView.findViewById(R.id.userNameTextView);
             userSurname = itemView.findViewById(R.id.userSurnameTextView);
-            userCity = itemView.findViewById(R.id.userCityTextView);
+            userClub = itemView.findViewById(R.id.userClubTextView);
             userBornDate = itemView.findViewById(R.id.userBornDateTextView);
             userGroup = itemView.findViewById(R.id.userGroupTextView);
+            colorfulRelativeLayout = itemView.findViewById(R.id.colorfulRelativeLayout);
 
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onListItemClick.onItemClick(getItem(getAdapterPosition()), getAdapterPosition());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onUserClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
-
-    public interface OnListItemClick {
-        void onItemClick(DocumentSnapshot snapshot, int position);
-    }
-
-
 }

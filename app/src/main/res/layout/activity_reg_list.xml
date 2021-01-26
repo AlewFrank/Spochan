@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Registration.RegListActivity"
-    android:background="#fcfafa">
+    android:background="#f0f0f0">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
@@ -13,38 +13,63 @@
         app:titleMarginStart="50000dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
         <TextView
+            android:id="@+id/numberOfUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/result"
-            android:textColor="@color/Black"
-            android:textSize="20sp"
-            android:layout_marginTop="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_centerHorizontal="true"
+            android:text="Всего: 0"
             android:textColor="@color/Black"
             android:textSize="20sp"
             android:layout_marginTop="16dp" />
 
+
+    <LinearLayout
+        android:id="@+id/buttonLinearLayout"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/allMembersButton"
+            android:onClick="allMembersButtonPressed"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:text="@string/result2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/comeMembersButton"
+            android:onClick="comeMembersButtonPressed"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:text="@string/comeOnButton2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/payMembersButton"
+            android:onClick="payMembersButtonPressed"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:text="@string/payButton2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sportsmenListRecycleView"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_below="@+id/buttonLinearLayout"
         android:layout_marginBottom="4dp"
         android:scrollbars="vertical"
         android:orientation="vertical"
@@ -62,24 +87,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="50dp"
         android:background="@color/colorPrimary"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_add"
         android:focusable="true" />
-
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation"
-        android:background="@android:color/white"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
-        android:layout_alignParentBottom="true"/>
 
 
     <ProgressBar

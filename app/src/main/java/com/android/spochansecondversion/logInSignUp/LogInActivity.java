@@ -33,6 +33,33 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity {
 
+
+
+
+
+
+
+
+
+    //перепроверь триста раз правильно ли задаются тренер и админ для базы данных, если нет, то фалс ставь
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private static final String TAG = "LogInActivity";
 
     private Toolbar toolbar;
