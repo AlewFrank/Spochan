@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.R;
+import com.android.spochansecondversion.Rating.RatingActivity;
 import com.android.spochansecondversion.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +42,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
 
-    //перепроверь триста раз правильно ли задаются тренер и админ для базы данных, если нет, то фалс ставь
+    //если решишь задавать тренеров и админов в приложении, то просто вот сегодня 23.02.2021, открой последнюю сохраненку до сегодня и посмотри, что тут было, потому что то, что тут до удаления некоторого кода, нихрена не работает
 
 
 
@@ -62,16 +63,13 @@ public class LogInActivity extends AppCompatActivity {
 
     private static final String TAG = "LogInActivity";
 
-    private Toolbar toolbar;
-
-    private Button logInButton;
-    TextView toggleLoginSingUpTextView, forgetPassword;
+    private Button logInButton, arrowBackButton;
+    TextView toggleLoginSingUpTextView, forgetPassword, sentEmailButton, backButton, signUpButton;
     TextInputLayout textInputEmail;
     TextInputLayout textInputFirstName;
     TextInputLayout textInputSecondName;
     TextInputLayout textInputPassword;
     TextInputLayout textInputConfirmPassword;
-    TextInputLayout textInputPasswordForDirector;
 
     public boolean isDirectorModeActivated = false;
     private boolean isLoginModeActive = true;//по умолчанию все boolean переменные false
@@ -88,16 +86,6 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        toolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(toolbar);
-
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawe);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.register, R.string.enter);
-//        toggle.syncState();
-//        int color = ContextCompat.getColor(this, R.color.colorAccent);
-//        toolbar.getNavigationIcon().setColorFilter(color, PorterDuff.Mode.DST_ATOP);
 
         //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
         forgetPassword = findViewById(R.id.forgetPassword);
@@ -106,6 +94,10 @@ public class LogInActivity extends AppCompatActivity {
         
 
         logInButton = findViewById(R.id.logInButton);
+        signUpButton = findViewById(R.id.signUpButton);
+        arrowBackButton = findViewById(R.id.arrowBackButton);
+        sentEmailButton = findViewById(R.id.sentEmailButton);
+        backButton = findViewById(R.id.backButton);
         //toggleLoginSingUpTextView = findViewById(R.id.toggleLoginSingUpTextView);
         //helloTextView = findViewById(R.id.helloTextView);
         textInputEmail = findViewById(R.id.textInputEmail);
@@ -113,12 +105,13 @@ public class LogInActivity extends AppCompatActivity {
         textInputSecondName = findViewById(R.id.textInputSecondName);
         textInputPassword = findViewById(R.id.textInputPassword);
         textInputConfirmPassword = findViewById(R.id.textInputConfirmPassword);
-        textInputPasswordForDirector = findViewById(R.id.textInputPasswordForDirector);
 
         textInputFirstName.setVisibility(View.GONE);
         textInputSecondName.setVisibility(View.GONE);
         textInputConfirmPassword.setVisibility(View.GONE);
-        textInputPasswordForDirector.setVisibility(View.GONE);
+        arrowBackButton.setVisibility(View.GONE);
+        sentEmailButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.GONE);
 
         auth = FirebaseAuth.getInstance();
 
@@ -205,25 +198,6 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateDirectorPassword() {
-
-        String directorPasswordInput = textInputPasswordForDirector.getEditText().getText()
-                .toString().trim();
-
-        if (directorPasswordInput.isEmpty()) {
-            textInputPasswordForDirector.setError(getResources().getString(R.string.set_director_password));
-            return false;
-        } else  if (Integer.parseInt(directorPasswordInput) == 991842) {
-            textInputPasswordForDirector.setError("");
-            isDirectorModeActivated = true;
-            return true;
-        } else  {
-            textInputPasswordForDirector.setError(getResources().getString(R.string.wrong_director_password));
-            return false;
-        }
-    }
-
-
 
     public void toggleLoginMode(View view) {//онклик метод синей надписи под кнопкой
 
@@ -244,48 +218,15 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {//добавляем меню, которое троеточие
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sign_in_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {//задаем поведение при нажатии на пунктах меню
-
-        switch (item.getItemId()) {
-            case R.id.sign_in_as_director:
-                Toast.makeText(LogInActivity.this, getResources().getString(R.string.you_are_director), Toast.LENGTH_LONG).show();
-                textInputPasswordForDirector.setVisibility(View.VISIBLE);
-                isDirectorModeActivated = true;
-                return true;
-            case R.id.sign_in_as_sportsman:
-                Toast.makeText(LogInActivity.this, getResources().getString(R.string.you_are_sportsman), Toast.LENGTH_LONG).show();
-                textInputPasswordForDirector.setVisibility(View.GONE);
-                isDirectorModeActivated = false;
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
     public void loginSignUpUser(View view) {//онклик метод из нашей разметки
 
-        if (isDirectorModeActivated) {
-            if (!validateEmail() | !validateDirectorPassword() | !validatePassword()) {// такая штука | обозначает почти как "или" (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+        if (!validateEmail() | !validatePassword()) {// такая штука | обозначает почти как "или" (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
                 return;
             }
-        } else {
-            if (!validateEmail() | !validatePassword()) {// такая штука | обозначает почти как "или" (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
-                return;
-            }
-        }
+
 
         if (isLoginModeActive) {
+            Log.d("Fuck", "Логин");
             auth.signInWithEmailAndPassword(textInputEmail.getEditText().getText().toString().trim(), textInputPassword.getEditText().getText().toString().trim())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -309,15 +250,12 @@ public class LogInActivity extends AppCompatActivity {
                     });
 
         } else {
-            if (isDirectorModeActivated) {
-                if (!validateEmail() | !validateFirstName() | !validateDirectorPassword() | !validateSecondName() | !validatePassword() | !validateConfirmPassword()) {// такая штука | обозначает почти как или (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
+            if (!validateEmail() | !validateFirstName() | !validateSecondName() | !validatePassword() | !validateConfirmPassword()) {// такая штука | обозначает почти как или (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
                     return;
                 }
-            } else {
-                if (!validateEmail() | !validateFirstName() | !validateSecondName() | !validatePassword() | !validateConfirmPassword()) {// такая штука | обозначает почти как или (две вертикальных), но при этом проверяет все условия, а не ищет первое, которое совпадает и на остальные забивает. С двумя палками у нас бы выводилось только одно сообщение об ошибке для того поле ввода, которое первое попадет на проверку, а с двумя палками выводится сразу все сообщения об ошибке, в тех полях, где они есть
-                    return;
-                }
-            }
+
+            Log.d("Fuck", "Регистрация");
+
 
             auth.createUserWithEmailAndPassword(textInputEmail.getEditText().getText().toString().trim(), textInputPassword.getEditText().getText().toString().trim())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -370,35 +308,19 @@ public class LogInActivity extends AppCompatActivity {
 
     public void forgetPassword(View view) { //онклик метод, если человек забыл свой пароль
 
+        arrowBackButton.setVisibility(View.VISIBLE);
+
         //убираем все поля, кроме ввода имейла
         textInputFirstName.setVisibility(View.GONE);
         textInputPassword.setVisibility(View.GONE);
         textInputSecondName.setVisibility(View.GONE);
         textInputConfirmPassword.setVisibility(View.GONE);
-        textInputPasswordForDirector.setVisibility(View.GONE);
-        toggleLoginSingUpTextView.setVisibility(View.GONE);
+        sentEmailButton.setVisibility(View.VISIBLE);
+        logInButton.setVisibility(View.GONE);
+        signUpButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.VISIBLE);
+        //toggleLoginSingUpTextView.setVisibility(View.GONE);
         Toast.makeText(LogInActivity.this, getResources().getString(R.string.input_email), Toast.LENGTH_LONG).show();
-
-
-
-        logInButton.setText(getResources().getString(R.string.push));
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String emailAddress = textInputEmail.getEditText().getText().toString().trim();
-
-                auth.sendPasswordResetEmail(emailAddress)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "Email sent.");
-                                    showDialog(emailAddress);
-                                }
-                            }
-                        });
-            }
-        });
     }
 
     private void showDialog(String emailAddress) {
@@ -415,5 +337,66 @@ public class LogInActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void arrowBackButton(View view) { //при нажатии на стрелочку слева-сверху
+        makeTheStart();
+    }
+
+    public void sentEmail(View view) {
+        final String emailAddress = textInputEmail.getEditText().getText().toString().trim();
+
+        if (validateEmail()) {
+            auth.sendPasswordResetEmail(emailAddress)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Email sent.");
+                                showDialog(emailAddress);
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(LogInActivity.this, getResources().getString(R.string.input_email), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void signUpButton(View view) {
+        isLoginModeActive = false;
+
+        textInputFirstName.setVisibility(View.VISIBLE);
+        textInputSecondName.setVisibility(View.VISIBLE);
+        textInputConfirmPassword.setVisibility(View.VISIBLE);
+        textInputPassword.setVisibility(View.VISIBLE);
+        textInputEmail.setVisibility(View.VISIBLE);
+
+        signUpButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.VISIBLE);
+        arrowBackButton.setVisibility(View.VISIBLE);
+
+        logInButton.setText("Зарегистрироваться");
+    }
+
+    public void backButton(View view) { //назад, если была открыта регистрация
+        makeTheStart();
+    }
+
+    private void makeTheStart() {
+        textInputFirstName.setVisibility(View.GONE);
+        textInputSecondName.setVisibility(View.GONE);
+        textInputConfirmPassword.setVisibility(View.GONE);
+        arrowBackButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.GONE);
+        textInputPassword.setVisibility(View.VISIBLE);
+        textInputEmail.setVisibility(View.VISIBLE);
+
+        sentEmailButton.setVisibility(View.GONE);
+        logInButton.setVisibility(View.VISIBLE);
+        signUpButton.setVisibility(View.VISIBLE);
+
+        logInButton.setText("Войти");
+
+        isLoginModeActive = true;
     }
 }

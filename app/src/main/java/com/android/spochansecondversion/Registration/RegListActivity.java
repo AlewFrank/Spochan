@@ -5,8 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,18 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.spochansecondversion.Competition.CompetitionsActivity;
 import com.android.spochansecondversion.Competition.FullCompetitionItem;
-import com.android.spochansecondversion.FiltrationActivity;
-import com.android.spochansecondversion.News.AddNewsActivity;
-import com.android.spochansecondversion.News.NewsActivity;
 import com.android.spochansecondversion.R;
-import com.android.spochansecondversion.Rating.RatingAdapter;
 import com.android.spochansecondversion.User;
-import com.firebase.ui.firestore.SnapshotParser;
-import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,12 +66,14 @@ public class RegListActivity extends AppCompatActivity {
     private DatabaseReference usersDataBaseReference;//если что-то не понятно то смотри в ChatActivity или в SignInActivity, там уже это разбиралось и не раз, это если что из приложения AwesomeChat
     private ChildEventListener usersChildEventListener;
     private RecyclerView.LayoutManager userLayoutManager;
-    private ArrayList<User> userArrayList;
+    private ArrayList<User> userArrayList, filtrationArrayList;
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean isDirectorModeActivated = false;
     private boolean isCoachModeActivated = false;
+
+    private String firstName, secondName, days, months, years;
 
 
     @Override
@@ -100,16 +92,59 @@ public class RegListActivity extends AppCompatActivity {
         }
 
 
+        //В активити приходит интент и тут можем его называть как угодно, так что для всех случаев юзаем competitionTitleIntent, это не совсем правильно, но зато быстрее и сложнее запутаться
+
+
         //случай, когда переходим из AddMemberOfChampionship и когда из FullCompetitionActivity, то есть для двух случаев юзаем один и тот же интент
         Intent competitionTitleIntent = getIntent(); //получаем интент из FullCompetitionItem, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
         competitionTitle = competitionTitleIntent.getStringExtra("competitionTitle");
         competitionId = competitionTitleIntent.getStringExtra("competitionId");//это значение нужно для того, чтоб правильно работала кнопка назад в рег лист активити после возвращения из активити редактирования или создания спортсмена
-        condition = "All";
+        condition = "buttonAll";
 
-        if (competitionTitleIntent.getStringExtra("Condition") != null) {
+        if (competitionTitleIntent.getStringExtra("Condition") != null) { //этот интент отправляется на эту же страницу, при нажатии кнопки, см внизу там кода
             condition = competitionTitleIntent.getStringExtra("Condition"); //это значение изымаем, если выбрали какую-то фильтрацию людей
         }
-        numberOfUsers = findViewById(R.id.numberOfUsers);
+
+
+        Intent filtrationIntent = getIntent();
+        //получаем данные в том случае, если идет фильтрация по каким-то личным параметрам человека
+        firstName = filtrationIntent.getStringExtra("firstName");
+        secondName = filtrationIntent.getStringExtra("secondName");
+        days = filtrationIntent.getStringExtra("days");
+        months = filtrationIntent.getStringExtra("months");
+        years = filtrationIntent.getStringExtra("years");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //создай цикл типа если хоть одно не нель, то condition = какой-то строке кот будет обозначать ситуацию с фильтрацией человека по конкретному параметру
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //createRecycleView("PayOnly");
@@ -127,7 +162,9 @@ public class RegListActivity extends AppCompatActivity {
         });
 
         userArrayList = new ArrayList<>();
+        filtrationArrayList = new ArrayList<>(); //помещаем сюда каждого отдельного человека и после этого его обрабатываем по каждому параметру
 
+        numberOfUsers = findViewById(R.id.numberOfUsers);
         attachUserDatabaseReferenceListener(condition);//прикрепить листенер к датабейс референс
 
         buildRecycleView();
@@ -142,29 +179,50 @@ public class RegListActivity extends AppCompatActivity {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    filtrationArrayList.clear(); // чтоб была возможность следующего человека сюда запихнуть
                     User user = snapshot.getValue(User.class);
                     //userArrayList.clear();//очищаем ArrayList, чтоб при изменении параметров настроек у нас люди заново выводились
                     //userCounter = 0;
 
-                    if (condition.equals("All")) {
-                        userArrayList.add(user);
-                        userCounter ++; //счетчик людей
-                        numberOfUsers.setText("Всего: " + userCounter);
-                    } else if (condition.equals("PayOnly")) {
-                        if (user != null && user.isHasPayed()) {
+                    Log.d("Fuck", condition);
+
+                    if (condition.contains("button")) { //это если фильтрация идет по трем параметрам с кнопками(всего/пришли/оплатили)
+                        if (condition.equals("buttonAll")) {
                             userArrayList.add(user);
                             userCounter ++; //счетчик людей
-                            numberOfUsers.setText("Оплатили: " + userCounter);
+                            numberOfUsers.setText("Всего: " + userCounter);
+                        } else if (condition.equals("buttonPayOnly")) {
+                            if (user != null && user.isHasPayed()) {
+                                userArrayList.add(user);
+                                userCounter ++; //счетчик людей
+                                numberOfUsers.setText("Оплатили: " + userCounter);
+                            }
+                        } else if (condition.equals("buttonComeOnly")) {
+                            if (user != null && user.isHasComeOn()) {
+                                userArrayList.add(user);
+                                userCounter ++; //счетчик людей
+                                numberOfUsers.setText("Пришли: " + userCounter);
+                            }
                         }
-                    } else if (condition.equals("ComeOnly")) {
-                        if (user != null && user.isHasComeOn()) {
-                            userArrayList.add(user);
-                            userCounter ++; //счетчик людей
-                            numberOfUsers.setText("Пришли: " + userCounter);
+                    } else {//случай когда нам надо найти человека по какому-то парметру (имя/фамилия/группа/пол и тд)
+                        filtrationArrayList.add(user); //добавляем каждого человека, а на каждом этапе удаляем его если он не подходит
+
+                        Log.d("Fuck", firstName);
+
+                        if (firstName!=null) {
+                            if (!firstName.equals("") & !user.getFirstName().equals(firstName)) {
+                                filtrationArrayList.clear();
+                            }
                         }
+
+
+                        if (!filtrationArrayList.isEmpty()) { userArrayList.add(user); }
                     }
 
-                    //возможно тут надо также вот эту строку вставить buildRecycleView();
+
+
+
+
 
 
                     adapter.notifyDataSetChanged();
@@ -281,6 +339,7 @@ public class RegListActivity extends AppCompatActivity {
                 Intent filtrationIntent = new Intent(RegListActivity.this, FiltrationActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
                 //filtrationIntent.putExtra("competitionId", competitionId);//это значение нужно для того, чтоб правильно работала кнопка назад в рег лист активити после возвращения из активити редактирования или создания спортсмена
                 //filtrationIntent.putExtra("isDirectorModeActivated", isDirectorModeActivated);//это надо, чтоб при возвращении на пред страницу, приложение знало создавать ли кнопку редактирования для сорев или нет
+                filtrationIntent.putExtra("competitionTitle", competitionTitle);
                 startActivity(filtrationIntent);
             default:
                 return super.onOptionsItemSelected(item);
@@ -295,7 +354,7 @@ public class RegListActivity extends AppCompatActivity {
         Intent randomIntent = new Intent(RegListActivity.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
         randomIntent.putExtra("competitionTitle", competitionTitle); //связываем строку со значение
         randomIntent.putExtra("competitionId", competitionId);//это значение нужно для того, чтоб правильно работала кнопка назад в рег лист активити после возвращения из активити редактирования или создания спортсмена
-        randomIntent.putExtra("Condition", "All"); //отправляем параметр, с каким надо открывать данную страницу
+        randomIntent.putExtra("Condition", "buttonAll"); //отправляем параметр, с каким надо открывать данную страницу
         startActivity(randomIntent);
     }
 
@@ -307,7 +366,7 @@ public class RegListActivity extends AppCompatActivity {
         Intent randomIntent = new Intent(RegListActivity.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
         randomIntent.putExtra("competitionTitle", competitionTitle); //связываем строку со значение
         randomIntent.putExtra("competitionId", competitionId);//это значение нужно для того, чтоб правильно работала кнопка назад в рег лист активити после возвращения из активити редактирования или создания спортсмена
-        randomIntent.putExtra("Condition", "ComeOnly"); //отправляем параметр, с каким надо открывать данную страницу
+        randomIntent.putExtra("Condition", "buttonComeOnly"); //отправляем параметр, с каким надо открывать данную страницу
         startActivity(randomIntent);
     }
 
@@ -319,7 +378,7 @@ public class RegListActivity extends AppCompatActivity {
         Intent randomIntent = new Intent(RegListActivity.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
         randomIntent.putExtra("competitionTitle", competitionTitle); //связываем строку со значение
         randomIntent.putExtra("competitionId", competitionId);//это значение нужно для того, чтоб правильно работала кнопка назад в рег лист активити после возвращения из активити редактирования или создания спортсмена
-        randomIntent.putExtra("Condition", "PayOnly"); //отправляем параметр, с каким надо открывать данную страницу
+        randomIntent.putExtra("Condition", "buttonPayOnly"); //отправляем параметр, с каким надо открывать данную страницу
         startActivity(randomIntent);
     }
 

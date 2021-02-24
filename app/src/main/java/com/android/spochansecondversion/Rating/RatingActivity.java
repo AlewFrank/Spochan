@@ -212,7 +212,7 @@ import java.util.ArrayList;
             Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
             groupTitleTextView.setTypeface(roboto_bold);
 
-            Intent intent = getIntent();
+            Intent intent = getIntent(); //отправляем его из GroupAdapter
             if (intent != null) {//так обозначается "не равен"
                 group = intent.getStringExtra("index");
                 groupTitle = intent.getStringExtra("title");

@@ -21,12 +21,14 @@
             android:layout_height="?attr/actionBarSize">
 
             <Button
+                android:id="@+id/arrowBackButton"
+                android:onClick="arrowBackButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@drawable/ic_baseline_arrow_back_24"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp" />
+                android:background="@drawable/ic_baseline_arrow_back_24" />
         </RelativeLayout>
 
         <LinearLayout
@@ -34,21 +36,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputPasswordForDirector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:hint="@string/director_password"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputEmail"
@@ -126,6 +113,19 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/sentEmailButton"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                style="@style/Button"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+
+                android:text="@string/push"
+                android:onClick="sentEmail" />
+
+            <Button
                 android:id="@+id/logInButton"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
@@ -149,7 +149,20 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/register"
-                android:onClick="loginSignUpUser" />
+                android:onClick="signUpButton" />
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                style="@style/ButtonRegistration"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Назад"
+                android:onClick="backButton" />
 
             <TextView
                 android:id="@+id/forgetPassword"

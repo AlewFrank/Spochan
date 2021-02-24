@@ -2,6 +2,7 @@ package com.android.spochansecondversion.Competition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,10 +52,15 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
     String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
     String emailtext;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competitions);
+
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -169,54 +175,6 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
         startActivity(competitionIntent);
     }
 
-
-
-
-    /* @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseRecyclerAdapter<Competition, CompetitionViewHolder>firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Competition, CompetitionViewHolder>
-                (Competition.class, R.layout.competitions_item, CompetitionViewHolder.class, competitionsDataBaseReference) {
-            @Override
-            protected void populateViewHolder(CompetitionViewHolder viewHolder, Competition competition, int i) {
-                viewHolder.setTitle(competition.getCompetitionTitle());
-                viewHolder.setLocation(competition.getCompetitionLocation());
-                viewHolder.setData(competition.getCompetitionData());
-                viewHolder.setImage(getApplicationContext(),competition.getCompetitionImageUrl());
-            }
-        };
-        competitionRecycleView.setAdapter(firebaseRecyclerAdapter);
-    }
-
-
-
-    public static class CompetitionViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        public CompetitionViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-        public void setTitle(String title) {
-            TextView competition_title = mView.findViewById(R.id.competitionNameTextView);
-            competition_title.setText(title);
-        }
-
-        public void setLocation (String location){
-            TextView competition_location = mView.findViewById(R.id.competitionLocationTextView);
-            competition_location.setText(location);
-        }
-
-        public void setData(String data) {
-            TextView competition_data = mView.findViewById(R.id.competitionDataTextView);
-            competition_data.setText(data);
-        }
-
-        public void setImage(Context context, String image) {
-            ImageView competition_image = mView.findViewById(R.id.competitionImageView);
-            Glide.with(context).load(image).into(competition_image);
-        }
-    }*/ //в этом случае не нужен класс адаптер, но здесь также нет функциональности, что при нажатии открывается соответствующая активити
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

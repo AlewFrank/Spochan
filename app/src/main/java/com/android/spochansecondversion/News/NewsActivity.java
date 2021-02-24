@@ -3,6 +3,7 @@ package com.android.spochansecondversion.News;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,10 +64,15 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     String subject_developer = "Hello developer"; //тема письма для связи с разработчиком
     String emailtext;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
 
         //Подробнее про настройку BottonNavigationView можно прочитать по ссылке https://javadevblog.com/primer-raboty-s-bottomnavigationview-nizhnee-menyu-v-android.html
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

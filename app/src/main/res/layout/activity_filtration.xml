@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FiltrationActivity">
+    tools:context=".Registration.FiltrationActivity">
 
 
     <LinearLayout
@@ -140,7 +140,7 @@
             android:scrollbars="horizontal"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_marginTop="16dp"/>
 
         <LinearLayout
@@ -152,6 +152,7 @@
 
             <Button
                 android:id="@+id/okButton"
+                android:onClick="okButton"
                 android:layout_width="144dp"
                 android:layout_height="54dp"
                 style="@style/ButtonRegistration"
@@ -165,6 +166,7 @@
 
             <Button
                 android:id="@+id/cancelButton"
+                android:onClick="cancelButton"
                 android:layout_width="144dp"
                 android:layout_height="54dp"
                 style="@style/ButtonRegistration"
