@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/White"
     app:cardCornerRadius="8dp"
     android:layout_margin="8dp"
-    android:elevation="4dp">
+    app:cardElevation="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/White"
@@ -17,13 +18,14 @@
             android:id="@+id/competitionImageView"
             android:background="@drawable/competitions_item_background"
             android:layout_width="135dp"
-            android:layout_height="match_parent"
+            android:layout_height="140dp"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/competitionImageView">
 
             <TextView
                 android:id="@+id/competitionTitleTextView"
@@ -69,5 +71,5 @@
 
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

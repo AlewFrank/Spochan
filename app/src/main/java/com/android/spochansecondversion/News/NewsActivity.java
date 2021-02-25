@@ -251,11 +251,11 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
                         newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("5");
 
 
-                        newsImagesStorageReference1.delete();
-                        newsImagesStorageReference2.delete();
-                        newsImagesStorageReference3.delete();
-                        newsImagesStorageReference4.delete();
-                        newsImagesStorageReference5.delete();
+                        if (newsImagesStorageReference1!=null) {newsImagesStorageReference1.delete();}
+                        if (newsImagesStorageReference2!=null) {newsImagesStorageReference2.delete();}
+                        if (newsImagesStorageReference3!=null) {newsImagesStorageReference3.delete();}
+                        if (newsImagesStorageReference4!=null) {newsImagesStorageReference4.delete();}
+                        if (newsImagesStorageReference5!=null) {newsImagesStorageReference5.delete();}
 
                         Toast.makeText(NewsActivity.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
                         startActivity(new Intent(NewsActivity.this, NewsActivity.class));//чтоб страница обновилась
