@@ -33,19 +33,6 @@
                 android:text="@string/not_indicated"
                 android:layout_marginTop="16dp"/>
 
-
-            <Button
-                android:id="@+id/registerOnCompetitionButton"
-                android:visibility="gone"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:text="Участники соревнований"
-                android:textColor="@color/White"
-                style="@style/ButtonRegistrationOnChamp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"/>
-
-
         </LinearLayout>
 
 

@@ -41,20 +41,22 @@
                 android:id="@+id/textInputEmail"
                 app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorTextColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:inputType="textEmailAddress"
-                    android:hint="@string/email"/>
+                    android:hint="@string/email" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputFirstName"
                 app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorTextColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -67,7 +69,8 @@
                 android:id="@+id/textInputSecondName"
                 app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorTextColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -81,7 +84,8 @@
                 app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorTextColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -95,7 +99,8 @@
                 app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorTextColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

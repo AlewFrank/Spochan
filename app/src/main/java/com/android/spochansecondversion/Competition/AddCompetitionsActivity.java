@@ -72,10 +72,6 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     private boolean isImage = false;//переменная, показывающая есть у нас изображение или нет
 
-    private boolean isCompetitionRegistrationActive = false;//переменная, которая используется для того, чтобы отображать кнопку, позволяющую регистрироваться на чемпионат
-
-    private RadioButton falseRadioButton, trueRadioButton;
-
     private String competitionTitle;
 
     private Toolbar mToolbar;
@@ -137,9 +133,6 @@ public class AddCompetitionsActivity extends AppCompatActivity {
         editButton.setTypeface(roboto);
         cancelButton.setTypeface(roboto);
 
-        trueRadioButton = findViewById(R.id.trueRadioButton);
-        falseRadioButton = findViewById(R.id.falseRadioButton);
-
         backgroundForImage = findViewById(R.id.backgroundForImage);
 
         progressBar = findViewById(R.id.progressBar);
@@ -183,15 +176,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competitionAddressEditText.setText(competition.getCompetitionAddress());
                     competitionDescriptionEditText.setText(competition.getCompetitionDescription());
 
-                    isCompetitionRegistrationActive = competition.isCompetitionRegistrationActive();
 
-                    if (competition.isCompetitionRegistrationActive()) {
-                        trueRadioButton.setChecked(true);
-                        falseRadioButton.setChecked(false);
-                    } else {
-                        trueRadioButton.setChecked(false);
-                        falseRadioButton.setChecked(true);
-                    }
 
 
 
@@ -223,7 +208,6 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                     competition.setCompetitionAddress(competitionAddressEditText.getText().toString().trim());
                     competition.setCompetitionDescription(competitionDescriptionEditText.getText().toString().trim());
                     competition.setCompetitionId(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim());//это не прям айди документа, который задется ниже, здесь же просто поле на всякий с имененм айди сделали, типо пусть будет дублироваться
-                    competition.setCompetitionRegistrationActive(isCompetitionRegistrationActive);
 
                     if (isImage) {//чтоб при редактировании нам пустая строка сюда не ставилась, если мы новое изображение не загружаем
                         competition.setCompetitionImageUrl(currentCompetitionImageUrl);
@@ -241,33 +225,10 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (competitionTitle != null)  {//чтоб при создании, когда competitionTitle не выскакивало уведомление о раздваивании баз данных
-                        if (isCompetitionRegistrationActive & !competitionTitleEditText.getText().toString().trim().equals(competitionTitle)) {//если пытается отредактировать название, когда включена запись на соревнование, это нельзя делать, так как в базе данных у нас запись людей идет по названию, соответственно, если изменить название, то будет два разных списка
-                            AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-                            builder.setMessage(getResources().getString(R.string.dont_edit_title));
-                            builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    competitionTitleEditText.setText(competitionTitle);//просто ставим предыдущее значение
-                                }
-                            });
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        } else {
-                            //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
-                            db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
-                            Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
-                        }
-                    } else {
-                        //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
-                        db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
-                        Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
-                    }
-
-
-
+                    //Благодаря такой записи .document() соревнования будут располагаться по дате, при этом самые ближайшие в самом верху
+                    db.collection("Competitions" + getResources().getString(R.string.app_country)).document(yearCompetitionDateEditText.getText().toString().trim() + monthCompetitionDateEditText.getText().toString().trim() + daysCompetitionDateEditText.getText().toString().trim()).set(competition);
+                    Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(AddCompetitionsActivity.this, CompetitionsActivity.class));
                 }
     }
 
@@ -519,25 +480,5 @@ public class AddCompetitionsActivity extends AppCompatActivity {
                         Toast.makeText(AddCompetitionsActivity.this, getResources().getString(R.string.delete_fail), Toast.LENGTH_LONG).show();
                     }
                 });
-    }
-
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        if (checked) {
-            switch(view.getId()) {
-                case R.id.trueRadioButton:
-                    if (checked)
-                        isCompetitionRegistrationActive = true;
-                    falseRadioButton.setChecked(false);
-                    break;
-                case R.id.falseRadioButton:
-                    if (checked)
-                        isCompetitionRegistrationActive = false;
-                    trueRadioButton.setChecked(false);
-            }
-        }
     }
 }

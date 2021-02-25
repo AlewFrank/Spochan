@@ -19,10 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.spochansecondversion.R;
-import com.android.spochansecondversion.Registration.AddMemberOfChampionship;
-import com.android.spochansecondversion.Registration.MemberOfChampionship;
-import com.android.spochansecondversion.Registration.RegListActivity;
-import com.android.spochansecondversion.User;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,12 +42,6 @@ public class FullCompetitionItem extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private boolean isDirectorModeActivated;
-    private boolean isCoachModeActivated;
-
-    private Button registerOnCompetitionButton;
-
-    private String whichRegGroupActive;
 
     private Toolbar mToolbar;
     @Override
@@ -69,33 +59,6 @@ public class FullCompetitionItem extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//
-//        bottomNavigationView.setSelectedItemId(R.id.navigation_competitions);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                switch (item.getItemId()) {
-//                    case R.id.navigation_rating:
-//                        startActivity(new Intent(getApplicationContext(), RatingActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                    case R.id.navigation_news:
-//                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-////                    case R.id.navigation_myProfile:
-////                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
-////                        overridePendingTransition(0,0);
-////                        return true;
-//                    case R.id.navigation_competitions:
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
 
         competitionTitleTextView = findViewById(R.id.competitionTitleTextView);
         competitionLocationTextView = findViewById(R.id.competitionLocationTextView);
@@ -103,7 +66,6 @@ public class FullCompetitionItem extends AppCompatActivity {
         competitionAddressTextView = findViewById(R.id.competitionAddressTextView);
         competitionDescription = findViewById(R.id.competitionDescription);
         competitionImageView = findViewById(R.id.competitionImageView);
-        registerOnCompetitionButton = findViewById(R.id.registerOnCompetitionButton);
 
 
         //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
@@ -147,25 +109,6 @@ public class FullCompetitionItem extends AppCompatActivity {
                 competitionAddressTextView.setText(competition.getCompetitionAddress());
                 competitionDescription.setText(competition.getCompetitionDescription());
 
-                if (competition.isCompetitionRegistrationActive()) {
-
-                    userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            User user = documentSnapshot.toObject(User.class);
-
-                            isDirectorModeActivated = user.isDirector();
-                            isCoachModeActivated = user.isCoach();
-
-                            if (isDirectorModeActivated || isCoachModeActivated) {
-                                registerOnCompetitionButton.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-
-                } else {
-                    registerOnCompetitionButton.setVisibility(View.GONE);
-                }
 
 
                 Glide.with(competitionImageView.getContext())//таким образом мы загружаем изображения в наш image View
@@ -175,17 +118,6 @@ public class FullCompetitionItem extends AppCompatActivity {
                 if (competition.getCompetitionAddress().equals("")) {//если точного адреса нет, то чтоб не висела просто надпись "Адрес: "
                     competitionAddressTextView.setVisibility(View.GONE);//раз текста нет, то зачем тогда вообще этот текствью
                 }
-            }
-        });
-
-        registerOnCompetitionButton.setOnClickListener(new View.OnClickListener() {//выполняется, если мы нажали на кнопку с регистрацией на чемпионат
-            @Override
-            public void onClick(View v) {
-
-                Intent competitionTitleIntent = new Intent(FullCompetitionItem.this, RegListActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                competitionTitleIntent.putExtra("competitionTitle", competitionTitle + daysCompetitionDate + monthCompetitionDate + yearCompetitionDate); //связываем строку со значение
-                competitionTitleIntent.putExtra("competitionId", onItemClickId); //это нужно для адекватного нажатия кнопки назад в рег лист активити
-                startActivity(competitionTitleIntent);
             }
         });
     }

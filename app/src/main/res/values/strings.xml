@@ -62,25 +62,13 @@
     <string name="push">Отправить </string>
     <string name="wait">Ожидайте…</string>
     <string name="change_image">Заменить изображение</string>
-    <string name="user_points">Кол-во баллов: </string>
-    <string name="fill_your_profile">Сначала перейдите в раздел "Мой аккаунт" и заполните всю информацию о себе </string>
-    <string name="dont_edit_title">Не редактируйте заголовок соревнований, пока включена регистрация, так как это приведет к раздвоению базы данных и часть пользователей будет зарегистрирована в базе по старому названию, а часть по новой. Сначала отредактируйте все поля, сохраните и только потом включайте регистрацию на мероприятие </string>
-    <string name="reg_list">Список зарегестрировавшихся </string>
-    <string name="put_data">Сначала введите имя и фамилию спортсмена </string>
-    <string name="open_reg_list">Открыть список зарегестрировавшихся </string>
-    <string name="choose_your_group">Выберите группу для участия </string>
     <string name="fields_notification">Сначала заполните все поля</string>
+    <string name="user_points">Кол-во баллов: </string>
+    <string name="put_data">Сначала введите имя и фамилию спортсмена </string>
     <string name="help_email">Введите ваше сообщение тут…</string>
     <string name="settings">Настройки</string>
     <string name="language">Выбрать язык</string>
     <string name="user_city">Город спортсмена</string>
-    <string name="result">Всего: </string>
-    <string name="result2">Всего </string>
-    <string name="comeOnButton">Пришел </string>
-    <string name="comeOnButton2">Пришли </string>
-    <string name="payButton">Оплатил </string>
-    <string name="payButton2">Оплатили </string>
-    <string name="wrongSportsman">У вас нет права редактировать данного спортсмена </string>
     <string name="notAllowed">У вас нет права редактировать данную информацию </string>
 
     <string name="title_exception">Введите значение заголовка</string>

@@ -193,42 +193,6 @@
                     android:text="@string/competition_description" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:layout_marginLeft="15dp"
-                    android:id="@+id/trueRadioButton"
-                    android:onClick="onRadioButtonClicked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:text="@string/reg_true"
-                    android:layout_marginStart="15dp" />
-
-                <RadioButton
-                    android:layout_marginLeft="15dp"
-                    android:id="@+id/falseRadioButton"
-                    android:onClick="onRadioButtonClicked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:text="@string/reg_false"
-                    android:layout_marginStart="15dp" />
-
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/competition_reg" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
