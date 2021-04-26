@@ -262,23 +262,23 @@ public class AddNewsActivity extends AppCompatActivity {
                 news.setNewsData(dateText);
                 news.setNewsTime(demoTimeText);
                 //news.setNewsImageUrl(currentNewsImageUrl);
-                if (currentNewsImageUrl1 != null & !currentNewsImageUrl1.equals("")) {
+                if (currentNewsImageUrl1 != null)  /*& !currentNewsImageUrl1.equals(""))*/ {
                     news.setNewsImageUrl_1(currentNewsImageUrl1);
                 }
 
-                if (currentNewsImageUrl2 != null & !currentNewsImageUrl2.equals("")) {
+                if (currentNewsImageUrl2 != null)/* & !currentNewsImageUrl2.equals(""))*/ {
                     news.setNewsImageUrl_2(currentNewsImageUrl2);
                 }
 
-                if (currentNewsImageUrl3 != null & !currentNewsImageUrl3.equals("")) {
+                if (currentNewsImageUrl3 != null)  /* & !currentNewsImageUrl3.equals(""))*/ {
                     news.setNewsImageUrl_3(currentNewsImageUrl3);
                 }
 
-                if (currentNewsImageUrl4 != null & !currentNewsImageUrl4.equals("")) {
+                if (currentNewsImageUrl4 != null)  /* & !currentNewsImageUrl4.equals(""))*/ {
                     news.setNewsImageUrl_4(currentNewsImageUrl4);
                 }
 
-                if (currentNewsImageUrl5 != null & !currentNewsImageUrl5.equals("")) {
+                if (currentNewsImageUrl5 != null)  /* & !currentNewsImageUrl5.equals("")) */{
                     news.setNewsImageUrl_5(currentNewsImageUrl5);
                 }
 

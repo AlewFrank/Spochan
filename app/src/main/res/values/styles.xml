@@ -39,13 +39,6 @@
         <item name="android:textSize">24dp</item>
     </style>
 
-    <style name="ButtonSexForFiltration">
-        <item name="android:background">@drawable/button_sex_in_filtration_activity</item>
-        <item name="android:textColor">#FAFBFE</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">24dp</item>
-    </style>
-
 
 
     <style name="Theme.MyTransparent" parent="android:Theme">

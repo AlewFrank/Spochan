@@ -55,25 +55,27 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         model.setPreviousImageIndex(0);
         model.setNextImageIndex(2);
 
-        if (model.getNewsImageUrl_1() != null) {
+        if (model.getNewsImageUrl_1() != null & !model.getNewsImageUrl_1().equals("")) {
             imageCount = 1;
         }
 
-        if (model.getNewsImageUrl_2() != null) {
+        if (model.getNewsImageUrl_2() != null & !model.getNewsImageUrl_2().equals("")) {
             imageCount = 2;
         }
 
-        if (model.getNewsImageUrl_3() != null) {
+        if (model.getNewsImageUrl_3() != null & !model.getNewsImageUrl_3().equals("")) {
             imageCount = 3;
         }
 
-        if (model.getNewsImageUrl_4() != null) {
+        if (model.getNewsImageUrl_4() != null & !model.getNewsImageUrl_4().equals("")) {
             imageCount = 4;
         }
 
-        if (model.getNewsImageUrl_5() != null) {
+        if (model.getNewsImageUrl_5() != null & !model.getNewsImageUrl_5().equals("")) {
             imageCount = 5;
         }
+
+
 
         holder.point1.setVisibility(View.GONE);
         holder.point2.setVisibility(View.GONE);
@@ -99,7 +101,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         if (imageCount == 5) {
             holder.point5.setVisibility(View.VISIBLE);
         }
-
 
         //для переменных previousImageIndex и nextImageIndex нужно обязательно использовать firebase, так как иначе численные значения карточек будут путаться и нажимая кнопку на одной карте, ты увеличишь значений другой, короче такие переменные они общие для всех карточек
         holder.previousImageButton.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +179,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
 
                 if (model.getNewsImageUrl_2() != null && model.getNextImageIndex() == 2) {
 
-                    if (model.getNewsImageUrl_3() == null) {
+                    if (model.getNewsImageUrl_3() == null || model.getNewsImageUrl_3().equals("")) {
                         holder.nextImageButton.setVisibility(View.GONE);
                         holder.nextImageBackGround.setVisibility(View.GONE);
                     }
@@ -198,7 +199,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     holder.previousImageBackGround.setVisibility(View.VISIBLE);
                 } else if (model.getNewsImageUrl_3() != null && model.getNextImageIndex() == 3) {
 
-                    if (model.getNewsImageUrl_4() == null) {
+                    if (model.getNewsImageUrl_4() == null || model.getNewsImageUrl_4().equals("")) {
                         holder.nextImageButton.setVisibility(View.GONE);
                         holder.nextImageBackGround.setVisibility(View.GONE);
                     }
@@ -216,7 +217,7 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     model.setPreviousImageIndex(previousImageIndex);
                 } else if (model.getNewsImageUrl_4() != null && model.getNextImageIndex() == 4) {
 
-                    if (model.getNewsImageUrl_5() == null) {
+                    if (model.getNewsImageUrl_5() == null || model.getNewsImageUrl_5().equals("")) {
                         holder.nextImageButton.setVisibility(View.GONE);
                         holder.nextImageBackGround.setVisibility(View.GONE);
                     }
