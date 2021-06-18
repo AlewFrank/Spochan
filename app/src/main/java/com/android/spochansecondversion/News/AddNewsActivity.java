@@ -284,10 +284,9 @@ public class AddNewsActivity extends AppCompatActivity {
 
                 news.setNewsId(itemId);
                 db.collection("News" + getResources().getString(R.string.app_country)).document(itemId).set(news);//устанавливаем айди по моменту, когда было начато создание надписи
-                Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
             }
 
-
+            Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.load_complete), Toast.LENGTH_LONG).show();
             startActivity(new Intent(AddNewsActivity.this, NewsActivity.class));
         } else {
             Toast.makeText(AddNewsActivity.this, getResources().getString(R.string.fields_notification) + " " + getResources().getString(R.string.please_load_your_image), Toast.LENGTH_LONG).show();

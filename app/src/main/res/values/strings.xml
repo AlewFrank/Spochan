@@ -119,4 +119,5 @@
     <string name="competition_reg">Регистрация на чемпионат </string>
     <string name="reg_true">Отобразить </string>
     <string name="reg_false">Скрыть </string>
+    <string name="todo">TODO</string>
 </resources>

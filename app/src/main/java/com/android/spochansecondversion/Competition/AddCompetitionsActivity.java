@@ -395,8 +395,12 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {//добавляем меню, которое справа сверху
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_delete_competition_or_news_item, menu);
+
+        if (onItemClickId != null) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_delete_competition_or_news_item, menu);
+        }
+
         return true;
     }
 

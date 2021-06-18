@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
 android {
     compileSdkVersion 29
@@ -22,51 +23,40 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    //в июне 2021 была ошибка с обновлением implementation, но после добавления вот этого все решилось
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
-    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation 'com.google.android.material:material:1.3.0-alpha03'//для того чтобы могли использовать TextInputLayout в разметке для полей, где при регистрации вводятся разные данные
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'//аналитика
+    implementation 'com.google.firebase:firebase-auth:21.0.1'//для аутентификации
+    implementation 'com.google.firebase:firebase-firestore:23.0.1'//для работы с firestore, отличие от риал тайм датабейс в том, что тут при отсутствии интернета данные не будут удаляться, следователь и офлайн можно будет просматривать информацию
+    implementation 'com.google.firebase:firebase-database:20.0.0'//работа с realtime database (все эти зависимости берутся из документации на сайте Firebase)
+    implementation 'com.google.firebase:firebase-storage:20.0.0'//для работы с изображениями(мы используем для загрузки изображения в базу данных)
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'//для уведомлений
 
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'//аналитика
-    implementation 'com.google.firebase:firebase-database:19.5.1'//работа с realtime database (все эти зависимости берутся из документации на сайте Firebase)
-    implementation 'com.firebaseui:firebase-ui-database:0.4.0'//Позволяет нам использовать FirebaseRecyclerAdapter, который мы используем в CompetitionActivity как минимум
+    implementation 'com.firebaseui:firebase-ui-firestore:6.3.0'//позволяет использовать FirestorePagingAdapter, используем эту фигню в CompetitionAdapter
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.0'//для работы с изображениями(Glide для установки изображений без этой штуки не работает)
 
-    implementation 'com.google.firebase:firebase-firestore:22.0.0'//для работы с firestore, отличие от риал тайм датабейс в том, что тут при отсутствии интернета данные не будут удаляться, следователь и офлайн можно будет просматривать информацию
-    implementation 'com.firebaseui:firebase-ui-firestore:6.3.0'//позволяет использовать FirestoreRecyclerAdapter, используем эту фигню в CompetitionActivity
-    implementation 'com.android.support:multidex:1.0.3'//это + multiDexEnabled true(примерно 13 строчка в этом коде) нужно, так как там какая-то ошибка выскакивала после написания части кода firestore, но если работает без ошибок, то можно эту строку не записывать вообще
-    implementation "androidx.paging:paging-runtime:2.1.2"//дает доступ к FirestorePagingOptions в CompetitionActivity это используем, не знаю зачем, но это что-то там упрощает
+    implementation "android.arch.paging:runtime:1.0.1"//PagedList в CompetitionActivity, где мы запрос в базу данных делаем
+    //implementation 'com.google.android.material:material:1.4.0-rc01'//для того чтобы могли использовать TextInputLayout в разметке для полей, где при регистрации вводятся разные данные + FloatingActionButton работает благодаря этой зависимости
+    implementation 'com.google.android.material:material:1.4.0-rc01'
 
-    implementation 'com.google.firebase:firebase-auth:20.0.0'//для аутентификации
-
-    implementation 'androidx.preference:preference:1.1.1'//для того, чтоб работало ListPreference(в разметке такая штука там где мы меняем пол)
-
-    implementation 'com.google.firebase:firebase-storage:19.2.0'//для работы с изображениями(мы используем для загрузки изображения в базу данных)
-    implementation 'com.firebaseui:firebase-ui-storage:6.2.0'//для работы с изображениями(мы используем для получения изображения и установку его в кружочек аватара например)
-
-    implementation 'de.hdodenhof:circleimageview:2.1.0'//для того, чтоб сделать круглый Image View
-
-    implementation 'com.squareup.picasso:picasso:2.71828' //для работы с Picasso-штуковина, которая позволяет работать с изображениями(в блакноте про это написано в разделе про программирование на андройд), НЕ ФАКТ ЧТО ГДЕ-ТО В ПРИЛОЖЕНИИ ИСПОЛЬЗУЕМ
-
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'//вот эта зависимость и ниже для работы с cardView, но помоему и без них все прекрасно работает
-    implementation 'androidx.cardview:cardview:1.0.0'
-
-
-    //noinspection GradleCompatible
-    implementation 'com.android.support:preference-v7:28.0.0' //это что-то для того, чтоб окно настроек сделать
 
 }
-
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.android.application'

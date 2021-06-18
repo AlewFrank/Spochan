@@ -44,6 +44,10 @@ public class FullCompetitionItem extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private Toolbar mToolbar;
+
+    private Button editCompetitionButton;
+    private ImageView editCompetitionBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,10 @@ public class FullCompetitionItem extends AppCompatActivity {
         competitionDescription = findViewById(R.id.competitionDescription);
         competitionImageView = findViewById(R.id.competitionImageView);
 
+        editCompetitionButton = findViewById(R.id.editCompetitionButton);
+        editCompetitionBackground = findViewById(R.id.editCompetitionBackground);
+        editCompetitionButton.setVisibility(View.GONE);
+        editCompetitionBackground.setVisibility(View.GONE);
 
         //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Italic.ttf");
@@ -86,10 +94,10 @@ public class FullCompetitionItem extends AppCompatActivity {
 
         DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
 
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        final String currentUserUid = currentUser.getUid();
-        final DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
+        if (competitionIntent.getBooleanExtra("isDirectorModeActivated", false)) {
+            editCompetitionButton.setVisibility(View.VISIBLE);
+            editCompetitionBackground.setVisibility(View.VISIBLE);
+        }
 
         competitionItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -123,33 +131,20 @@ public class FullCompetitionItem extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        final Intent competitionIntent = getIntent(); //получаем интент из CompetitionActivity, который вызвал эту активити
-
-        if (competitionIntent.getBooleanExtra("isDirectorModeActivated", false)) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu_edit_competition_item, menu);
-        }
-        return true;
+    public void editCompetitionButtonPressed(View view) {
+        //отправляем intent в AddCompetitionsActivity, чтоб там отредактировать значения
+        Intent competitionItemIntent = new Intent(FullCompetitionItem.this, AddCompetitionsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
+        competitionItemIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
+        startActivity(competitionItemIntent);
     }
 
 
-
-    //ДЛЯ ОБЫЧНЫХ ПОЛЬЗОВАТЕЛЕЙ ТОЛЬКО ПЕРВЫЙ ПУНКТ ОСТАЕТСЯ
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
             case android.R.id.home: //поведение кнопки слева-сверху
                 startActivity(new Intent(FullCompetitionItem.this, CompetitionsActivity.class));
-                return true;
-            case R.id.menu_edit:
-                //отправляем intent в AddCompetitionsActivity, чтоб там отредактировать значения
-                Intent competitionItemIntent = new Intent(FullCompetitionItem.this, AddCompetitionsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                competitionItemIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
-                startActivity(competitionItemIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

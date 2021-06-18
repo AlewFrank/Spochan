@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp"
-    app:cardElevation="10dp">
+    android:layout_marginLeft="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,9 +20,8 @@
         <ImageView
             android:id="@+id/userImageView"
             android:scaleType="centerCrop"
-            android:layout_margin="5dp"
-            android:layout_width="108dp"
-            android:layout_height="110dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:src="@drawable/photo_for_rating"/>
 
         <LinearLayout
@@ -96,14 +95,17 @@
 
             <TextView
                 android:id="@+id/userPointsTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="31dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:layout_marginTop="38dp"
                 android:textStyle="bold"
-                android:textSize="36sp"
+                android:textSize="28sp"
                 android:text="1234"
                 android:textColor="@color/colorPrimary"
-                android:layout_gravity="center"/>
+                android:gravity="end"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp" />
 
 
         </LinearLayout>
