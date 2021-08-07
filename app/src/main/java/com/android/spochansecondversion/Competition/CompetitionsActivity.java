@@ -126,39 +126,6 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
         competitionRecycleView.setLayoutManager(new LinearLayoutManager(this));
         competitionRecycleView.setAdapter(adapter);
 
-
-
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
-
-        floatingActionButton.setVisibility(View.GONE);
-
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        String currentUserUid = currentUser.getUid();
-        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-
-                isDirectorModeActivated = user.isDirector();
-
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    floatingActionButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CompetitionsActivity.this, AddCompetitionsActivity.class));
-            }
-        });
-
         progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
 
     }
