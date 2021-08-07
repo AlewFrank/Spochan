@@ -1,6 +1,7 @@
 package com.android.spochansecondversion.News;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,17 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.spochansecondversion.Competition.AddCompetitionsActivity;
+import com.android.spochansecondversion.Competition.FullCompetitionItem;
 import com.android.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsViewHolder> {
 
@@ -42,6 +48,9 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         holder.newsDescription.setText(model.getNewsDescription());
         holder.newsData.setText(model.getNewsData());
         holder.newsTime.setText(model.getNewsTime());
+
+
+        //Бывает ошибка в точках именно из-за того, что ячейка обновляется и изображение вставляется первое, как в строке ниже написано, стрелки соответствуют, а вот точка как была, так и остается
 
         Glide.with(holder.newsImage.getContext())
                 .load(model.getNewsImageUrl_1())
