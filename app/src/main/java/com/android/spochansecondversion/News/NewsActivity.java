@@ -135,44 +135,6 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
         newsRecycleView.setLayoutManager(new LinearLayoutManager(this));
         newsRecycleView.setAdapter(adapter);
 
-
-
-
-
-
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
-
-        floatingActionButton.setVisibility(View.GONE);
-
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        String currentUserUid = currentUser.getUid();
-        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-
-                isDirectorModeActivated = user.isDirector();
-
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    floatingActionButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NewsActivity.this, AddNewsActivity.class));
-            }
-        });
-
         progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
 
     }
@@ -182,92 +144,9 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     public void onItemClick(DocumentSnapshot snapshot, int position) {//этот метод мы создали в классе адаптера + position это не какая-то переменная программы, это мы ее такой создали, а получаем мы этот position в методе public void onClick(View v) в классе CompetitionAdapter
         //int position = getAdapterPosition(); можно еще такой способ использовать, как в PizzaRecipes делали
 
-        if (isDirectorModeActivated) {//чтоб только администратор мог совершать эти действия
-            final String onItemClickId = snapshot.getId();
-
-            final Intent newsIntent = new Intent(NewsActivity.this, AddNewsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-            newsIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-            builder.setMessage(getResources().getString(R.string.choose_action));
-            builder.setPositiveButton(getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(newsIntent);
-                }
-            });
-            builder.setNegativeButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //if (dialog != null){dialog.dismiss();} эта запись просто отменяет и возвращает к тому состоянию, которое было до нажатия
-                    showDeleteCompetitionDialog(onItemClickId);//создали метод ниже
-                }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
-
     }
 
-    private void showDeleteCompetitionDialog(final String onItemClickId) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-        builder.setMessage(getResources().getString(R.string.confirm_delete));
-        builder.setPositiveButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteNewsItem(onItemClickId);//имплементируем этот метод в самом низу
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (dialog != null){dialog.dismiss();}
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void deleteNewsItem(final String onItemClickId) {
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        DocumentReference newsItemDocumentReference = firebaseFirestore.collection("News" + getResources().getString(R.string.app_country)).document(onItemClickId);
-
-        newsItemDocumentReference
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {//удаление прошло успешно, следователь переходим в новую активити и удаляем изображение удаленного соревнования из базы данных, чтоб не захломлять
-                        Toast.makeText(NewsActivity.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
-
-                        //удаляем наше изображение, чтоб не засорять storage
-                        //так как айди записи и фотографии совпадает, то можно в ссылке на изображение указывать onItemClickId
-                        storage = FirebaseStorage.getInstance();
-                        newsImagesStorageReference1 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("1");
-                        newsImagesStorageReference2 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("2");
-                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("3");
-                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("4");
-                        newsImagesStorageReference3 = storage.getReference().child(getResources().getString(R.string.app_country)).child("News_images").child(onItemClickId).child("5");
-
-
-                        if (newsImagesStorageReference1!=null) {newsImagesStorageReference1.delete();}
-                        if (newsImagesStorageReference2!=null) {newsImagesStorageReference2.delete();}
-                        if (newsImagesStorageReference3!=null) {newsImagesStorageReference3.delete();}
-                        if (newsImagesStorageReference4!=null) {newsImagesStorageReference4.delete();}
-                        if (newsImagesStorageReference5!=null) {newsImagesStorageReference5.delete();}
-
-                        Toast.makeText(NewsActivity.this, getResources().getString(R.string.delete_successful), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(NewsActivity.this, NewsActivity.class));//чтоб страница обновилась
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(NewsActivity.this, getResources().getString(R.string.delete_fail), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
 
 
     @Override
