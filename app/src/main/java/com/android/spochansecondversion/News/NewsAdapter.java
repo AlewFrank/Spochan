@@ -15,8 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.spochansecondversion.Competition.AddCompetitionsActivity;
-import com.android.spochansecondversion.Competition.FullCompetitionItem;
 import com.android.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;

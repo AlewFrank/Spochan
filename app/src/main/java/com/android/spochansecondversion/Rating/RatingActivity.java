@@ -50,47 +50,6 @@ import java.util.ArrayList;
 
 
 
-
-
-
-
-
-//сделай elevation в самом конце, когда закончишь со всем дизайном этого окна, пока что сделал фон не совсем белым
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public class RatingActivity extends AppCompatActivity implements RatingAdapter.OnListItemClick{
 
         private FirebaseFirestore firebaseFirestore;
@@ -159,26 +118,6 @@ import java.util.ArrayList;
 
 
             firebaseFirestore = FirebaseFirestore.getInstance();
-
-
-            //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-
-            auth = FirebaseAuth.getInstance();
-            currentUser = auth.getCurrentUser();
-            String currentUserUid = currentUser.getUid();
-            DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-            userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    User user = documentSnapshot.toObject(User.class);
-
-                    isDirectorModeActivated = user.isDirector();
-
-                }
-            });
-
-
 
 
             RecyclerView sportsmenListRecycleView = findViewById(R.id.sportsmenListRecycleView);
@@ -303,32 +242,5 @@ import java.util.ArrayList;
         public void onItemClick(DocumentSnapshot snapshot, int position) {
             final String onItemClickId = snapshot.getId();
 
-            if (isDirectorModeActivated) {//чтоб только администратор мог совершать эти действия
-
-
-                final Intent ratingIntent = new Intent(RatingActivity.this, EditRatingMembers.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                ratingIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
-                ratingIntent.putExtra("groupIndex", group);
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-                builder.setMessage(getResources().getString(R.string.choose_action));
-                builder.setPositiveButton(getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(ratingIntent);
-                    }
-                });
-                builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        } //эта запись просто отменяет и возвращает к тому состоянию, которое было до нажатия
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
         }
     }
