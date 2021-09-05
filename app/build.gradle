@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.android.spochansecondversion"
         vectorDrawables.useSupportLibrary = true //обязательно пропиши, чтобы загрузка векторных изображений(в разметке app:srcCompat="@drawable/ic_add") не подчеркивалась красным, оно впринципе работает, но зачем рисковать
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
