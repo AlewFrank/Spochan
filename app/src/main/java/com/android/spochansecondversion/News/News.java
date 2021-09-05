@@ -14,9 +14,6 @@ public class News {
     private String newsImageUrl_4;
     private String newsImageUrl_5;
 
-    private int previousImageIndex;
-    private int nextImageIndex;
-
 
     //правой кнопкой мыши, потом generate и дальше Constructor, а ниже это создавалось с помощью Getter and Setter
 
@@ -24,7 +21,7 @@ public class News {
     public News() {
     }
 
-    public News(String newsTitle, String newsDescription, String newsData, String newsTime, String newsId, String newsImageUrl_1, String newsImageUrl_2, String newsImageUrl_3, String newsImageUrl_4, String newsImageUrl_5, int previousImageIndex, int nextImageIndex) {
+    public News(String newsTitle, String newsDescription, String newsData, String newsTime, String newsId, String newsImageUrl_1, String newsImageUrl_2, String newsImageUrl_3, String newsImageUrl_4, String newsImageUrl_5) {
         this.newsTitle = newsTitle;
         this.newsDescription = newsDescription;
         this.newsData = newsData;
@@ -35,8 +32,6 @@ public class News {
         this.newsImageUrl_3 = newsImageUrl_3;
         this.newsImageUrl_4 = newsImageUrl_4;
         this.newsImageUrl_5 = newsImageUrl_5;
-        this.previousImageIndex = previousImageIndex;
-        this.nextImageIndex = nextImageIndex;
     }
 
     public String getNewsDescription() {
@@ -119,19 +114,4 @@ public class News {
         this.newsImageUrl_5 = newsImageUrl_5;
     }
 
-    public int getPreviousImageIndex() {
-        return previousImageIndex;
-    }
-
-    public void setPreviousImageIndex(int previousImageIndex) {
-        this.previousImageIndex = previousImageIndex;
-    }
-
-    public int getNextImageIndex() {
-        return nextImageIndex;
-    }
-
-    public void setNextImageIndex(int nextImageIndex) {
-        this.nextImageIndex = nextImageIndex;
-    }
 }
