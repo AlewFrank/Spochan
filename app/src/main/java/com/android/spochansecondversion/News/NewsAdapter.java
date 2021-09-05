@@ -54,6 +54,8 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
     @Override
     protected void onBindViewHolder(@NonNull final NewsViewHolder holder, int position, @NonNull final News model) {
 
+        //Кек
+
         if (arrayFlag == 0) {
             newsArrayId = new ArrayList<>();
             currentImageArray = new ArrayList<>();
