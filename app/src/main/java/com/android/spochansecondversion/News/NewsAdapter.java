@@ -61,7 +61,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
             currentImageArray = new ArrayList<>();
             imageCountArray = new ArrayList<>();
             arrayFlag = 9; //чтобы массив не обновлялся
-            Log.d("fuck", "Создали массивы");
         }
 
         flag = 0;//1 это значит что такая строка в массиве есть, а 0 это такого нет
@@ -71,15 +70,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         holder.newsData.setText(model.getNewsData());
         holder.newsTime.setText(model.getNewsTime());
 
-
-//        for(int i = 0; i<newsArrayId.size(); i++) {//проверка есть ли такая новость уже в массиве или нет
-//            String value = newsArrayId.get(i);
-//
-//            if (value.equals(model.getNewsId())) {//такая новость уже есть
-//                flag = 1;
-//                currentNewsIndex = newsArrayId.indexOf(model.getNewsId());
-//            }
-//        }
 
         if (newsArrayId.contains(model.getNewsId())) {
             flag = 1;
@@ -251,20 +241,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
         }
 
 
-
-
-
-        Log.d("fuck", "Текущая новость: " + String.valueOf(currentNewsIndex));
-        Log.d("fuck", "Массив id: " + String.valueOf(newsArrayId));
-        Log.d("fuck", "Массив текущего изображения: " + String.valueOf(currentImageArray));
-        Log.d("fuck", "Массив кол-ва изображений: " + String.valueOf(imageCountArray));
-        Log.d("fuck", "----------------------------------");
-
-
-
-
-
-
         //для переменных previousImageIndex и nextImageIndex нужно обязательно использовать firebase, так как иначе численные значения карточек будут путаться и нажимая кнопку на одной карте, ты увеличишь значений другой, короче такие переменные они общие для всех карточек
         holder.previousImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,12 +307,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     holder.nextImageButton.setVisibility(View.VISIBLE);
                     holder.nextImageBackGround.setVisibility(View.VISIBLE);
                 }
-
-                Log.d("fuck", "Текущая новость: " + String.valueOf(currentNewsIndex));
-                Log.d("fuck", "Массив id: " + String.valueOf(newsArrayId));
-                Log.d("fuck", "Массив текущего изображения: " + String.valueOf(currentImageArray));
-                Log.d("fuck", "Массив кол-ва изображений: " + String.valueOf(imageCountArray));
-                Log.d("fuck", "----------------------------------");
             }
         });
 
@@ -412,12 +382,6 @@ public class NewsAdapter extends FirestorePagingAdapter<News, NewsAdapter.NewsVi
                     currentImageArray.remove(currentNewsIndex);
                     currentImageArray.add(currentNewsIndex, 5);
                 }
-
-                Log.d("fuck", "Текущая новость: " + String.valueOf(currentNewsIndex));
-                Log.d("fuck", "Массив id: " + String.valueOf(newsArrayId));
-                Log.d("fuck", "Массив текущего изображения: " + String.valueOf(currentImageArray));
-                Log.d("fuck", "Массив кол-ва изображений: " + String.valueOf(imageCountArray));
-                Log.d("fuck", "----------------------------------");
             }
         });
 
