@@ -38,6 +38,57 @@
             {
               "client_id": "977591653356-7322j5d2g6ht7s09d52q82tmr9unh076.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "977591653356-8gi1m2na0qal85ev2tk49ffj1jrbj9to.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alexBaurov.Spochan"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977591653356:android:73967237731d3a36c8a6c9",
+        "android_client_info": {
+          "package_name": "org.alewfrank.spochansecondversion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977591653356-08luo6lqct3ap6igiosrij26t2ssoovs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.alewfrank.spochansecondversion",
+            "certificate_hash": "a468c45575e196a7c119732e2f56de0fe3a2747b"
+          }
+        },
+        {
+          "client_id": "977591653356-7322j5d2g6ht7s09d52q82tmr9unh076.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCrXqkrekXPgXwMLax1C4ukZRyAdlG0U0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977591653356-7322j5d2g6ht7s09d52q82tmr9unh076.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "977591653356-8gi1m2na0qal85ev2tk49ffj1jrbj9to.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alexBaurov.Spochan"
+              }
             }
           ]
         }
