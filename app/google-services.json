@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:977591653356:android:e14dc2de537d3c4ac8a6c9",
+        "mobilesdk_app_id": "1:977591653356:android:14b77f73d1361379c8a6c9",
         "android_client_info": {
-          "package_name": "com.android.spochansecondversion"
+          "package_name": "org.admin.spochansecondversion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "977591653356-h20usb1a6gu19ss0qbl41aochl2subpj.apps.googleusercontent.com",
+          "client_id": "977591653356-r0uqksg61224p43ht5t142sq9a5ek3rd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.android.spochansecondversion",
+            "package_name": "org.admin.spochansecondversion",
             "certificate_hash": "a468c45575e196a7c119732e2f56de0fe3a2747b"
           }
         },

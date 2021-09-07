@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.alewfrank.spochansecondversion">
+    package="org.admin.spochansecondversion">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,14 +11,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Rating.EditRatingMembers" />
-        <activity android:name=".News.AddNewsActivity" />
-        <activity android:name=".Competition.FullCompetitionItem" />
-        <activity android:name=".Competition.AddCompetitionsActivity" />
-        <activity android:name=".Rating.RatingActivity" />
-        <activity android:name=".Competition.CompetitionsActivity" />
-        <activity android:name=".News.NewsActivity" />
-        <activity android:name=".logInSignUp.LogInActivity">
+        <activity android:name="org.admin.spochansecondversion.Rating.EditRatingMembers" />
+        <activity android:name="org.admin.spochansecondversion.News.AddNewsActivity" />
+        <activity android:name="org.admin.spochansecondversion.Competition.FullCompetitionItem" />
+        <activity android:name="org.admin.spochansecondversion.Competition.AddCompetitionsActivity" />
+        <activity android:name="org.admin.spochansecondversion.Rating.RatingActivity" />
+        <activity android:name="org.admin.spochansecondversion.Competition.CompetitionsActivity" />
+        <activity android:name="org.admin.spochansecondversion.News.NewsActivity" />
+        <activity android:name="org.admin.spochansecondversion.logInSignUp.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Rating;
+package org.admin.spochansecondversion.Rating;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.alewfrank.spochansecondversion.R;
-import org.alewfrank.spochansecondversion.User;
+import org.admin.spochansecondversion.R;
+import org.admin.spochansecondversion.User;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;

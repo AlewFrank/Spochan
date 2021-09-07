@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.News;
+package org.admin.spochansecondversion.News;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;

@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Competition;
+package org.admin.spochansecondversion.Competition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.alewfrank.spochansecondversion.logInSignUp.LogInActivity;
-import org.alewfrank.spochansecondversion.News.NewsActivity;
-import org.alewfrank.spochansecondversion.R;
-import org.alewfrank.spochansecondversion.Rating.RatingActivity;
-import org.alewfrank.spochansecondversion.User;
+import org.admin.spochansecondversion.logInSignUp.LogInActivity;
+import org.admin.spochansecondversion.News.NewsActivity;
+import org.admin.spochansecondversion.R;
+import org.admin.spochansecondversion.Rating.RatingActivity;
+import org.admin.spochansecondversion.User;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnSuccessListener;

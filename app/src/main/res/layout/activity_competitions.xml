@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.alewfrank.spochansecondversion.Competition.CompetitionsActivity"
+    tools:context="org.admin.spochansecondversion.Competition.CompetitionsActivity"
     android:background="@color/White">
 
     <androidx.appcompat.widget.Toolbar

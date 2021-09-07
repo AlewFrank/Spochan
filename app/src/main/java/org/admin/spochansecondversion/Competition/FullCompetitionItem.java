@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Competition;
+package org.admin.spochansecondversion.Competition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

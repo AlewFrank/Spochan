@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Rating;
+package org.admin.spochansecondversion.Rating;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Rating;
+package org.admin.spochansecondversion.Rating;
 
 public class Group {
 

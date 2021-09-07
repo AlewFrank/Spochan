@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Rating;
+package org.admin.spochansecondversion.Rating;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.alewfrank.spochansecondversion.User;
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.User;
+import org.admin.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;

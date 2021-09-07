@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.News;
+package org.admin.spochansecondversion.News;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;

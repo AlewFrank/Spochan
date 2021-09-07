@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context="org.alewfrank.spochansecondversion.Competition.AddCompetitionsActivity">
+    tools:context="org.admin.spochansecondversion.Competition.AddCompetitionsActivity">
 
     <ScrollView
         android:layout_width="match_parent"

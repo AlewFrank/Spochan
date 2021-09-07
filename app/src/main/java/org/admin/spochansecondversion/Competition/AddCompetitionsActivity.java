@@ -1,4 +1,4 @@
-package org.alewfrank.spochansecondversion.Competition;
+package org.admin.spochansecondversion.Competition;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.alewfrank.spochansecondversion.R;
+import org.admin.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
