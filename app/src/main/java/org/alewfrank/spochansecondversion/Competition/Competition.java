@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion.Competition;
+package org.alewfrank.spochansecondversion.Competition;
 
 public class Competition {
 

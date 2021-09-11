@@ -1,12 +1,14 @@
-package org.admin.spochansecondversion.Competition;
+package org.alewfrank.spochansecondversion.News;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,15 +17,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import org.admin.spochansecondversion.ContactActivity;
-import org.admin.spochansecondversion.logInSignUp.LogInActivity;
-import org.admin.spochansecondversion.News.NewsActivity;
-import org.admin.spochansecondversion.R;
-import org.admin.spochansecondversion.Rating.RatingActivity;
-import org.admin.spochansecondversion.User;
+import org.alewfrank.spochansecondversion.Competition.CompetitionsActivity;
+import org.alewfrank.spochansecondversion.ContactActivity;
+import org.alewfrank.spochansecondversion.logInSignUp.LogInActivity;
+import org.alewfrank.spochansecondversion.R;
+import org.alewfrank.spochansecondversion.Rating.RatingActivity;
+import org.alewfrank.spochansecondversion.User;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,20 +38,27 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class CompetitionsActivity extends AppCompatActivity implements CompetitionAdapter.OnListItemClick{
+public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnListItemClick { //СМОТРИ CompetitionAdapter, ТАМ ВСЕ НОРМАЛЬНО ОБЪЯСНЯЕТСЯ
 
-    private RecyclerView competitionRecycleView;
+    private RecyclerView newsRecycleView;
 
     private FirebaseFirestore firebaseFirestore;
 
-    private CompetitionAdapter adapter;
+    private NewsAdapter adapter;
 
     private ProgressBar progressBar;
+
+    private TextView newsTimeTextView, newsDataTextView, newsTitleTextView, newsDescriptionTextView;
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean isDirectorModeActivated;
+
+    private FirebaseStorage storage;//это надо для хранения фотографий, так как фотки хранятся в папке Storage не рядом с изображениями
+    private StorageReference newsImagesStorageReference1, newsImagesStorageReference2, newsImagesStorageReference3, newsImagesStorageReference4, newsImagesStorageReference5;
 
     String[] addresses = {"26bas@mail.ru"};
     String subject_help = "Help"; //тема письма для помощи
@@ -58,14 +70,15 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_competitions);
+        setContentView(R.layout.activity_news);
 
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
 
+        //Подробнее про настройку BottonNavigationView можно прочитать по ссылке https://javadevblog.com/primer-raboty-s-bottomnavigationview-nizhnee-menyu-v-android.html
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_competitions);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_news);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -77,14 +90,14 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.navigation_news:
-                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-                        overridePendingTransition(0,0);
                         return true;
 //                    case R.id.navigation_myProfile:
 //                        startActivity(new Intent(getApplicationContext(), MyProfileActivity.class));
 //                        overridePendingTransition(0,0);
 //                        return true;
                     case R.id.navigation_competitions:
+                        startActivity(new Intent(getApplicationContext(), CompetitionsActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
@@ -96,84 +109,41 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
 
 
 
-        //Все что выше это настройки для меню, которое снизу(снизу экрана) находится, а ниже этой записи остальные настройки
-
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         //Query
-        Query query = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country));  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
+        Query query = firebaseFirestore.collection("News" + getResources().getString(R.string.app_country));  //нужно убедиться(начни набирать слово Query и там справо рядом с вариантами будет блеклым шрифтом написано), что ты выбрал именно Query, который относится к firestore, а не к database
 
         PagedList.Config config = new PagedList.Config.Builder().setInitialLoadSizeHint(5).setPageSize(3).build();//setInitialLoadSizeHint(5) это сколько изначально загружается объектов, setPageSize(3) это сколько загружается после того, как долистали до последнего из уже загруженных
 
         //RecyclerOptions
-        //раньше вместо FirestorePagingOptions тут было FirestoreRecyclerAdapter, но тогда мы бы не смогли работать с paging(содержится в слове FirestorePagingOptions) и соответственно не могли бы использовать snaphot и следовательно узнавать айди текущего элемента
-        //FirestorePagingOptions<Competition> options = new FirestorePagingOptions.Builder<Competition>().setLifecycleOwner(this).setQuery(query, config, Competition.class).build(); ниже то же самое, только теперь мы еще и айди получаем
-        FirestorePagingOptions<Competition> options = new FirestorePagingOptions.Builder<Competition>().setLifecycleOwner(this).setQuery(query, config, new SnapshotParser<Competition>() {
+        FirestorePagingOptions<News> options = new FirestorePagingOptions.Builder<News>().setLifecycleOwner(this).setQuery(query, config, new SnapshotParser<News>() {
             @NonNull
             @Override
-            public Competition parseSnapshot(@NonNull DocumentSnapshot snapshot) {//snapshot это как мгновенный снимок, то есть можем использовать его для получения айди и всякой другой фигни о конкретной карточке
-                Competition competition = snapshot.toObject(Competition.class);
+            public News parseSnapshot(@NonNull DocumentSnapshot snapshot) {//snapshot это как мгновенный снимок, то есть можем использовать его для получения айди и всякой другой фигни о конкретной карточке
+                News news = snapshot.toObject(News.class);
                 String itemId = snapshot.getId();
-                competition.setCompetitionId(itemId);
-                return competition;
+                news.setNewsId(itemId);
+                return news;
             }
         }).build();//setLifecycleOwner(this) автоматически останавливает и возобновляет обновление информации при переносе приложения в фоновый режим и обратно, короче классная вещь
 
-        adapter = new CompetitionAdapter(options, this);//по сути мы просто взяли и перенесли все методы, которые относятся к адаптеру в класс CompetitionAdapter, чтоб здесь не мешались, так что когда будешь там код смотреть, то представляй, что это все в этой активити находится
+        adapter = new NewsAdapter(options, this);
 
-        competitionRecycleView = findViewById(R.id.competitionsListRecycleView);
+        newsRecycleView = findViewById(R.id.newsListRecycleView);
 
-        competitionRecycleView.setHasFixedSize(true);
-        competitionRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        competitionRecycleView.setAdapter(adapter);
-
-
-
-        //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-        final FloatingActionButton floatingActionButton = findViewById(R.id.addFloatingActionButton);//кнопка добавляющая нам новую запись
-
-        floatingActionButton.setVisibility(View.GONE);
-
-        auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-        String currentUserUid = currentUser.getUid();
-        DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-        userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-
-                isDirectorModeActivated = user.isDirector();
-
-                if (isDirectorModeActivated) {//это должно стоять именно так, а не снаружи, так как на обработку запроса в firebase требуется какое-то время и из-за этого по-другому неправильно все работает
-                    floatingActionButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CompetitionsActivity.this, AddCompetitionsActivity.class));
-            }
-        });
+        newsRecycleView.setHasFixedSize(true);
+        newsRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        newsRecycleView.setAdapter(adapter);
 
         progressBar.setVisibility(View.INVISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем(тут сверху включать не надо, так как она у нас в разметке поставлена android:visibility="visible")
 
     }
 
+
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {//этот метод мы создали в классе адаптера + position это не какая-то переменная программы, это мы ее такой создали, а получаем мы этот position в методе public void onClick(View v) в классе CompetitionAdapter
-        //int position = getAdapterPosition(); можно еще такой способ использовать, как в PizzaRecipes делали
-        String onItemClickId = snapshot.getId();
-
-        Intent competitionIntent = new Intent(CompetitionsActivity.this, FullCompetitionItem.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-        competitionIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
-        competitionIntent.putExtra("isDirectorModeActivated", isDirectorModeActivated); //чтоб понимать создавать ли меню с возможностью редактирования сорев или нет
-
-        startActivity(competitionIntent);
+        //у user нет права что-то менять
     }
 
 
@@ -190,7 +160,7 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
         switch (item.getItemId()){
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(CompetitionsActivity.this, LogInActivity.class));
+                startActivity(new Intent(NewsActivity.this, LogInActivity.class));
                 return true;
             case R.id.menu_ask_developer:
 //                Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -200,7 +170,7 @@ public class CompetitionsActivity extends AppCompatActivity implements Competiti
 //                if (intent.resolveActivity(getPackageManager()) != null) {
 //                    startActivity(intent);
 //                }
-                startActivity(new Intent(CompetitionsActivity.this, ContactActivity.class));
+                startActivity(new Intent(NewsActivity.this, ContactActivity.class));
                 return true;
             case R.id.menu_help:
                 emailtext = getResources().getString(R.string.help_email);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.admin.spochansecondversion.Competition.CompetitionsActivity"
+    tools:context="org.alewfrank.spochansecondversion.Competition.CompetitionsActivity"
     android:background="@color/White">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,23 +23,6 @@
         android:layout_above="@id/bottom_navigation"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/White"/>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addFloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="80dp"
-        android:background="@color/colorPrimary"
-        android:clickable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_add"
-        android:focusable="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

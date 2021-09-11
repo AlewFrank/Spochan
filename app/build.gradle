@@ -6,7 +6,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "org.admin.spochansecondversion"
+        applicationId "org.alewfrank.spochansecondversion"
         vectorDrawables.useSupportLibrary = true //обязательно пропиши, чтобы загрузка векторных изображений(в разметке app:srcCompat="@drawable/ic_add") не подчеркивалась красным, оно впринципе работает, но зачем рисковать
         minSdkVersion 16
         targetSdkVersion 30

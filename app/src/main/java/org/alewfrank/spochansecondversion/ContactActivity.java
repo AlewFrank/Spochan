@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion;
+package org.alewfrank.spochansecondversion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -13,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.admin.spochansecondversion.Competition.CompetitionsActivity;
-import org.admin.spochansecondversion.Competition.FullCompetitionItem;
-import org.admin.spochansecondversion.News.NewsActivity;
+import org.alewfrank.spochansecondversion.News.NewsActivity;
 
 public class ContactActivity extends AppCompatActivity {
 

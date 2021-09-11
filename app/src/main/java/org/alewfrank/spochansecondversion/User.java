@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion;
+package org.alewfrank.spochansecondversion;
 
 public class User {
 

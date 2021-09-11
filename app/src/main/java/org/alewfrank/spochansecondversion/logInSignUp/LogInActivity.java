@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion.logInSignUp;
+package org.alewfrank.spochansecondversion.logInSignUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.admin.spochansecondversion.News.NewsActivity;
-import org.admin.spochansecondversion.R;
+import org.alewfrank.spochansecondversion.News.NewsActivity;
+import org.alewfrank.spochansecondversion.R;
 
-import org.admin.spochansecondversion.User;
+import org.alewfrank.spochansecondversion.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;

@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion.Competition;
+package org.alewfrank.spochansecondversion.Competition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.admin.spochansecondversion.R;
+import org.alewfrank.spochansecondversion.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,8 +41,6 @@ public class FullCompetitionItem extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
-    private Button editCompetitionButton;
-    private ImageView editCompetitionBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +65,6 @@ public class FullCompetitionItem extends AppCompatActivity {
         competitionDescription = findViewById(R.id.competitionDescription);
         competitionImageView = findViewById(R.id.competitionImageView);
 
-        editCompetitionButton = findViewById(R.id.editCompetitionButton);
-        editCompetitionBackground = findViewById(R.id.editCompetitionBackground);
-        editCompetitionButton.setVisibility(View.GONE);
-        editCompetitionBackground.setVisibility(View.GONE);
-
         //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Italic.ttf");
         Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
@@ -90,10 +83,6 @@ public class FullCompetitionItem extends AppCompatActivity {
 
         DocumentReference competitionItemDocumentReference = firebaseFirestore.collection("Competitions" + getResources().getString(R.string.app_country)).document(onItemClickId);
 
-        if (competitionIntent.getBooleanExtra("isDirectorModeActivated", false)) {
-            editCompetitionButton.setVisibility(View.VISIBLE);
-            editCompetitionBackground.setVisibility(View.VISIBLE);
-        }
 
         competitionItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -126,13 +115,6 @@ public class FullCompetitionItem extends AppCompatActivity {
         });
     }
 
-
-    public void editCompetitionButtonPressed(View view) {
-        //отправляем intent в AddCompetitionsActivity, чтоб там отредактировать значения
-        Intent competitionItemIntent = new Intent(FullCompetitionItem.this, AddCompetitionsActivity.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-        competitionItemIntent.putExtra("competitionId", onItemClickId); //связываем строку со значение
-        startActivity(competitionItemIntent);
-    }
 
 
     @Override

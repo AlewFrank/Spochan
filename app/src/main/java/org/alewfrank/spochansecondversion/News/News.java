@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion.News;
+package org.alewfrank.spochansecondversion.News;
 
 public class News {
 

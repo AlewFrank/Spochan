@@ -1,4 +1,4 @@
-package org.admin.spochansecondversion.Rating;
+package org.alewfrank.spochansecondversion.Rating;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -22,12 +22,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.admin.spochansecondversion.Competition.CompetitionsActivity;
-import org.admin.spochansecondversion.ContactActivity;
-import org.admin.spochansecondversion.News.NewsActivity;
-import org.admin.spochansecondversion.logInSignUp.LogInActivity;
-import org.admin.spochansecondversion.R;
-import org.admin.spochansecondversion.User;
+import org.alewfrank.spochansecondversion.Competition.CompetitionsActivity;
+import org.alewfrank.spochansecondversion.ContactActivity;
+import org.alewfrank.spochansecondversion.News.NewsActivity;
+import org.alewfrank.spochansecondversion.logInSignUp.LogInActivity;
+import org.alewfrank.spochansecondversion.R;
+import org.alewfrank.spochansecondversion.User;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -112,27 +112,6 @@ import java.util.ArrayList;
 
 
             firebaseFirestore = FirebaseFirestore.getInstance();
-
-
-            //строчек 20 вниз это настройки в зависимости от того администратор ты или нет
-
-            auth = FirebaseAuth.getInstance();
-            currentUser = auth.getCurrentUser();
-            String currentUserUid = currentUser.getUid();
-            DocumentReference userItemDocumentReference = firebaseFirestore.collection("Users" + getResources().getString(R.string.app_country)).document(currentUserUid);
-
-            userItemDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    User user = documentSnapshot.toObject(User.class);
-
-                    isDirectorModeActivated = user.isDirector();
-
-                }
-            });
-
-
-
 
             RecyclerView sportsmenListRecycleView = findViewById(R.id.sportsmenListRecycleView);
             RecyclerView groupListRecycleView = findViewById(R.id.groupListRecycleView);
@@ -255,34 +234,6 @@ import java.util.ArrayList;
 
         @Override
         public void onItemClick(DocumentSnapshot snapshot, int position) {
-            final String onItemClickId = snapshot.getId();
-
-            if (isDirectorModeActivated) {//чтоб только администратор мог совершать эти действия
-
-
-                final Intent ratingIntent = new Intent(RatingActivity.this, EditRatingMembers.class); //для перехода на др страницу, в скобках начально и конечное положение при переходе судя по всему + Intent нужен для передачи данных со страницы на страницу
-                ratingIntent.putExtra("onItemClickId", onItemClickId); //связываем строку со значение
-                ratingIntent.putExtra("groupIndex", group);
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);//в скобках активити в которой будет появляться этот диалог
-                builder.setMessage(getResources().getString(R.string.choose_action));
-                builder.setPositiveButton(getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(ratingIntent);
-                    }
-                });
-                builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        } //эта запись просто отменяет и возвращает к тому состоянию, которое было до нажатия
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
+            //у user нет права что-то менять
         }
     }
