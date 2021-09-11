@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.admin.spochansecondversion.Competition.CompetitionsActivity;
+import org.admin.spochansecondversion.ContactActivity;
 import org.admin.spochansecondversion.News.NewsActivity;
 import org.admin.spochansecondversion.logInSignUp.LogInActivity;
 import org.admin.spochansecondversion.R;
@@ -227,13 +228,14 @@ import java.util.ArrayList;
                     startActivity(new Intent(RatingActivity.this, LogInActivity.class));
                     return true;
                 case R.id.menu_ask_developer:
-                    Intent intent = new Intent(Intent.ACTION_SENDTO);
-                    intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-                    intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
-                    intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(intent);
-                    }
+//                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+//                    intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+//                    intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
+//                    intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
+//                    if (intent.resolveActivity(getPackageManager()) != null) {
+//                        startActivity(intent);
+//                    }
+                    startActivity(new Intent(RatingActivity.this, ContactActivity.class));
                     return true;
                 case R.id.menu_help:
                     emailtext = getResources().getString(R.string.help_email);
