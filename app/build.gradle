@@ -5,13 +5,22 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+
+
+
+    //Если давно тут не был или возникли проблемы, то см вордовский файл в папке спочан на рабочем столе "ВАЖНО...", перед тем как что-то делать с версиями, посмотри что тут вообще творится
+
+
+
+
+
     defaultConfig {
         applicationId "org.admin.spochansecondversion"
         vectorDrawables.useSupportLibrary = true //обязательно пропиши, чтобы загрузка векторных изображений(в разметке app:srcCompat="@drawable/ic_add") не подчеркивалась красным, оно впринципе работает, но зачем рисковать
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
