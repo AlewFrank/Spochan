@@ -28,10 +28,8 @@
                 android:textStyle="italic"
                 android:textSize="18sp"
                 android:textColor="#333333"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="@string/not_indicated"
-                android:layout_marginTop="16dp"/>
+                android:padding="16dp"
+                android:text="@string/not_indicated"/>
 
         </LinearLayout>
 
