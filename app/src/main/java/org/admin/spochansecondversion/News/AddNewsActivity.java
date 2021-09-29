@@ -5,11 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -62,6 +64,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
     private int imageCounter = 1;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,11 +131,38 @@ public class AddNewsActivity extends AppCompatActivity {
         backgroundForImage4.setVisibility(View.GONE);
         backgroundForImage5.setVisibility(View.GONE);
 
-
-
-
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
+
+
+        //Чтобы можно было скроллить editText, при том что он находится в ScrollView
+        newsTitleEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (newsTitleEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        newsDescriptionEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (newsDescriptionEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         Intent newsIntent = getIntent(); //получаем интент из NewsActivity, который вызвал эту активити, извлекаем его и помещаем в новую переменную, которая будет активна на этой странице
         onItemClickId = newsIntent.getStringExtra("onItemClickId");

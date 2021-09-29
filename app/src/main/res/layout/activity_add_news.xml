@@ -152,9 +152,13 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/newsTitleEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:inputType="text"
-                        android:hint="@string/competition_title" />
+                        android:layout_height="90dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_title"
+                        android:gravity="bottom"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -166,9 +170,13 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/newsDescriptionEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:inputType="text"
-                        android:hint="@string/competition_description" />
+                        android:layout_height="215dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_description"
+                        android:gravity="bottom"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

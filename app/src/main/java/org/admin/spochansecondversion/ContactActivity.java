@@ -21,7 +21,7 @@ public class ContactActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
-    private TextView emailText, emailAdress, phoneText, phoneNumber;
+    private TextView emailText, emailAdress, phoneText, phoneNumber, newsPublisherText, newsPublisher;
 
     String[] addresses = {"26bas@mail.ru"};
     String subject_developer = "Hello developer"; //тема письма
@@ -47,6 +47,8 @@ public class ContactActivity extends AppCompatActivity {
         emailAdress = findViewById(R.id.emailAdress);
         phoneText = findViewById(R.id.phoneText);
         phoneNumber = findViewById(R.id.phoneNumber);
+        newsPublisherText = findViewById(R.id.newsPublisherText);
+        newsPublisher = findViewById(R.id.newsPublisher);
 
         //устанавливаем специальный шрифт, который находится при выборе сверху слева Project, далее app/src/main/assets/fonts
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Italic.ttf");
@@ -55,6 +57,8 @@ public class ContactActivity extends AppCompatActivity {
         emailAdress.setTypeface(roboto);
         phoneText.setTypeface(roboto_bold);
         phoneNumber.setTypeface(roboto);
+        newsPublisherText.setTypeface(roboto_bold);
+        newsPublisher.setTypeface(roboto);
 
 
 

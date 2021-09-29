@@ -1,5 +1,6 @@
 package org.admin.spochansecondversion.Competition;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,7 +46,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     private DatabaseReference competitionsDataBaseReference;
 
-    private EditText competitionTitleEditText, competitionLocationEditText, competitionAddressEditText, competitionDescriptionEditText;
+    private TextInputEditText competitionTitleEditText, competitionLocationEditText, competitionAddressEditText, competitionDescriptionEditText;
     private EditText daysCompetitionDateEditText, monthCompetitionDateEditText, yearCompetitionDateEditText;
 
     private Button editButton, cancelButton;
@@ -73,6 +76,7 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +138,65 @@ public class AddCompetitionsActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);//смысл в том, что мы как бы сверху и снизу трудоемкого и энергозатратного кода ставим progressBar и типа сверху включаем, снизу выключаем
+
+
+
+        //Чтобы можно было скроллить editText, при том что он находится в ScrollView
+        competitionTitleEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (competitionTitleEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        competitionLocationEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (competitionLocationEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        competitionAddressEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (competitionAddressEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        competitionDescriptionEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (competitionDescriptionEditText.hasFocus()) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_SCROLL:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
 
 
 

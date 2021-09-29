@@ -46,38 +46,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <EditText
-                    android:layout_marginLeft="15dp"
-                    android:id="@+id/competitionTitleEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    app:errorEnabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/competition_title" />
+                    app:errorTextColor="@color/colorAccent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/competitionTitleEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_title"
+                        android:gravity="bottom"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_weight="10">
 
                     <EditText
@@ -130,67 +133,70 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <EditText
-                    android:id="@+id/competitionLocationEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    app:errorEnabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/competition_location" />
+                    app:errorTextColor="@color/colorAccent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/competitionLocationEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_location"
+                        android:gravity="bottom"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <EditText
-                    android:id="@+id/competitionAddressEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    app:errorEnabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/competition_address" />
-            </LinearLayout>
+                    app:errorTextColor="@color/colorAccent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/competitionAddressEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_address"
+                        android:gravity="bottom"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/competitionDescriptionEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp" />
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    app:errorEnabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/competition_description" />
+                    app:errorTextColor="@color/colorAccent"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/competitionDescriptionEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="215dp"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:hint="@string/competition_description"
+                        android:gravity="bottom"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
 
