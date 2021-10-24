@@ -26,11 +26,11 @@
     <string name="update_for_60_seconds">Обновление может занять до 60 секунд</string>
     <string name="please_load_your_image">и загрузите изображение</string>
     <string name="load_complete">Успешно</string>
-    <string name="first_name">Имя пользователя</string>
+    <string name="first_name">Имя</string>
     <string name="second_name">Фамилия</string>
     <string name="sex">Пол</string>
     <string name="born_date">Дата рождения</string>
-    <string name="user_club">Клуб</string>
+    <string name="user_club">Клуб спортсмена</string>
     <string name="user_group">Категория</string>
     <string name="user_certification">Аттестация</string>
     <string name="not_indicated">Не указано</string>

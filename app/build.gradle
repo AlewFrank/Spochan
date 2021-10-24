@@ -19,8 +19,8 @@ android {
         vectorDrawables.useSupportLibrary = true //обязательно пропиши, чтобы загрузка векторных изображений(в разметке app:srcCompat="@drawable/ic_add") не подчеркивалась красным, оно впринципе работает, но зачем рисковать
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 5  //каждое обновление просто +1
-        versionName "5"
+        versionCode 6  //каждое обновление просто +1
+        versionName "6"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

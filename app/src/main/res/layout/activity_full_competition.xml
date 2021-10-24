@@ -28,10 +28,8 @@
                 android:textStyle="italic"
                 android:textSize="18sp"
                 android:textColor="#333333"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
                 android:text="@string/not_indicated"
-                android:layout_marginTop="16dp"/>
+                android:padding="16dp"/>
 
         </LinearLayout>
 
@@ -167,29 +165,33 @@
                 android:layout_marginTop="350dp"
                 android:background="@color/colorPrimary">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
+                <ImageView
+                    android:id="@+id/locationImage"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:srcCompat="@drawable/ic_location_for_full_competition_item"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_location_for_full_competition_item"/>
-
-                    <TextView
-                        android:id="@+id/competitionAddressTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/White"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="@string/not_indicated"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="4dp"
-                        android:layout_marginEnd="4dp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/competitionAddressTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/White"
+                    android:textStyle="bold"
+                    android:text="@string/not_indicated"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="8sp"
+                    app:autoSizeMaxTextSize="18sp"
+                    app:autoSizeStepGranularity="2sp"
+                    android:layout_toEndOf="@+id/locationImage"
+                    android:layout_toRightOf="@+id/locationImage"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"/>
 
 
             </RelativeLayout>
