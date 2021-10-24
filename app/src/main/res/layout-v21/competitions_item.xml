@@ -21,10 +21,9 @@
             android:layout_height="140dp"
             android:scaleType="centerCrop"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="140dp"
             android:layout_toRightOf="@+id/competitionImageView">
 
             <TextView
@@ -32,40 +31,46 @@
                 android:text = "Competition Title"
                 android:layout_marginTop="8dp"
                 android:textColor="#333333"
-                android:textSize="20sp"
                 android:textStyle="normal"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="70dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="22sp"
+                app:autoSizeStepGranularity="2sp"/>
 
             <TextView
                 android:id="@+id/competitionLocationTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text = "Competition Location"
-                android:layout_marginTop="8dp"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="italic"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="78dp"
+                android:layout_marginEnd="8dp"/>
 
 
             <TextView
                 android:id="@+id/competitionDataTextView"
                 android:text = "Competition Data"
                 android:textColor="#333333"
-                android:layout_marginTop="5dp"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginEnd="8dp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
 

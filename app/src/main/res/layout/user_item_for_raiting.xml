@@ -12,7 +12,7 @@
     android:layout_marginBottom="4dp"
     app:cardElevation="6dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:orientation="horizontal">
@@ -24,58 +24,70 @@
             android:layout_height="120dp"
             android:src="@drawable/photo_for_rating"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_toRightOf="@+id/userImageView"
+            android:layout_toEndOf="@+id/userImageView"
+            android:layout_toLeftOf="@+id/userPointsTextView"
+            android:layout_toStartOf="@+id/userPointsTextView">
 
             <TextView
                 android:id="@+id/userNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
                 android:layout_marginTop="6dp"
                 android:textStyle="bold"
-                android:textSize="18sp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/not_indicated"
                 android:textColor="#333333"
                 android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="10dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeStepGranularity="1sp" />
 
             <TextView
                 android:id="@+id/userSurnameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_marginTop="28dp"
                 android:textStyle="bold"
-                android:textSize="18sp"
                 android:textColor="#333333"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/not_indicated"
                 android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="10dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeStepGranularity="1sp" />
 
 
             <TextView
                 android:id="@+id/userCityTextView"
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:textStyle="normal"
-                android:textSize="14sp"
                 android:textColor="#333333"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/not_indicated"
                 android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="70dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeStepGranularity="1sp"/>
 
             <TextView
                 android:id="@+id/userBornDateTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:textStyle="normal"
                 android:textSize="18sp"
                 android:layout_marginLeft="15dp"
@@ -83,35 +95,29 @@
                 android:text="@string/not_indicated"
                 android:textColor="#333333"
                 android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="90dp"/>
 
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/userPointsTextView"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/userPointsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAlignment="textEnd"
-                android:layout_marginTop="38dp"
-                android:textStyle="bold"
-                android:textSize="28sp"
-                android:text="1234"
-                android:textColor="@color/colorPrimary"
-                android:gravity="end"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp" />
-
-
-        </LinearLayout>
+            android:textStyle="bold"
+            android:textSize="28sp"
+            android:text="1234"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentRight="true"/>
 
 
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
