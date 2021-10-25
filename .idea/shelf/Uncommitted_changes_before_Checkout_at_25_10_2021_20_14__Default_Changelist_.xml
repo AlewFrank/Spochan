@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_25_10_2021_20_14_[Default_Changelist]" date="1635182072661" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2021_20_14_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 25.10.2021 20:14 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/release/app-release.aab" />
+    <option name="AFTER_PATH" value="app/release/app-release.aab" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2021_20_14_[Default_Changelist]/app-release.aab" />
+  </binary>
+</changelist>

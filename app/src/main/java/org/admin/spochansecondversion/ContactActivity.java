@@ -19,6 +19,8 @@ import org.admin.spochansecondversion.News.NewsActivity;
 
 public class ContactActivity extends AppCompatActivity {
 
+    //активити для связи с разработчиком
+
     private Toolbar mToolbar;
 
     private TextView emailText, emailAdress, phoneText, phoneNumber, newsPublisherText, newsPublisher;
