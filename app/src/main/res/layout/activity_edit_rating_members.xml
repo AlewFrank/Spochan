@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.admin.spochansecondversion.Rating.EditRatingMembers"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:background="@color/White">
 
 
     <ScrollView
