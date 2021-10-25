@@ -10,7 +10,8 @@
     android:layout_marginRight="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    app:cardElevation="6dp">
+    app:cardElevation="6dp"
+    android:background="@color/White">
 
     <RelativeLayout
         android:layout_width="match_parent"

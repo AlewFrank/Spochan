@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import org.alewfrank.spochansecondversion.Competition.CompetitionsActivity;
 import org.alewfrank.spochansecondversion.ContactActivity;
-import org.alewfrank.spochansecondversion.logInSignUp.LogInActivity;
 import org.alewfrank.spochansecondversion.R;
 import org.alewfrank.spochansecondversion.Rating.RatingActivity;
 import org.alewfrank.spochansecondversion.User;
@@ -158,30 +157,8 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnLis
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.sign_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(NewsActivity.this, LogInActivity.class));
-                return true;
             case R.id.menu_ask_developer:
-//                Intent intent = new Intent(Intent.ACTION_SENDTO);
-//                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-//                intent.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
-//                intent.putExtra(Intent.EXTRA_SUBJECT, subject_developer);
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                }
                 startActivity(new Intent(NewsActivity.this, ContactActivity.class));
-                return true;
-            case R.id.menu_help:
-                emailtext = getResources().getString(R.string.help_email);
-                Intent intent_help = new Intent(Intent.ACTION_SENDTO);
-                intent_help.setData(Uri.parse("mailto:")); // only email apps should handle this
-                intent_help.putExtra(Intent.EXTRA_EMAIL, addresses); //вводим сверху переменные addresses и subject
-                intent_help.putExtra(Intent.EXTRA_SUBJECT, subject_help);
-                intent_help.putExtra(Intent.EXTRA_TEXT, emailtext);//текст сообщения
-                if (intent_help.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent_help);
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

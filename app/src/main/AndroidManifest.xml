@@ -15,8 +15,7 @@
         <activity android:name="org.alewfrank.spochansecondversion.Competition.FullCompetitionItem" />
         <activity android:name="org.alewfrank.spochansecondversion.Rating.RatingActivity" />
         <activity android:name="org.alewfrank.spochansecondversion.Competition.CompetitionsActivity" />
-        <activity android:name="org.alewfrank.spochansecondversion.News.NewsActivity" />
-        <activity android:name="org.alewfrank.spochansecondversion.logInSignUp.LogInActivity">
+        <activity android:name="org.alewfrank.spochansecondversion.News.NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
