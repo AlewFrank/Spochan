@@ -45,6 +45,20 @@
                 android:layout_height="wrap_content"
                 android:background="@color/White"/>
 
+            <TextView
+                android:id="@+id/raitingData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textColor="@color/Black"
+                android:text=""
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sportsmenListRecycleView"
